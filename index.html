@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lets start React</title>
+  </head>
+  <body>
+    <div id="root">
+      <!-- using html -->
+      <!-- <h1>hello with html</h1> -->
+    </div>
+    <!-- using js -->
+    <!-- <script>
+      //   const heading = document.getElementById("root");
+
+      const h1 = document.createElement("h1");
+      const node = document.createTextNode("hello with js");
+
+      h1.appendChild(node);
+      document.getElementById("root").appendChild(h1);
+      //   const h = document.createElement("h1");
+      //   heading.appendChild=(h);
+      //   heading.innerHTML = "<h1>hello with js</h1>";
+    </script> -->
+    <!-- using react -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script>
+        const heading=React.createElement("h1",{},"hello with react");
+        const root = ReactDOM.createRoot(document.getElementById("root"));
+        root.render(heading);
+    </script>
+  </body>
+</html>

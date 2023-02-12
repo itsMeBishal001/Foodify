@@ -1,0 +1,27 @@
+{
+  "name": "lets-start-with-react",
+  "version": "1.0.0",
+  "description": "updating all the staf related my react learning journy",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itsMeBishal001/Lets-Start-with-React.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/itsMeBishal001/Lets-Start-with-React/issues"
+  },
+  "homepage": "https://github.com/itsMeBishal001/Lets-Start-with-React#readme",
+  "devDependencies": {
+    "parcel": "^2.8.3",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

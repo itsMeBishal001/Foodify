@@ -6,6 +6,7 @@
 # Node artifact files
 node_modules/
 dist/
+.parcel-cache
 
 # Compiled Java class files
 *.class
@@ -50,6 +51,5 @@ Thumbs.db
 
 
 
-.parcel-cache
 
 /coverage

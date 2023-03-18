@@ -3,27 +3,26 @@ import ReactDOM from "react-dom/client";
 
 //jsx expression to functional component
 
-const Heading1 = () => {
-  return (<h1 key ="1"className="title">hello from h1</h1>);
+const Logo = () => {
+  return (<h1 className="logo">A user icon</h1>);
 };
-const Heading2 = () => {
-  return (<h2 className="title">hello from h2</h2>);
-};
-const Heading3 = () => {
-  return( <h3 className="title">hello from h3</h3>);
-};
+
+const search=<input className="search" type="text" />;
+ 
+const image=<img className="image" src="https://penji.co/wp-content/uploads/2022/08/5.-food-panda-logo.jpg"/>
+
 
 
 // component -> functional component && classbased compontnt
 //functional component
 const Heading = () => {
   return (
-    <>
-      <Heading1 />
-      <Heading2 />
-      <Heading3 />
+    <div className="heading">
+     {image}
+     {search}
+      <Logo />
       
-    </>
+    </div>
   );
 };
 

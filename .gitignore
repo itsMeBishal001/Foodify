@@ -52,8 +52,4 @@ Thumbs.db
 
 
 
-/coverage
-.parcel-cache/lock.mdb
-*.mdb
-dist/index.7826abd7.js
-dist/index.7826abd7.js.map
+

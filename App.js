@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 //jsx expression to functional component
 
 const Heading1 = () => {
-  return (<h1 className="title">hello from h1</h1>);
+  return (<h1 key ="1"className="title">hello from h1</h1>);
 };
 const Heading2 = () => {
   return (<h2 className="title">hello from h2</h2>);

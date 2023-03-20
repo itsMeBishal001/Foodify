@@ -2,7 +2,7 @@
   "name": "lets-start-with-react",
   "version": "1.0.0",
   "description": "updating all the staf related my react learning journy",
-  "main": "App.js",
+  
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html",

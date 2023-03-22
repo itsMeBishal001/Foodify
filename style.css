@@ -1,10 +1,25 @@
-.heading{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+.heading {
+  border: 1px solid black;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  display: flex;
 }
-.image{
-    width: 100px;
-   
+
+.nav-items > ul {
+  list-style-type: none;
+  display: flex;
+}
+.nav-items > ul > li {
+  padding: 10px;
+}
+.image {
+  width: 100px;
+}
+.cardImg {
+  width: 215px;
+}
+.restrurdentCard {
+  /* border: 1px solid black; */
 }

@@ -18,8 +18,15 @@
   width: 100px;
 }
 .cardImg {
-  width: 215px;
+  width: 100%;
 }
 .restrurdentCard {
-  /* border: 1px solid black; */
+  width: 200px;
+  border: 1.5px solid black;
+  margin: 10px;
+  padding: 10px;
+}
+.restrudentList{
+    display: flex;
+    flex-wrap: wrap;
 }

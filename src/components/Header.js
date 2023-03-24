@@ -1,7 +1,9 @@
+import logoI from "../components/images/logo.png";
 const logo = (
     <img
       className="image"
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjLki7JKI12Q_QEUwR0qtnPoi3oboOMI4xCA&usqp=CAU"
+      href=""
+      src={logoI}
     />
   );
   

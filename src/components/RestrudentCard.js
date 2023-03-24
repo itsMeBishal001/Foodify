@@ -9,13 +9,17 @@ const RestrudentCard = ({
     totalRatingsString,
     cloudinaryImageId,
     id,
+    area,
+    locality
   }) => {
     return (
       <div key={id} className="restrurdentCard"  >
         <img className="cardImg" src={url + cloudinaryImageId} />
-        <h2>{name}</h2>
-        <h5>{cuisines.join(", ")}</h5>
-        <h4>{totalRatingsString}</h4>
+        <h3>{name}</h3>
+        <h4>{cuisines.join(", ")}</h4>
+        <h5>{totalRatingsString}</h5>
+        <h5>{area }, {locality}</h5>
+        {/* <h5>{locality}</h5> */}
       </div>
     );
   };

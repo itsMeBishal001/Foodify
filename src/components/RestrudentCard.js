@@ -13,7 +13,7 @@ const RestrudentCard = ({
     locality
   }) => {
     return (
-      <div key={id} className="restrurdentCard"  >
+      <div  className="restrurdentCard"  >
         <img className="cardImg" src={url + cloudinaryImageId} />
         <h3>{name}</h3>
         <h4>{cuisines.join(", ")}</h4>

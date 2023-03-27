@@ -27,7 +27,37 @@
   margin: 10px;
   padding: 10px;
 }
-.restrudentList{
-    display: flex;
-    flex-wrap: wrap;
+.restrudentList {
+  display: flex;
+  flex-wrap: wrap;
+}
+.Shimmer {
+  background-color: hsl(38, 25%, 94%);
+  width: 200px;
+  height: 300px;
+  /* border: 1.5px solid black; */
+  margin: 10px;
+  padding: 10px;
+}
+.ShimmerImg {
+  margin: auto;
+  width: 200px;
+  height: 126px;
+  background-color: rgb(202, 185, 185);
+}
+.ShimmerRestrudent{
+  margin: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  width: 170px;
+  height:16px;
+  background-color: rgb(202, 185, 185);
+  border-radius: 10%;
+}
+.ShimmerContainer{
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 10px;
+  
 }

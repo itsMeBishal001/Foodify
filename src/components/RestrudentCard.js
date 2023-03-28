@@ -1,26 +1,37 @@
-
-
-import { url,restrudentList } from "../constents";
-
+import { url, restrudentList } from "../constents";
 
 const RestrudentCard = ({
-    name,
-    cuisines,
-    totalRatingsString,
-    cloudinaryImageId,
-    id,
-    area,
-    locality
-  }) => {
-    return (
-      <div  className="restrurdentCard"  >
-        <img className="cardImg" src={url + cloudinaryImageId} />
-        <h3>{name}</h3>
-        <h4>{cuisines.join(", ")}</h4>
-        <h5>{totalRatingsString}</h5>
-        <h5>{area }, {locality}</h5>
-        {/* <h5>{locality}</h5> */}
+  name,
+  cuisines,
+  avgRating,
+  cloudinaryImageId,
+  deliveryTime,
+  costForTwoString,
+}) => {
+  return (
+    <div className="restrurdentCard">
+      <img className="cardImg" src={url + cloudinaryImageId} />
+      <div className="res-cui">
+        <div className="resName">{name}</div>
+        <div className="cuisines">{cuisines.join(", ")}</div>
       </div>
-    );
-  };
-  export default RestrudentCard;
+<div className="other-info">
+      <div class="rating">
+        <span className="icon-star">★</span>
+        <span>{avgRating}</span>
+      </div>
+      <div>•</div>
+      <div>
+        {deliveryTime} MINS 
+      </div>
+      <div>•</div>
+      <div>
+        {costForTwoString} 
+      </div>
+
+      </div>
+      {/* <div>{locality}</div> */}
+    </div>
+  );
+};
+export default RestrudentCard;

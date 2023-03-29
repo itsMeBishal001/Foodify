@@ -5,9 +5,9 @@ import Shimmer from "./Shimmer";
 
 function filterData(searchText, restaurants) {
   const filterData = restaurants.filter((restaurant) =>
-    restaurant.data.name.includes(searchText)
+    restaurant?.data?.name?.toUpperCase().includes(searchText.toUpperCase())
   );
-  return searchText === "" ? restrudentList : filterData;
+  return searchText === "" ? restaurants : filterData;
 }
 
 
@@ -74,7 +74,8 @@ const Body = () => {
   
         {/* going to add map function rather then writing line by line */}
         
-        {(filteredRestaurants.length === 0)?<h1>No Restraunt match your Filter!!</h1>:filteredRestaurants.map((restaurant) => {
+        {(filteredRestaurants.length === 0)?<h1>No Restraunt match your Filter!!</h1>:
+        filteredRestaurants.map((restaurant) => {
           return (<RestrudentCard {...restaurant.data} key={restaurant.data.id} />);
         })}
       </div>

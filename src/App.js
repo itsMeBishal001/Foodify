@@ -4,6 +4,8 @@ import Heading from "./components/Header";
 import RestrudentCard from "./components/RestrudentCard";
 import Footer from "./components/Footer";
 import Body from "./components/Body";
+import About from "./components/About";
+import { RouterProvider, createBrowserRouter,Outlet } from "react-router-dom";
 /*
  * App layout --
  *  header -
@@ -17,21 +19,34 @@ import Body from "./components/Body";
  *  footer
  */
 
-
-
-
-
 const AppLayout = () => {
   return (
     <div className="applayout">
       {<Heading />}
-      {<Body />}
+      <Outlet/>
+      {/* {<Body />} */}
       {<Footer />}
     </div>
   );
 };
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/about",
+        element: <About />
+      },{
+        path: "/",
+        element: <Body />
+      },
+     
+    ],
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 // can call  a functional component ==> <component/> && component()-- because it is a function
-root.render(<AppLayout />);
+root.render(<RouterProvider router={appRouter} />);

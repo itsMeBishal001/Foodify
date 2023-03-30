@@ -1,5 +1,7 @@
 import logoI from "../components/images/logo.png";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+
 const logo = <img className="image" href="" src={logoI} />;
 
 // component -> functional component && classbased compontnt
@@ -15,8 +17,8 @@ const Heading = () => {
       {logo}
       <div className="nav-items">
         <ul>
-          <li>Home</li>
-          <li>About</li>
+        <Link to="/"> <li>Home</li></Link>
+         <Link to="/about"> <li>About</li></Link>
           <li>Contact</li>
           <li>Cart</li>
           {isLogIn ? (

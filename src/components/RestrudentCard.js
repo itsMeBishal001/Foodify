@@ -16,7 +16,7 @@ const RestrudentCard = ({
         <div className="cuisines">{cuisines.join(", ")}</div>
       </div>
 <div className="other-info">
-      <div class="rating">
+      <div className="rating">
         <span className="icon-star">★</span>
         <span>{avgRating}</span>
       </div>

@@ -1,142 +1,25 @@
 const Shimmer = () => {
   return (
+    <>
+   
+
     <div className="restrudentList">
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
+      {Array(15)
+        .fill("")
+        .map((e, index) => (
+          
+          <div key={index} className="Shimmer">
+        <div className="ShimmerImg"></div>
         <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
+        <div className="ShimmerRestrudent"></div>
+        <div className="ShimmerRestrudent"></div>
+        <div className="ShimmerRestrudent"></div>
+        <div className="ShimmerRestrudent"></div>
         </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
-      <h1 className="Shimmer">
-        <h1 className="ShimmerImg"></h1>
-        <div className="ShimmerContainer">
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        <h1 className="ShimmerRestrudent"></h1>
-        </div>
-      </h1>
+      </div>
+        ))}
     </div>
+    </>
   );
 };
 

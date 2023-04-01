@@ -5,7 +5,8 @@ import RestrudentCard from "./components/RestrudentCard";
 import Footer from "./components/Footer";
 import Body from "./components/Body";
 import About from "./components/About";
-import { RouterProvider, createBrowserRouter,Outlet } from "react-router-dom";
+import RestrudentMenu from "./components/RestrudentMenu";
+import { RouterProvider, createBrowserRouter, Outlet} from "react-router-dom";
 /*
  * App layout --
  *  header -
@@ -23,7 +24,8 @@ const AppLayout = () => {
   return (
     <div className="applayout">
       {<Heading />}
-      <Outlet/>
+      {<Outlet />}
+     
       {/* {<Body />} */}
       {<Footer />}
     </div>
@@ -36,12 +38,16 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/about",
-        element: <About />
-      },{
-        path: "/",
-        element: <Body />
+        element: <About />,
       },
-     
+      {
+        path: "/",
+        element: <Body />,
+      },
+      {
+        path: "/restrudentmenu/:id",
+        element: <RestrudentMenu />,
+      },
     ],
   },
 ]);

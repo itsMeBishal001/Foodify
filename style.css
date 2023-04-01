@@ -105,3 +105,26 @@
   color: #535665;
   font-weight: 300;
 }
+.dish_Container{
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.menu{
+  display: flex;
+  margin: 10px;
+  padding: 2%;
+}
+.restrudent_img{
+  width: 300px;
+}
+
+.restrudent_details{
+  margin: 10px;
+  padding: 20px;
+}
+.dish_Image{
+  width: 100px;
+}

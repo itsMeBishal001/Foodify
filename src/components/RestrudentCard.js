@@ -15,20 +15,15 @@ const RestrudentCard = ({
         <div className="resName">{name}</div>
         <div className="cuisines">{cuisines.join(", ")}</div>
       </div>
-<div className="other-info">
-      <div className="rating">
-        <span className="icon-star">★</span>
-        <span>{avgRating}</span>
-      </div>
-      <div>•</div>
-      <div>
-        {deliveryTime} MINS 
-      </div>
-      <div>•</div>
-      <div>
-        {costForTwoString} 
-      </div>
-
+      <div className="other-info">
+        <div className="rating">
+          <span className="icon-star">★</span>
+          <span>{avgRating}</span>
+        </div>
+        <div>•</div>
+        <div>{deliveryTime} MINS</div>
+        <div>•</div>
+        <div>{costForTwoString}</div>
       </div>
       {/* <div>{locality}</div> */}
     </div>

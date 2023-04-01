@@ -17,19 +17,23 @@ const Heading = () => {
       {logo}
       <div className="nav-items">
         <ul>
-        <Link to="/"> <li>Home</li></Link>
-         <Link to="/about"> <li>About</li></Link>
+          <Link to="/">
+            {" "}
+            <li>Home</li>
+          </Link>
+          <Link to="/about">
+            {" "}
+            <li>About</li>
+          </Link>
           <li>Contact</li>
           <li>Cart</li>
           {isLogIn ? (
-        <button onClick={() => setIsLogIn(false)}>Log In</button>
-      ) : (
-        <button onClick={()=>setIsLogIn(true)}>Log Out</button>
-      )}
+            <button onClick={() => setIsLogIn(false)}>Log In</button>
+          ) : (
+            <button onClick={() => setIsLogIn(true)}>Log Out</button>
+          )}
         </ul>
-        
       </div>
-     
     </div>
   );
 };

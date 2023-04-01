@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { restrudentList } from "../constents";
 import RestrudentCard from "./RestrudentCard";
 import Shimmer from "./Shimmer";
+import { Link } from "react-router-dom";
 
 function filterData(searchText, restaurants) {
   const filterData = restaurants.filter((restaurant) =>
@@ -9,7 +10,6 @@ function filterData(searchText, restaurants) {
   );
   return searchText === "" ? restaurants : filterData;
 }
-
 
 const Body = () => {
   // const [restaurants, setRestaurants] = useState(restrudentList);
@@ -22,17 +22,15 @@ const Body = () => {
   useEffect(() => {
     //API call
     getRestaurants();
-  
-  },[]);
-
-  
+  }, []);
 
   async function getRestaurants() {
-    const data = await fetch("https://corsanywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=21.1702401&lng=72.83106070000001&page_type=DESKTOP_WEB_LISTING"
+    const data = await fetch(
+      "https://corsanywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.6017521&lng=88.38313269999999&page_type=DESKTOP_WEB_LISTING"
       // "https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.5408357&lng=87.3406605&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
-    
+
     // Optional Chaining
     setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
     setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
@@ -42,10 +40,11 @@ const Body = () => {
   if (!allRestaurants) return null;
 
   // if (filteredRestaurants?.length === 0)
-    // return <h1>No Restraunt match your Filter!!</h1>;
+  // return <h1>No Restraunt match your Filter!!</h1>;
 
-
-  return allRestaurants.length===0?<Shimmer/>:(
+  return allRestaurants.length === 0 ? (
+    <Shimmer />
+  ) : (
     <>
       <div className="search-container">
         <input
@@ -70,18 +69,27 @@ const Body = () => {
         >
           Search
         </button>
-        
       </div>
       <div className="restrudentList">
-        
-     
-  
         {/* going to add map function rather then writing line by line */}
-        
-        {(filteredRestaurants.length === 0)?<h1>No Restraunt match your Filter!!</h1>:
-        filteredRestaurants.map((restaurant) => {
-          return (<RestrudentCard {...restaurant.data} key={restaurant.data.id} />);
-        })}
+
+        {filteredRestaurants.length === 0 ? (
+          <h1>No Restraunt match your Filter!!</h1>
+        ) : (
+          filteredRestaurants.map((restaurant) => {
+            return (
+              <Link
+              to={"/restrudentmenu/" + restaurant.data.id}
+              key={restaurant.data.id}
+            >
+              <RestrudentCard {...restaurant.data} />
+            </Link>
+
+
+              // <RestrudentCard {...restaurant.data} key={restaurant.data.id} />
+            );
+          })
+        )}
       </div>
     </>
   );

@@ -26,8 +26,8 @@ const Body = () => {
 
   async function getRestaurants() {
     const data = await fetch(
-      "https://corsanywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=13.104071&lng=77.613005&page_type=DESKTOP_WEB_LISTING"
-      // "https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.5408357&lng=87.3406605&page_type=DESKTOP_WEB_LISTING"
+      "https://cors-anywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.3192377&lng=84.7921049&page_type=DESKTOP_WEB_LISTING"
+      // "https://corsanywhere.herokuapp.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=23.5623046&lng=87.3512913&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
 

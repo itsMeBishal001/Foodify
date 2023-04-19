@@ -1,6 +1,7 @@
 import logoI from "../components/images/logo.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import useOnline from "../utils/useOnline";
 
 const logo = <img className="image" href="" src={logoI} />;
 
@@ -9,6 +10,7 @@ const logo = <img className="image" href="" src={logoI} />;
 
 const Heading = () => {
   const [isLogIn, setIsLogIn] = useState(false);
+  const isOnline = useOnline();
   return (
     <div className="heading">
       {
@@ -17,23 +19,25 @@ const Heading = () => {
       {logo}
       <div className="nav-items">
         <ul>
-          <Link to="/">
-            {" "}
-            <li>Home</li>
-          </Link>
-          <Link to="/about">
-            {" "}
-            <li>About</li>
-          </Link>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li> <Link to="/about">
+            About
+          </Link></li>
           <li>Contact</li>
           <li>Cart</li>
-          {isLogIn ? (
-            <button onClick={() => setIsLogIn(false)}>Log In</button>
-          ) : (
-            <button onClick={() => setIsLogIn(true)}>Log Out</button>
-          )}
+          <li><Link to="/instamart">
+            Instamart
+          </Link></li>
         </ul>
       </div>
+      <h5>{isOnline ? "isOnline ==>🟢" : "sOnline ==>🔴"}</h5>
+      {isLogIn ? (
+        <button onClick={() => setIsLogIn(false)}>Log In</button>
+      ) : (
+        <button onClick={() => setIsLogIn(true)}>Log Out</button>
+      )}
     </div>
   );
 };

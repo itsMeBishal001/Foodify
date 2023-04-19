@@ -4,6 +4,7 @@ import { url } from "../constents";
 import Shimmer from "./Shimmer";
 import RestaurantItemCategory from "./RestaurantItemCategory";
 import RestaurantNestedItemCategory from "./RestaurantNestedItemCategory.js";
+// import useRestaurant from "../utils/useRestaurant";
 const RestrudentMenu = () => {
   // how to read a dynamic URL params
   const { id } = useParams();
@@ -15,8 +16,9 @@ const RestrudentMenu = () => {
 
   async function getRestaurantInfo() {
     const data = await fetch(
-      "https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=23.5408357&lng=87.3406605&restaurantId=" +
+      "https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=23.5408357&lng=87.3406605&restaurantId=" +
         id
+        //https://cors-anywhere-axpo.onrender.com/
     );
     const json = await data.json();
     const jj =

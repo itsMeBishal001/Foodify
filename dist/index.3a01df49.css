@@ -25,10 +25,10 @@
 }
 
 .restrurdentCard {
-  width: 200px;
-  height: 300px;
   cursor: pointer;
   border: 1.5px solid #000;
+  width: 200px;
+  height: 300px;
   margin: 10px;
   padding: 10px;
 }
@@ -39,26 +39,26 @@
 }
 
 .Shimmer {
+  background-color: #f4f1ec;
   width: 200px;
   height: 300px;
-  background-color: #f4f1ec;
   margin: 10px;
   padding: 10px;
 }
 
 .ShimmerImg {
+  background-color: #cab9b9;
   width: 200px;
   height: 126px;
-  background-color: #cab9b9;
   margin: auto;
 }
 
 .ShimmerRestrudent {
-  width: 170px;
-  height: 16px;
   background-color: #cab9b9;
   border-radius: 10%;
   flex-wrap: wrap;
+  width: 170px;
+  height: 16px;
   margin: 10px;
   display: flex;
 }
@@ -91,13 +91,13 @@
 }
 
 .rating {
-  height: 20px;
-  width: 43px;
   color: #fff;
   box-sizing: inherit;
   background-color: #48c479;
   justify-content: space-evenly;
   align-items: baseline;
+  width: 43px;
+  height: 20px;
   padding: 0 5px;
   font-size: 12px;
   font-weight: 400;

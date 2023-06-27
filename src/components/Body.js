@@ -4,14 +4,10 @@ import RestrudentCard from "./RestrudentCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import { filterData } from "../utils/helper";
-import useOnline from "../utils/useOnline";
 
-function filterData(searchText, restaurants) {
-  const filterData = restaurants.filter((restaurant) =>
-    restaurant?.data?.name?.toUpperCase().includes(searchText.toUpperCase())
-  );
-  return searchText === "" ? restaurants : filterData;
-}
+
+
+
 
 const Body = () => {
   // const [restaurants, setRestaurants] = useState(restrudentList);

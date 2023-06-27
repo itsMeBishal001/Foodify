@@ -142,9 +142,440 @@
       this[globalName] = mainExports;
     }
   }
-})({"1xC6H":[function(require,module,exports) {
-var Refresh = require("c8f40c635b5dbd16");
-var ErrorOverlay = require("ceae44b670bb5a3e");
+})({"hcwwj":[function(require,module,exports) {
+var global = arguments[3];
+var HMR_HOST = null;
+var HMR_PORT = null;
+var HMR_SECURE = false;
+var HMR_ENV_HASH = "d6ea1d42532a7575";
+module.bundle.HMR_BUNDLE_ID = "7fb4cd117271efb6";
+"use strict";
+/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
+import type {
+  HMRAsset,
+  HMRMessage,
+} from '@parcel/reporter-dev-server/src/HMRServer.js';
+interface ParcelRequire {
+  (string): mixed;
+  cache: {|[string]: ParcelModule|};
+  hotData: {|[string]: mixed|};
+  Module: any;
+  parent: ?ParcelRequire;
+  isParcelRequire: true;
+  modules: {|[string]: [Function, {|[string]: string|}]|};
+  HMR_BUNDLE_ID: string;
+  root: ParcelRequire;
+}
+interface ParcelModule {
+  hot: {|
+    data: mixed,
+    accept(cb: (Function) => void): void,
+    dispose(cb: (mixed) => void): void,
+    // accept(deps: Array<string> | string, cb: (Function) => void): void,
+    // decline(): void,
+    _acceptCallbacks: Array<(Function) => void>,
+    _disposeCallbacks: Array<(mixed) => void>,
+  |};
+}
+interface ExtensionContext {
+  runtime: {|
+    reload(): void,
+    getURL(url: string): string;
+    getManifest(): {manifest_version: number, ...};
+  |};
+}
+declare var module: {bundle: ParcelRequire, ...};
+declare var HMR_HOST: string;
+declare var HMR_PORT: string;
+declare var HMR_ENV_HASH: string;
+declare var HMR_SECURE: boolean;
+declare var chrome: ExtensionContext;
+declare var browser: ExtensionContext;
+declare var __parcel__import__: (string) => Promise<void>;
+declare var __parcel__importScripts__: (string) => Promise<void>;
+declare var globalThis: typeof self;
+declare var ServiceWorkerGlobalScope: Object;
+*/ var OVERLAY_ID = "__parcel__error__overlay__";
+var OldModule = module.bundle.Module;
+function Module(moduleName) {
+    OldModule.call(this, moduleName);
+    this.hot = {
+        data: module.bundle.hotData[moduleName],
+        _acceptCallbacks: [],
+        _disposeCallbacks: [],
+        accept: function(fn) {
+            this._acceptCallbacks.push(fn || function() {});
+        },
+        dispose: function(fn) {
+            this._disposeCallbacks.push(fn);
+        }
+    };
+    module.bundle.hotData[moduleName] = undefined;
+}
+module.bundle.Module = Module;
+module.bundle.hotData = {};
+var checkedAssets /*: {|[string]: boolean|} */ , assetsToDispose /*: Array<[ParcelRequire, string]> */ , assetsToAccept /*: Array<[ParcelRequire, string]> */ ;
+function getHostname() {
+    return HMR_HOST || (location.protocol.indexOf("http") === 0 ? location.hostname : "localhost");
+}
+function getPort() {
+    return HMR_PORT || location.port;
+}
+// eslint-disable-next-line no-redeclare
+var parent = module.bundle.parent;
+if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
+    var hostname = getHostname();
+    var port = getPort();
+    var protocol = HMR_SECURE || location.protocol == "https:" && !/localhost|127.0.0.1|0.0.0.0/.test(hostname) ? "wss" : "ws";
+    var ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/");
+    // Web extension context
+    var extCtx = typeof chrome === "undefined" ? typeof browser === "undefined" ? null : browser : chrome;
+    // Safari doesn't support sourceURL in error stacks.
+    // eval may also be disabled via CSP, so do a quick check.
+    var supportsSourceURL = false;
+    try {
+        (0, eval)('throw new Error("test"); //# sourceURL=test.js');
+    } catch (err) {
+        supportsSourceURL = err.stack.includes("test.js");
+    }
+    // $FlowFixMe
+    ws.onmessage = async function(event /*: {data: string, ...} */ ) {
+        checkedAssets = {} /*: {|[string]: boolean|} */ ;
+        assetsToAccept = [];
+        assetsToDispose = [];
+        var data /*: HMRMessage */  = JSON.parse(event.data);
+        if (data.type === "update") {
+            // Remove error overlay if there is one
+            if (typeof document !== "undefined") removeErrorOverlay();
+            let assets = data.assets.filter((asset)=>asset.envHash === HMR_ENV_HASH);
+            // Handle HMR Update
+            let handled = assets.every((asset)=>{
+                return asset.type === "css" || asset.type === "js" && hmrAcceptCheck(module.bundle.root, asset.id, asset.depsByBundle);
+            });
+            if (handled) {
+                console.clear();
+                // Dispatch custom event so other runtimes (e.g React Refresh) are aware.
+                if (typeof window !== "undefined" && typeof CustomEvent !== "undefined") window.dispatchEvent(new CustomEvent("parcelhmraccept"));
+                await hmrApplyUpdates(assets);
+                // Dispose all old assets.
+                let processedAssets = {} /*: {|[string]: boolean|} */ ;
+                for(let i = 0; i < assetsToDispose.length; i++){
+                    let id = assetsToDispose[i][1];
+                    if (!processedAssets[id]) {
+                        hmrDispose(assetsToDispose[i][0], id);
+                        processedAssets[id] = true;
+                    }
+                }
+                // Run accept callbacks. This will also re-execute other disposed assets in topological order.
+                processedAssets = {};
+                for(let i = 0; i < assetsToAccept.length; i++){
+                    let id = assetsToAccept[i][1];
+                    if (!processedAssets[id]) {
+                        hmrAccept(assetsToAccept[i][0], id);
+                        processedAssets[id] = true;
+                    }
+                }
+            } else fullReload();
+        }
+        if (data.type === "error") {
+            // Log parcel errors to console
+            for (let ansiDiagnostic of data.diagnostics.ansi){
+                let stack = ansiDiagnostic.codeframe ? ansiDiagnostic.codeframe : ansiDiagnostic.stack;
+                console.error("\uD83D\uDEA8 [parcel]: " + ansiDiagnostic.message + "\n" + stack + "\n\n" + ansiDiagnostic.hints.join("\n"));
+            }
+            if (typeof document !== "undefined") {
+                // Render the fancy html overlay
+                removeErrorOverlay();
+                var overlay = createErrorOverlay(data.diagnostics.html);
+                // $FlowFixMe
+                document.body.appendChild(overlay);
+            }
+        }
+    };
+    ws.onerror = function(e) {
+        console.error(e.message);
+    };
+    ws.onclose = function() {
+        console.warn("[parcel] \uD83D\uDEA8 Connection to the HMR server was lost");
+    };
+}
+function removeErrorOverlay() {
+    var overlay = document.getElementById(OVERLAY_ID);
+    if (overlay) {
+        overlay.remove();
+        console.log("[parcel] ✨ Error resolved");
+    }
+}
+function createErrorOverlay(diagnostics) {
+    var overlay = document.createElement("div");
+    overlay.id = OVERLAY_ID;
+    let errorHTML = '<div style="background: black; opacity: 0.85; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; font-family: Menlo, Consolas, monospace; z-index: 9999;">';
+    for (let diagnostic of diagnostics){
+        let stack = diagnostic.frames.length ? diagnostic.frames.reduce((p, frame)=>{
+            return `${p}
+<a href="/__parcel_launch_editor?file=${encodeURIComponent(frame.location)}" style="text-decoration: underline; color: #888" onclick="fetch(this.href); return false">${frame.location}</a>
+${frame.code}`;
+        }, "") : diagnostic.stack;
+        errorHTML += `
+      <div>
+        <div style="font-size: 18px; font-weight: bold; margin-top: 20px;">
+          🚨 ${diagnostic.message}
+        </div>
+        <pre>${stack}</pre>
+        <div>
+          ${diagnostic.hints.map((hint)=>"<div>\uD83D\uDCA1 " + hint + "</div>").join("")}
+        </div>
+        ${diagnostic.documentation ? `<div>📝 <a style="color: violet" href="${diagnostic.documentation}" target="_blank">Learn more</a></div>` : ""}
+      </div>
+    `;
+    }
+    errorHTML += "</div>";
+    overlay.innerHTML = errorHTML;
+    return overlay;
+}
+function fullReload() {
+    if ("reload" in location) location.reload();
+    else if (extCtx && extCtx.runtime && extCtx.runtime.reload) extCtx.runtime.reload();
+}
+function getParents(bundle, id) /*: Array<[ParcelRequire, string]> */ {
+    var modules = bundle.modules;
+    if (!modules) return [];
+    var parents = [];
+    var k, d, dep;
+    for(k in modules)for(d in modules[k][1]){
+        dep = modules[k][1][d];
+        if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) parents.push([
+            bundle,
+            k
+        ]);
+    }
+    if (bundle.parent) parents = parents.concat(getParents(bundle.parent, id));
+    return parents;
+}
+function updateLink(link) {
+    var href = link.getAttribute("href");
+    if (!href) return;
+    var newLink = link.cloneNode();
+    newLink.onload = function() {
+        if (link.parentNode !== null) // $FlowFixMe
+        link.parentNode.removeChild(link);
+    };
+    newLink.setAttribute("href", // $FlowFixMe
+    href.split("?")[0] + "?" + Date.now());
+    // $FlowFixMe
+    link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+var cssTimeout = null;
+function reloadCSS() {
+    if (cssTimeout) return;
+    cssTimeout = setTimeout(function() {
+        var links = document.querySelectorAll('link[rel="stylesheet"]');
+        for(var i = 0; i < links.length; i++){
+            // $FlowFixMe[incompatible-type]
+            var href /*: string */  = links[i].getAttribute("href");
+            var hostname = getHostname();
+            var servedFromHMRServer = hostname === "localhost" ? new RegExp("^(https?:\\/\\/(0.0.0.0|127.0.0.1)|localhost):" + getPort()).test(href) : href.indexOf(hostname + ":" + getPort());
+            var absolute = /^https?:\/\//i.test(href) && href.indexOf(location.origin) !== 0 && !servedFromHMRServer;
+            if (!absolute) updateLink(links[i]);
+        }
+        cssTimeout = null;
+    }, 50);
+}
+function hmrDownload(asset) {
+    if (asset.type === "js") {
+        if (typeof document !== "undefined") {
+            let script = document.createElement("script");
+            script.src = asset.url + "?t=" + Date.now();
+            if (asset.outputFormat === "esmodule") script.type = "module";
+            return new Promise((resolve, reject)=>{
+                var _document$head;
+                script.onload = ()=>resolve(script);
+                script.onerror = reject;
+                (_document$head = document.head) === null || _document$head === void 0 || _document$head.appendChild(script);
+            });
+        } else if (typeof importScripts === "function") {
+            // Worker scripts
+            if (asset.outputFormat === "esmodule") return import(asset.url + "?t=" + Date.now());
+            else return new Promise((resolve, reject)=>{
+                try {
+                    importScripts(asset.url + "?t=" + Date.now());
+                    resolve();
+                } catch (err) {
+                    reject(err);
+                }
+            });
+        }
+    }
+}
+async function hmrApplyUpdates(assets) {
+    global.parcelHotUpdate = Object.create(null);
+    let scriptsToRemove;
+    try {
+        // If sourceURL comments aren't supported in eval, we need to load
+        // the update from the dev server over HTTP so that stack traces
+        // are correct in errors/logs. This is much slower than eval, so
+        // we only do it if needed (currently just Safari).
+        // https://bugs.webkit.org/show_bug.cgi?id=137297
+        // This path is also taken if a CSP disallows eval.
+        if (!supportsSourceURL) {
+            let promises = assets.map((asset)=>{
+                var _hmrDownload;
+                return (_hmrDownload = hmrDownload(asset)) === null || _hmrDownload === void 0 ? void 0 : _hmrDownload.catch((err)=>{
+                    // Web extension bugfix for Chromium
+                    // https://bugs.chromium.org/p/chromium/issues/detail?id=1255412#c12
+                    if (extCtx && extCtx.runtime && extCtx.runtime.getManifest().manifest_version == 3) {
+                        if (typeof ServiceWorkerGlobalScope != "undefined" && global instanceof ServiceWorkerGlobalScope) {
+                            extCtx.runtime.reload();
+                            return;
+                        }
+                        asset.url = extCtx.runtime.getURL("/__parcel_hmr_proxy__?url=" + encodeURIComponent(asset.url + "?t=" + Date.now()));
+                        return hmrDownload(asset);
+                    }
+                    throw err;
+                });
+            });
+            scriptsToRemove = await Promise.all(promises);
+        }
+        assets.forEach(function(asset) {
+            hmrApply(module.bundle.root, asset);
+        });
+    } finally{
+        delete global.parcelHotUpdate;
+        if (scriptsToRemove) scriptsToRemove.forEach((script)=>{
+            if (script) {
+                var _document$head2;
+                (_document$head2 = document.head) === null || _document$head2 === void 0 || _document$head2.removeChild(script);
+            }
+        });
+    }
+}
+function hmrApply(bundle /*: ParcelRequire */ , asset /*:  HMRAsset */ ) {
+    var modules = bundle.modules;
+    if (!modules) return;
+    if (asset.type === "css") reloadCSS();
+    else if (asset.type === "js") {
+        let deps = asset.depsByBundle[bundle.HMR_BUNDLE_ID];
+        if (deps) {
+            if (modules[asset.id]) {
+                // Remove dependencies that are removed and will become orphaned.
+                // This is necessary so that if the asset is added back again, the cache is gone, and we prevent a full page reload.
+                let oldDeps = modules[asset.id][1];
+                for(let dep in oldDeps)if (!deps[dep] || deps[dep] !== oldDeps[dep]) {
+                    let id = oldDeps[dep];
+                    let parents = getParents(module.bundle.root, id);
+                    if (parents.length === 1) hmrDelete(module.bundle.root, id);
+                }
+            }
+            if (supportsSourceURL) // Global eval. We would use `new Function` here but browser
+            // support for source maps is better with eval.
+            (0, eval)(asset.output);
+            // $FlowFixMe
+            let fn = global.parcelHotUpdate[asset.id];
+            modules[asset.id] = [
+                fn,
+                deps
+            ];
+        } else if (bundle.parent) hmrApply(bundle.parent, asset);
+    }
+}
+function hmrDelete(bundle, id) {
+    let modules = bundle.modules;
+    if (!modules) return;
+    if (modules[id]) {
+        // Collect dependencies that will become orphaned when this module is deleted.
+        let deps = modules[id][1];
+        let orphans = [];
+        for(let dep in deps){
+            let parents = getParents(module.bundle.root, deps[dep]);
+            if (parents.length === 1) orphans.push(deps[dep]);
+        }
+        // Delete the module. This must be done before deleting dependencies in case of circular dependencies.
+        delete modules[id];
+        delete bundle.cache[id];
+        // Now delete the orphans.
+        orphans.forEach((id)=>{
+            hmrDelete(module.bundle.root, id);
+        });
+    } else if (bundle.parent) hmrDelete(bundle.parent, id);
+}
+function hmrAcceptCheck(bundle /*: ParcelRequire */ , id /*: string */ , depsByBundle /*: ?{ [string]: { [string]: string } }*/ ) {
+    if (hmrAcceptCheckOne(bundle, id, depsByBundle)) return true;
+    // Traverse parents breadth first. All possible ancestries must accept the HMR update, or we'll reload.
+    let parents = getParents(module.bundle.root, id);
+    let accepted = false;
+    while(parents.length > 0){
+        let v = parents.shift();
+        let a = hmrAcceptCheckOne(v[0], v[1], null);
+        if (a) // If this parent accepts, stop traversing upward, but still consider siblings.
+        accepted = true;
+        else {
+            // Otherwise, queue the parents in the next level upward.
+            let p = getParents(module.bundle.root, v[1]);
+            if (p.length === 0) {
+                // If there are no parents, then we've reached an entry without accepting. Reload.
+                accepted = false;
+                break;
+            }
+            parents.push(...p);
+        }
+    }
+    return accepted;
+}
+function hmrAcceptCheckOne(bundle /*: ParcelRequire */ , id /*: string */ , depsByBundle /*: ?{ [string]: { [string]: string } }*/ ) {
+    var modules = bundle.modules;
+    if (!modules) return;
+    if (depsByBundle && !depsByBundle[bundle.HMR_BUNDLE_ID]) {
+        // If we reached the root bundle without finding where the asset should go,
+        // there's nothing to do. Mark as "accepted" so we don't reload the page.
+        if (!bundle.parent) return true;
+        return hmrAcceptCheck(bundle.parent, id, depsByBundle);
+    }
+    if (checkedAssets[id]) return true;
+    checkedAssets[id] = true;
+    var cached = bundle.cache[id];
+    assetsToDispose.push([
+        bundle,
+        id
+    ]);
+    if (!cached || cached.hot && cached.hot._acceptCallbacks.length) {
+        assetsToAccept.push([
+            bundle,
+            id
+        ]);
+        return true;
+    }
+}
+function hmrDispose(bundle /*: ParcelRequire */ , id /*: string */ ) {
+    var cached = bundle.cache[id];
+    bundle.hotData[id] = {};
+    if (cached && cached.hot) cached.hot.data = bundle.hotData[id];
+    if (cached && cached.hot && cached.hot._disposeCallbacks.length) cached.hot._disposeCallbacks.forEach(function(cb) {
+        cb(bundle.hotData[id]);
+    });
+    delete bundle.cache[id];
+}
+function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
+    // Execute the module.
+    bundle(id);
+    // Run the accept callbacks in the new version of the module.
+    var cached = bundle.cache[id];
+    if (cached && cached.hot && cached.hot._acceptCallbacks.length) cached.hot._acceptCallbacks.forEach(function(cb) {
+        var assetsToAlsoAccept = cb(function() {
+            return getParents(module.bundle.root, id);
+        });
+        if (assetsToAlsoAccept && assetsToAccept.length) {
+            assetsToAlsoAccept.forEach(function(a) {
+                hmrDispose(a[0], a[1]);
+            });
+            // $FlowFixMe[method-unbinding]
+            assetsToAccept.push.apply(assetsToAccept, assetsToAlsoAccept);
+        }
+    });
+}
+
+},{}],"1xC6H":[function(require,module,exports) {
+var Refresh = require("6d18d6bd340e7473");
+var ErrorOverlay = require("74ad5ea14201648c");
 Refresh.injectIntoGlobalHook(window);
 window.$RefreshReg$ = function() {};
 window.$RefreshSig$ = function() {
@@ -163,11 +594,11 @@ window.addEventListener("parcelhmraccept", ()=>{
     ErrorOverlay.dismissRuntimeErrors();
 });
 
-},{"c8f40c635b5dbd16":"786KC","ceae44b670bb5a3e":"1dldy"}],"786KC":[function(require,module,exports) {
+},{"6d18d6bd340e7473":"786KC","74ad5ea14201648c":"1dldy"}],"786KC":[function(require,module,exports) {
 "use strict";
-module.exports = require("c42f67b2e746a785");
+module.exports = require("96622d495519d4e");
 
-},{"c42f67b2e746a785":"hdge7"}],"hdge7":[function(require,module,exports) {
+},{"96622d495519d4e":"hdge7"}],"hdge7":[function(require,module,exports) {
 /** @license React v0.9.0
  * react-refresh-runtime.development.js
  *
@@ -628,7 +1059,7 @@ module.exports = require("c42f67b2e746a785");
 })();
 
 },{}],"1dldy":[function(require,module,exports) {
-var process = require("ae52b83fd601e8b4");
+var process = require("d1546958eb39fdcf");
 !function(e, t) {
     module.exports = t();
 }(window, function() {
@@ -2358,7 +2789,7 @@ var process = require("ae52b83fd601e8b4");
     ]);
 });
 
-},{"ae52b83fd601e8b4":"d5jf4"}],"d5jf4":[function(require,module,exports) {
+},{"d1546958eb39fdcf":"d5jf4"}],"d5jf4":[function(require,module,exports) {
 // shim for using process in browser
 var process = module.exports = {};
 // cached from whatever global is present so that test runners that stub it
@@ -2503,420 +2934,6 @@ process.umask = function() {
     return 0;
 };
 
-},{}],"cJcMZ":[function(require,module,exports) {
-var global = arguments[3];
-var HMR_HOST = null;
-var HMR_PORT = null;
-var HMR_SECURE = false;
-var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "7fb4cd117271efb6";
-"use strict";
-/* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, globalThis, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
-import type {
-  HMRAsset,
-  HMRMessage,
-} from '@parcel/reporter-dev-server/src/HMRServer.js';
-interface ParcelRequire {
-  (string): mixed;
-  cache: {|[string]: ParcelModule|};
-  hotData: {|[string]: mixed|};
-  Module: any;
-  parent: ?ParcelRequire;
-  isParcelRequire: true;
-  modules: {|[string]: [Function, {|[string]: string|}]|};
-  HMR_BUNDLE_ID: string;
-  root: ParcelRequire;
-}
-interface ParcelModule {
-  hot: {|
-    data: mixed,
-    accept(cb: (Function) => void): void,
-    dispose(cb: (mixed) => void): void,
-    // accept(deps: Array<string> | string, cb: (Function) => void): void,
-    // decline(): void,
-    _acceptCallbacks: Array<(Function) => void>,
-    _disposeCallbacks: Array<(mixed) => void>,
-  |};
-}
-interface ExtensionContext {
-  runtime: {|
-    reload(): void,
-    getURL(url: string): string;
-    getManifest(): {manifest_version: number, ...};
-  |};
-}
-declare var module: {bundle: ParcelRequire, ...};
-declare var HMR_HOST: string;
-declare var HMR_PORT: string;
-declare var HMR_ENV_HASH: string;
-declare var HMR_SECURE: boolean;
-declare var chrome: ExtensionContext;
-declare var browser: ExtensionContext;
-declare var __parcel__import__: (string) => Promise<void>;
-declare var __parcel__importScripts__: (string) => Promise<void>;
-declare var globalThis: typeof self;
-declare var ServiceWorkerGlobalScope: Object;
-*/ var OVERLAY_ID = "__parcel__error__overlay__";
-var OldModule = module.bundle.Module;
-function Module(moduleName) {
-    OldModule.call(this, moduleName);
-    this.hot = {
-        data: module.bundle.hotData[moduleName],
-        _acceptCallbacks: [],
-        _disposeCallbacks: [],
-        accept: function(fn) {
-            this._acceptCallbacks.push(fn || function() {});
-        },
-        dispose: function(fn) {
-            this._disposeCallbacks.push(fn);
-        }
-    };
-    module.bundle.hotData[moduleName] = undefined;
-}
-module.bundle.Module = Module;
-module.bundle.hotData = {};
-var checkedAssets, assetsToDispose, assetsToAccept /*: Array<[ParcelRequire, string]> */ ;
-function getHostname() {
-    return HMR_HOST || (location.protocol.indexOf("http") === 0 ? location.hostname : "localhost");
-}
-function getPort() {
-    return HMR_PORT || location.port;
-} // eslint-disable-next-line no-redeclare
-var parent = module.bundle.parent;
-if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== "undefined") {
-    var hostname = getHostname();
-    var port = getPort();
-    var protocol = HMR_SECURE || location.protocol == "https:" && !/localhost|127.0.0.1|0.0.0.0/.test(hostname) ? "wss" : "ws";
-    var ws = new WebSocket(protocol + "://" + hostname + (port ? ":" + port : "") + "/"); // Web extension context
-    var extCtx = typeof chrome === "undefined" ? typeof browser === "undefined" ? null : browser : chrome; // Safari doesn't support sourceURL in error stacks.
-    // eval may also be disabled via CSP, so do a quick check.
-    var supportsSourceURL = false;
-    try {
-        (0, eval)('throw new Error("test"); //# sourceURL=test.js');
-    } catch (err) {
-        supportsSourceURL = err.stack.includes("test.js");
-    } // $FlowFixMe
-    ws.onmessage = async function(event) {
-        checkedAssets = {} /*: {|[string]: boolean|} */ ;
-        assetsToAccept = [];
-        assetsToDispose = [];
-        var data = JSON.parse(event.data);
-        if (data.type === "update") {
-            // Remove error overlay if there is one
-            if (typeof document !== "undefined") removeErrorOverlay();
-            let assets = data.assets.filter((asset)=>asset.envHash === HMR_ENV_HASH); // Handle HMR Update
-            let handled = assets.every((asset)=>{
-                return asset.type === "css" || asset.type === "js" && hmrAcceptCheck(module.bundle.root, asset.id, asset.depsByBundle);
-            });
-            if (handled) {
-                console.clear(); // Dispatch custom event so other runtimes (e.g React Refresh) are aware.
-                if (typeof window !== "undefined" && typeof CustomEvent !== "undefined") window.dispatchEvent(new CustomEvent("parcelhmraccept"));
-                await hmrApplyUpdates(assets); // Dispose all old assets.
-                let processedAssets = {} /*: {|[string]: boolean|} */ ;
-                for(let i = 0; i < assetsToDispose.length; i++){
-                    let id = assetsToDispose[i][1];
-                    if (!processedAssets[id]) {
-                        hmrDispose(assetsToDispose[i][0], id);
-                        processedAssets[id] = true;
-                    }
-                } // Run accept callbacks. This will also re-execute other disposed assets in topological order.
-                processedAssets = {};
-                for(let i = 0; i < assetsToAccept.length; i++){
-                    let id = assetsToAccept[i][1];
-                    if (!processedAssets[id]) {
-                        hmrAccept(assetsToAccept[i][0], id);
-                        processedAssets[id] = true;
-                    }
-                }
-            } else fullReload();
-        }
-        if (data.type === "error") {
-            // Log parcel errors to console
-            for (let ansiDiagnostic of data.diagnostics.ansi){
-                let stack = ansiDiagnostic.codeframe ? ansiDiagnostic.codeframe : ansiDiagnostic.stack;
-                console.error("\uD83D\uDEA8 [parcel]: " + ansiDiagnostic.message + "\n" + stack + "\n\n" + ansiDiagnostic.hints.join("\n"));
-            }
-            if (typeof document !== "undefined") {
-                // Render the fancy html overlay
-                removeErrorOverlay();
-                var overlay = createErrorOverlay(data.diagnostics.html); // $FlowFixMe
-                document.body.appendChild(overlay);
-            }
-        }
-    };
-    ws.onerror = function(e) {
-        console.error(e.message);
-    };
-    ws.onclose = function() {
-        console.warn("[parcel] \uD83D\uDEA8 Connection to the HMR server was lost");
-    };
-}
-function removeErrorOverlay() {
-    var overlay = document.getElementById(OVERLAY_ID);
-    if (overlay) {
-        overlay.remove();
-        console.log("[parcel] ✨ Error resolved");
-    }
-}
-function createErrorOverlay(diagnostics) {
-    var overlay = document.createElement("div");
-    overlay.id = OVERLAY_ID;
-    let errorHTML = '<div style="background: black; opacity: 0.85; font-size: 16px; color: white; position: fixed; height: 100%; width: 100%; top: 0px; left: 0px; padding: 30px; font-family: Menlo, Consolas, monospace; z-index: 9999;">';
-    for (let diagnostic of diagnostics){
-        let stack = diagnostic.frames.length ? diagnostic.frames.reduce((p, frame)=>{
-            return `${p}
-<a href="/__parcel_launch_editor?file=${encodeURIComponent(frame.location)}" style="text-decoration: underline; color: #888" onclick="fetch(this.href); return false">${frame.location}</a>
-${frame.code}`;
-        }, "") : diagnostic.stack;
-        errorHTML += `
-      <div>
-        <div style="font-size: 18px; font-weight: bold; margin-top: 20px;">
-          🚨 ${diagnostic.message}
-        </div>
-        <pre>${stack}</pre>
-        <div>
-          ${diagnostic.hints.map((hint)=>"<div>\uD83D\uDCA1 " + hint + "</div>").join("")}
-        </div>
-        ${diagnostic.documentation ? `<div>📝 <a style="color: violet" href="${diagnostic.documentation}" target="_blank">Learn more</a></div>` : ""}
-      </div>
-    `;
-    }
-    errorHTML += "</div>";
-    overlay.innerHTML = errorHTML;
-    return overlay;
-}
-function fullReload() {
-    if ("reload" in location) location.reload();
-    else if (extCtx && extCtx.runtime && extCtx.runtime.reload) extCtx.runtime.reload();
-}
-function getParents(bundle, id) /*: Array<[ParcelRequire, string]> */ {
-    var modules = bundle.modules;
-    if (!modules) return [];
-    var parents = [];
-    var k, d, dep;
-    for(k in modules)for(d in modules[k][1]){
-        dep = modules[k][1][d];
-        if (dep === id || Array.isArray(dep) && dep[dep.length - 1] === id) parents.push([
-            bundle,
-            k
-        ]);
-    }
-    if (bundle.parent) parents = parents.concat(getParents(bundle.parent, id));
-    return parents;
-}
-function updateLink(link) {
-    var newLink = link.cloneNode();
-    newLink.onload = function() {
-        if (link.parentNode !== null) // $FlowFixMe
-        link.parentNode.removeChild(link);
-    };
-    newLink.setAttribute("href", link.getAttribute("href").split("?")[0] + "?" + Date.now()); // $FlowFixMe
-    link.parentNode.insertBefore(newLink, link.nextSibling);
-}
-var cssTimeout = null;
-function reloadCSS() {
-    if (cssTimeout) return;
-    cssTimeout = setTimeout(function() {
-        var links = document.querySelectorAll('link[rel="stylesheet"]');
-        for(var i = 0; i < links.length; i++){
-            // $FlowFixMe[incompatible-type]
-            var href = links[i].getAttribute("href");
-            var hostname = getHostname();
-            var servedFromHMRServer = hostname === "localhost" ? new RegExp("^(https?:\\/\\/(0.0.0.0|127.0.0.1)|localhost):" + getPort()).test(href) : href.indexOf(hostname + ":" + getPort());
-            var absolute = /^https?:\/\//i.test(href) && href.indexOf(location.origin) !== 0 && !servedFromHMRServer;
-            if (!absolute) updateLink(links[i]);
-        }
-        cssTimeout = null;
-    }, 50);
-}
-function hmrDownload(asset) {
-    if (asset.type === "js") {
-        if (typeof document !== "undefined") {
-            let script = document.createElement("script");
-            script.src = asset.url + "?t=" + Date.now();
-            if (asset.outputFormat === "esmodule") script.type = "module";
-            return new Promise((resolve, reject)=>{
-                var _document$head;
-                script.onload = ()=>resolve(script);
-                script.onerror = reject;
-                (_document$head = document.head) === null || _document$head === void 0 || _document$head.appendChild(script);
-            });
-        } else if (typeof importScripts === "function") {
-            // Worker scripts
-            if (asset.outputFormat === "esmodule") return import(asset.url + "?t=" + Date.now());
-            else return new Promise((resolve, reject)=>{
-                try {
-                    importScripts(asset.url + "?t=" + Date.now());
-                    resolve();
-                } catch (err) {
-                    reject(err);
-                }
-            });
-        }
-    }
-}
-async function hmrApplyUpdates(assets) {
-    global.parcelHotUpdate = Object.create(null);
-    let scriptsToRemove;
-    try {
-        // If sourceURL comments aren't supported in eval, we need to load
-        // the update from the dev server over HTTP so that stack traces
-        // are correct in errors/logs. This is much slower than eval, so
-        // we only do it if needed (currently just Safari).
-        // https://bugs.webkit.org/show_bug.cgi?id=137297
-        // This path is also taken if a CSP disallows eval.
-        if (!supportsSourceURL) {
-            let promises = assets.map((asset)=>{
-                var _hmrDownload;
-                return (_hmrDownload = hmrDownload(asset)) === null || _hmrDownload === void 0 ? void 0 : _hmrDownload.catch((err)=>{
-                    // Web extension bugfix for Chromium
-                    // https://bugs.chromium.org/p/chromium/issues/detail?id=1255412#c12
-                    if (extCtx && extCtx.runtime && extCtx.runtime.getManifest().manifest_version == 3) {
-                        if (typeof ServiceWorkerGlobalScope != "undefined" && global instanceof ServiceWorkerGlobalScope) {
-                            extCtx.runtime.reload();
-                            return;
-                        }
-                        asset.url = extCtx.runtime.getURL("/__parcel_hmr_proxy__?url=" + encodeURIComponent(asset.url + "?t=" + Date.now()));
-                        return hmrDownload(asset);
-                    }
-                    throw err;
-                });
-            });
-            scriptsToRemove = await Promise.all(promises);
-        }
-        assets.forEach(function(asset) {
-            hmrApply(module.bundle.root, asset);
-        });
-    } finally{
-        delete global.parcelHotUpdate;
-        if (scriptsToRemove) scriptsToRemove.forEach((script)=>{
-            if (script) {
-                var _document$head2;
-                (_document$head2 = document.head) === null || _document$head2 === void 0 || _document$head2.removeChild(script);
-            }
-        });
-    }
-}
-function hmrApply(bundle, asset) {
-    var modules = bundle.modules;
-    if (!modules) return;
-    if (asset.type === "css") reloadCSS();
-    else if (asset.type === "js") {
-        let deps = asset.depsByBundle[bundle.HMR_BUNDLE_ID];
-        if (deps) {
-            if (modules[asset.id]) {
-                // Remove dependencies that are removed and will become orphaned.
-                // This is necessary so that if the asset is added back again, the cache is gone, and we prevent a full page reload.
-                let oldDeps = modules[asset.id][1];
-                for(let dep in oldDeps)if (!deps[dep] || deps[dep] !== oldDeps[dep]) {
-                    let id = oldDeps[dep];
-                    let parents = getParents(module.bundle.root, id);
-                    if (parents.length === 1) hmrDelete(module.bundle.root, id);
-                }
-            }
-            if (supportsSourceURL) // Global eval. We would use `new Function` here but browser
-            // support for source maps is better with eval.
-            (0, eval)(asset.output);
-             // $FlowFixMe
-            let fn = global.parcelHotUpdate[asset.id];
-            modules[asset.id] = [
-                fn,
-                deps
-            ];
-        } else if (bundle.parent) hmrApply(bundle.parent, asset);
-    }
-}
-function hmrDelete(bundle, id) {
-    let modules = bundle.modules;
-    if (!modules) return;
-    if (modules[id]) {
-        // Collect dependencies that will become orphaned when this module is deleted.
-        let deps = modules[id][1];
-        let orphans = [];
-        for(let dep in deps){
-            let parents = getParents(module.bundle.root, deps[dep]);
-            if (parents.length === 1) orphans.push(deps[dep]);
-        } // Delete the module. This must be done before deleting dependencies in case of circular dependencies.
-        delete modules[id];
-        delete bundle.cache[id]; // Now delete the orphans.
-        orphans.forEach((id)=>{
-            hmrDelete(module.bundle.root, id);
-        });
-    } else if (bundle.parent) hmrDelete(bundle.parent, id);
-}
-function hmrAcceptCheck(bundle, id, depsByBundle) {
-    if (hmrAcceptCheckOne(bundle, id, depsByBundle)) return true;
-     // Traverse parents breadth first. All possible ancestries must accept the HMR update, or we'll reload.
-    let parents = getParents(module.bundle.root, id);
-    let accepted = false;
-    while(parents.length > 0){
-        let v = parents.shift();
-        let a = hmrAcceptCheckOne(v[0], v[1], null);
-        if (a) // If this parent accepts, stop traversing upward, but still consider siblings.
-        accepted = true;
-        else {
-            // Otherwise, queue the parents in the next level upward.
-            let p = getParents(module.bundle.root, v[1]);
-            if (p.length === 0) {
-                // If there are no parents, then we've reached an entry without accepting. Reload.
-                accepted = false;
-                break;
-            }
-            parents.push(...p);
-        }
-    }
-    return accepted;
-}
-function hmrAcceptCheckOne(bundle, id, depsByBundle) {
-    var modules = bundle.modules;
-    if (!modules) return;
-    if (depsByBundle && !depsByBundle[bundle.HMR_BUNDLE_ID]) {
-        // If we reached the root bundle without finding where the asset should go,
-        // there's nothing to do. Mark as "accepted" so we don't reload the page.
-        if (!bundle.parent) return true;
-        return hmrAcceptCheck(bundle.parent, id, depsByBundle);
-    }
-    if (checkedAssets[id]) return true;
-    checkedAssets[id] = true;
-    var cached = bundle.cache[id];
-    assetsToDispose.push([
-        bundle,
-        id
-    ]);
-    if (!cached || cached.hot && cached.hot._acceptCallbacks.length) {
-        assetsToAccept.push([
-            bundle,
-            id
-        ]);
-        return true;
-    }
-}
-function hmrDispose(bundle, id) {
-    var cached = bundle.cache[id];
-    bundle.hotData[id] = {};
-    if (cached && cached.hot) cached.hot.data = bundle.hotData[id];
-    if (cached && cached.hot && cached.hot._disposeCallbacks.length) cached.hot._disposeCallbacks.forEach(function(cb) {
-        cb(bundle.hotData[id]);
-    });
-    delete bundle.cache[id];
-}
-function hmrAccept(bundle, id) {
-    // Execute the module.
-    bundle(id); // Run the accept callbacks in the new version of the module.
-    var cached = bundle.cache[id];
-    if (cached && cached.hot && cached.hot._acceptCallbacks.length) cached.hot._acceptCallbacks.forEach(function(cb) {
-        var assetsToAlsoAccept = cb(function() {
-            return getParents(module.bundle.root, id);
-        });
-        if (assetsToAlsoAccept && assetsToAccept.length) {
-            assetsToAlsoAccept.forEach(function(a) {
-                hmrDispose(a[0], a[1]);
-            }); // $FlowFixMe[method-unbinding]
-            assetsToAccept.push.apply(assetsToAccept, assetsToAlsoAccept);
-        }
-    });
-}
-
 },{}],"2kQhy":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$f00f = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
@@ -2945,8 +2962,6 @@ var _restrudentMenuDefault = parcelHelpers.interopDefault(_restrudentMenu);
 var _reactRouterDom = require("react-router-dom");
 var _shimmer = require("./components/Shimmer");
 var _shimmerDefault = parcelHelpers.interopDefault(_shimmer);
-var _instamart = require("./components/Instamart");
-var _instamartDefault = parcelHelpers.interopDefault(_instamart);
 // const About = lazy(() => import("./components/About"));
 // Chunking
 // Code Splitting
@@ -2971,23 +2986,23 @@ var _instamartDefault = parcelHelpers.interopDefault(_instamart);
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _headerDefault.default), {}, void 0, false, {
                 fileName: "src/App.js",
-                lineNumber: 38,
+                lineNumber: 37,
                 columnNumber: 8
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Outlet), {}, void 0, false, {
                 fileName: "src/App.js",
-                lineNumber: 39,
+                lineNumber: 38,
                 columnNumber: 8
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _footerDefault.default), {}, void 0, false, {
                 fileName: "src/App.js",
-                lineNumber: 42,
+                lineNumber: 41,
                 columnNumber: 8
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/App.js",
-        lineNumber: 37,
+        lineNumber: 36,
         columnNumber: 5
     }, undefined);
 };
@@ -2997,7 +3012,7 @@ const appRouter = (0, _reactRouterDom.createBrowserRouter)([
         path: "/",
         element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(AppLayout, {}, void 0, false, {
             fileName: "src/App.js",
-            lineNumber: 49,
+            lineNumber: 48,
             columnNumber: 14
         }, undefined),
         children: [
@@ -3005,7 +3020,7 @@ const appRouter = (0, _reactRouterDom.createBrowserRouter)([
                 path: "/about",
                 element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _aboutDefault.default), {}, void 0, false, {
                     fileName: "src/App.js",
-                    lineNumber: 53,
+                    lineNumber: 52,
                     columnNumber: 18
                 }, undefined)
             },
@@ -3013,7 +3028,7 @@ const appRouter = (0, _reactRouterDom.createBrowserRouter)([
                 path: "/",
                 element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _bodyDefault.default), {}, void 0, false, {
                     fileName: "src/App.js",
-                    lineNumber: 57,
+                    lineNumber: 56,
                     columnNumber: 18
                 }, undefined)
             },
@@ -3021,15 +3036,7 @@ const appRouter = (0, _reactRouterDom.createBrowserRouter)([
                 path: "/restrudentmenu/:id",
                 element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _restrudentMenuDefault.default), {}, void 0, false, {
                     fileName: "src/App.js",
-                    lineNumber: 61,
-                    columnNumber: 18
-                }, undefined)
-            },
-            {
-                path: "/instamart",
-                element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _instamartDefault.default), {}, void 0, false, {
-                    fileName: "src/App.js",
-                    lineNumber: 65,
+                    lineNumber: 60,
                     columnNumber: 18
                 }, undefined)
             }
@@ -3042,7 +3049,7 @@ root.render(/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.RouterP
     router: appRouter
 }, void 0, false, {
     fileName: "src/App.js",
-    lineNumber: 74,
+    lineNumber: 70,
     columnNumber: 13
 }, undefined));
 var _c;
@@ -3053,11 +3060,11 @@ $RefreshReg$(_c, "AppLayout");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom/client":"lOjBx","./components/Header":"hsJbF","./components/RestrudentCard":"4IRxS","./components/Footer":"8pPOA","./components/Body":"8yaV8","./components/About":"9R1Eu","./components/RestrudentMenu":"aoxhj","react-router-dom":"9xmpe","./components/Shimmer":"g6ZGj","./components/Instamart":"gB4Fs","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"iTorj":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-dom/client":"lOjBx","./components/Header":"hsJbF","./components/RestrudentCard":"4IRxS","./components/Footer":"8pPOA","./components/Body":"8yaV8","./components/About":"9R1Eu","./components/RestrudentMenu":"aoxhj","react-router-dom":"9xmpe","./components/Shimmer":"g6ZGj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"iTorj":[function(require,module,exports) {
 "use strict";
-module.exports = require("29fa2c7f0f4665e6");
+module.exports = require("ee51401569654d91");
 
-},{"29fa2c7f0f4665e6":"48uCM"}],"48uCM":[function(require,module,exports) {
+},{"ee51401569654d91":"48uCM"}],"48uCM":[function(require,module,exports) {
 /**
  * @license React
  * react-jsx-dev-runtime.development.js
@@ -3069,7 +3076,7 @@ module.exports = require("29fa2c7f0f4665e6");
  */ "use strict";
 (function() {
     "use strict";
-    var React = require("6b4959b685665912");
+    var React = require("58362d9d82be395f");
     // ATTENTION
     // When adding new symbols to this file,
     // Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
@@ -3888,11 +3895,11 @@ module.exports = require("29fa2c7f0f4665e6");
     exports.jsxDEV = jsxDEV$1;
 })();
 
-},{"6b4959b685665912":"21dqq"}],"21dqq":[function(require,module,exports) {
+},{"58362d9d82be395f":"21dqq"}],"21dqq":[function(require,module,exports) {
 "use strict";
-module.exports = require("2806a30d46b10c59");
+module.exports = require("a569817e6ea559f6");
 
-},{"2806a30d46b10c59":"6YvXz"}],"6YvXz":[function(require,module,exports) {
+},{"a569817e6ea559f6":"6YvXz"}],"6YvXz":[function(require,module,exports) {
 /**
  * @license React
  * react.development.js
@@ -5760,7 +5767,7 @@ module.exports = require("2806a30d46b10c59");
 
 },{}],"lOjBx":[function(require,module,exports) {
 "use strict";
-var m = require("2a07696421cf5ab3");
+var m = require("aaccff5d309d9239");
 var i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
 exports.createRoot = function(c, o) {
     i.usingClientEntryPoint = true;
@@ -5779,7 +5786,7 @@ exports.hydrateRoot = function(c, h, o) {
     }
 };
 
-},{"2a07696421cf5ab3":"j6uA9"}],"j6uA9":[function(require,module,exports) {
+},{"aaccff5d309d9239":"j6uA9"}],"j6uA9":[function(require,module,exports) {
 "use strict";
 function checkDCE() {
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */ if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ === "undefined" || typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.checkDCE !== "function") return;
@@ -5793,9 +5800,9 @@ function checkDCE() {
     // a false positive.
     throw new Error("^_^");
 }
-module.exports = require("d1bedeb1af1b06d5");
+module.exports = require("b0f0e6b9e8349dac");
 
-},{"d1bedeb1af1b06d5":"3iA9v"}],"3iA9v":[function(require,module,exports) {
+},{"b0f0e6b9e8349dac":"3iA9v"}],"3iA9v":[function(require,module,exports) {
 /**
  * @license React
  * react-dom.development.js
@@ -5808,8 +5815,8 @@ module.exports = require("d1bedeb1af1b06d5");
 (function() {
     "use strict";
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */ if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
-    var React = require("4211ac00eefe2b45");
-    var Scheduler = require("cc881c23d3d5dda2");
+    var React = require("6f0162e9ab224cd4");
+    var Scheduler = require("8ad4ca65319d28a7");
     var ReactSharedInternals = React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
     var suppressWarning = false;
     function setSuppressWarning(newSuppressWarning) {
@@ -26780,11 +26787,11 @@ module.exports = require("d1bedeb1af1b06d5");
     /* global __REACT_DEVTOOLS_GLOBAL_HOOK__ */ if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop === "function") __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStop(new Error());
 })();
 
-},{"4211ac00eefe2b45":"21dqq","cc881c23d3d5dda2":"juvHo"}],"juvHo":[function(require,module,exports) {
+},{"6f0162e9ab224cd4":"21dqq","8ad4ca65319d28a7":"juvHo"}],"juvHo":[function(require,module,exports) {
 "use strict";
-module.exports = require("6eec52bab5b1b50");
+module.exports = require("ef03b89c8fe2794e");
 
-},{"6eec52bab5b1b50":"RqdIf"}],"RqdIf":[function(require,module,exports) {
+},{"ef03b89c8fe2794e":"RqdIf"}],"RqdIf":[function(require,module,exports) {
 /**
  * @license React
  * scheduler.development.js
@@ -27252,8 +27259,6 @@ var _logoPng = require("../components/images/logo.png");
 var _logoPngDefault = parcelHelpers.interopDefault(_logoPng);
 var _react = require("react");
 var _reactRouterDom = require("react-router-dom");
-var _useOnline = require("../utils/useOnline");
-var _useOnlineDefault = parcelHelpers.interopDefault(_useOnline);
 var _s = $RefreshSig$();
 const logo = /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
     className: "image",
@@ -27269,7 +27274,6 @@ const logo = /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
 const Heading = ()=>{
     _s();
     const [isLogIn, setIsLogIn] = (0, _react.useState)(false);
-    const isOnline = (0, _useOnlineDefault.default)();
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "heading",
         children: [
@@ -27322,20 +27326,6 @@ const Heading = ()=>{
                             fileName: "src/components/Header.js",
                             lineNumber: 29,
                             columnNumber: 11
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                                to: "/instamart",
-                                children: "Instamart"
-                            }, void 0, false, {
-                                fileName: "src/components/Header.js",
-                                lineNumber: 30,
-                                columnNumber: 15
-                            }, undefined)
-                        }, void 0, false, {
-                            fileName: "src/components/Header.js",
-                            lineNumber: 30,
-                            columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
@@ -27348,26 +27338,19 @@ const Heading = ()=>{
                 lineNumber: 20,
                 columnNumber: 7
             }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h5", {
-                children: isOnline ? "isOnline ==>\uD83D\uDFE2" : "sOnline ==>\uD83D\uDD34"
-            }, void 0, false, {
-                fileName: "src/components/Header.js",
-                lineNumber: 35,
-                columnNumber: 7
-            }, undefined),
             isLogIn ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                 onClick: ()=>setIsLogIn(false),
                 children: "Log In"
             }, void 0, false, {
                 fileName: "src/components/Header.js",
-                lineNumber: 37,
+                lineNumber: 35,
                 columnNumber: 9
             }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
                 onClick: ()=>setIsLogIn(true),
                 children: "Log Out"
             }, void 0, false, {
                 fileName: "src/components/Header.js",
-                lineNumber: 39,
+                lineNumber: 37,
                 columnNumber: 9
             }, undefined)
         ]
@@ -27377,11 +27360,7 @@ const Heading = ()=>{
         columnNumber: 5
     }, undefined);
 };
-_s(Heading, "NMTJq2wizsswGvaMXsZqd60Fl8I=", false, function() {
-    return [
-        (0, _useOnlineDefault.default)
-    ];
-});
+_s(Heading, "C3twLC0FL2nz1WKbT8ec5Gk7bYk=");
 _c = Heading;
 exports.default = Heading;
 var _c;
@@ -27392,10 +27371,10 @@ $RefreshReg$(_c, "Heading");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","../components/images/logo.png":"anxMB","react":"21dqq","react-router-dom":"9xmpe","../utils/useOnline":"74Yls","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"anxMB":[function(require,module,exports) {
-module.exports = require("300555337bc42eb2").getBundleURL("aXMci") + "logo.e1c619cf.png" + "?" + Date.now();
+},{"react/jsx-dev-runtime":"iTorj","../components/images/logo.png":"anxMB","react":"21dqq","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"anxMB":[function(require,module,exports) {
+module.exports = require("848bc9d66acb02ab").getBundleURL("aXMci") + "logo.e1c619cf.png" + "?" + Date.now();
 
-},{"300555337bc42eb2":"lgJ39"}],"lgJ39":[function(require,module,exports) {
+},{"848bc9d66acb02ab":"lgJ39"}],"lgJ39":[function(require,module,exports) {
 "use strict";
 var bundleURL = {};
 function getBundleURLCached(id) {
@@ -27419,7 +27398,8 @@ function getBundleURL() {
 }
 function getBaseURL(url) {
     return ("" + url).replace(/^((?:https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/.+)\/[^/]+$/, "$1") + "/";
-} // TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
+}
+// TODO: Replace uses with `new URL(url).origin` when ie11 is no longer supported.
 function getOrigin(url) {
     var matches = ("" + url).match(/(https?|file|ftp|(chrome|moz|safari-web)-extension):\/\/[^/]+/);
     if (!matches) throw new Error("Origin not found");
@@ -27636,7 +27616,7 @@ function getFormSubmissionInfo(target, defaultAction, options) {
             else if (target != null) for (let name of Object.keys(target))formData.append(name, target[name]);
         }
     }
-    let { protocol , host  } = window.location;
+    let { protocol, host } = window.location;
     let url = new URL(action, protocol + "//" + host);
     return {
         url,
@@ -27725,7 +27705,7 @@ function deserializeErrors(errors) {
 /**
  * A `<Router>` for use in web browsers. Provides the cleanest URLs.
  */ function BrowserRouter(_ref) {
-    let { basename , children , window: window1  } = _ref;
+    let { basename, children, window: window1 } = _ref;
     let historyRef = _react.useRef();
     if (historyRef.current == null) historyRef.current = (0, _router.createBrowserHistory)({
         window: window1,
@@ -27751,7 +27731,7 @@ function deserializeErrors(errors) {
  * A `<Router>` for use in web browsers. Stores the location in the hash
  * portion of the URL so it is not sent to the server.
  */ function HashRouter(_ref2) {
-    let { basename , children , window: window1  } = _ref2;
+    let { basename, children, window: window1 } = _ref2;
     let historyRef = _react.useRef();
     if (historyRef.current == null) historyRef.current = (0, _router.createHashHistory)({
         window: window1,
@@ -27779,7 +27759,7 @@ function deserializeErrors(errors) {
  * two versions of the history library to your bundles unless you use the same
  * version of the history library that React Router uses internally.
  */ function HistoryRouter(_ref3) {
-    let { basename , children , history  } = _ref3;
+    let { basename, children, history } = _ref3;
     const [state, setState] = _react.useState({
         action: history.action,
         location: history.location
@@ -27801,8 +27781,8 @@ const ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i;
 /**
  * The public API for rendering a history-aware <a>.
  */ const Link = /*#__PURE__*/ _react.forwardRef(function LinkWithRef(_ref4, ref) {
-    let { onClick , relative , reloadDocument , replace , state , target , to , preventScrollReset  } = _ref4, rest = _objectWithoutPropertiesLoose(_ref4, _excluded);
-    let { basename  } = _react.useContext((0, _reactRouter.UNSAFE_NavigationContext)); // Rendered into <a href> for absolute URLs
+    let { onClick, relative, reloadDocument, replace, state, target, to, preventScrollReset } = _ref4, rest = _objectWithoutPropertiesLoose(_ref4, _excluded);
+    let { basename } = _react.useContext((0, _reactRouter.UNSAFE_NavigationContext)); // Rendered into <a href> for absolute URLs
     let absoluteHref;
     let isExternal = false;
     if (typeof to === "string" && ABSOLUTE_URL_REGEX.test(to)) {
@@ -27843,13 +27823,13 @@ Link.displayName = "Link";
 /**
  * A <Link> wrapper that knows if it's "active" or not.
  */ const NavLink = /*#__PURE__*/ _react.forwardRef(function NavLinkWithRef(_ref5, ref) {
-    let { "aria-current": ariaCurrentProp = "page" , caseSensitive =false , className: classNameProp = "" , end =false , style: styleProp , to , children  } = _ref5, rest = _objectWithoutPropertiesLoose(_ref5, _excluded2);
+    let { "aria-current": ariaCurrentProp = "page", caseSensitive = false, className: classNameProp = "", end = false, style: styleProp, to, children } = _ref5, rest = _objectWithoutPropertiesLoose(_ref5, _excluded2);
     let path = (0, _reactRouter.useResolvedPath)(to, {
         relative: rest.relative
     });
     let location = (0, _reactRouter.useLocation)();
     let routerState = _react.useContext((0, _reactRouter.UNSAFE_DataRouterStateContext));
-    let { navigator  } = _react.useContext((0, _reactRouter.UNSAFE_NavigationContext));
+    let { navigator } = _react.useContext((0, _reactRouter.UNSAFE_NavigationContext));
     let toPathname = navigator.encodeLocation ? navigator.encodeLocation(path).pathname : path.pathname;
     let locationPathname = location.pathname;
     let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
@@ -27904,7 +27884,7 @@ NavLink.displayName = "NavLink";
 });
 Form.displayName = "Form";
 const FormImpl = /*#__PURE__*/ _react.forwardRef((_ref6, forwardedRef)=>{
-    let { reloadDocument , replace , method =defaultMethod , action , onSubmit , fetcherKey , routeId , relative , preventScrollReset  } = _ref6, props = _objectWithoutPropertiesLoose(_ref6, _excluded3);
+    let { reloadDocument, replace, method = defaultMethod, action, onSubmit, fetcherKey, routeId, relative, preventScrollReset } = _ref6, props = _objectWithoutPropertiesLoose(_ref6, _excluded3);
     let submit = useSubmitImpl(fetcherKey, routeId);
     let formMethod = method.toLowerCase() === "get" ? "get" : "post";
     let formAction = useFormAction(action, {
@@ -27935,7 +27915,7 @@ FormImpl.displayName = "FormImpl";
  * This component will emulate the browser's scroll restoration on location
  * changes.
  */ function ScrollRestoration(_ref7) {
-    let { getKey , storageKey  } = _ref7;
+    let { getKey, storageKey } = _ref7;
     useScrollRestoration({
         getKey,
         storageKey
@@ -27975,7 +27955,7 @@ function useDataRouterState(hookName) {
  * you need to create custom `<Link>` components with the same click behavior we
  * use in our exported `<Link>`.
  */ function useLinkClickHandler(to, _temp) {
-    let { target , replace: replaceProp , state , preventScrollReset , relative  } = _temp === void 0 ? {} : _temp;
+    let { target, replace: replaceProp, state, preventScrollReset, relative } = _temp === void 0 ? {} : _temp;
     let navigate = (0, _reactRouter.useNavigate)();
     let location = (0, _reactRouter.useLocation)();
     let path = (0, _reactRouter.useResolvedPath)(to, {
@@ -28039,12 +28019,12 @@ function useDataRouterState(hookName) {
     return useSubmitImpl();
 }
 function useSubmitImpl(fetcherKey, routeId) {
-    let { router  } = useDataRouterContext(DataRouterHook.UseSubmitImpl);
+    let { router } = useDataRouterContext(DataRouterHook.UseSubmitImpl);
     let defaultAction = useFormAction();
     return _react.useCallback(function(target, options) {
         if (options === void 0) options = {};
         if (typeof document === "undefined") throw new Error("You are calling submit during the server render. Try calling submit within a `useEffect` or callback instead.");
-        let { method , encType , formData , url  } = getFormSubmissionInfo(target, defaultAction, options);
+        let { method, encType, formData, url } = getFormSubmissionInfo(target, defaultAction, options);
         let href = url.pathname + url.search;
         let opts = {
             replace: options.replace,
@@ -28065,8 +28045,8 @@ function useSubmitImpl(fetcherKey, routeId) {
     ]);
 }
 function useFormAction(action, _temp2) {
-    let { relative  } = _temp2 === void 0 ? {} : _temp2;
-    let { basename  } = _react.useContext((0, _reactRouter.UNSAFE_NavigationContext));
+    let { relative } = _temp2 === void 0 ? {} : _temp2;
+    let { basename } = _react.useContext((0, _reactRouter.UNSAFE_NavigationContext));
     let routeContext = _react.useContext((0, _reactRouter.UNSAFE_RouteContext));
     !routeContext && (0, _router.UNSAFE_invariant)(false, "useFormAction must be used inside a RouteContext");
     let [match] = routeContext.matches.slice(-1); // Shallow clone path so we can modify it below, otherwise we modify the
@@ -28121,7 +28101,7 @@ let fetcherId = 0;
  * for any interaction that stays on the same page.
  */ function useFetcher() {
     var _route$matches;
-    let { router  } = useDataRouterContext(DataRouterHook.UseFetcher);
+    let { router } = useDataRouterContext(DataRouterHook.UseFetcher);
     let route = _react.useContext((0, _reactRouter.UNSAFE_RouteContext));
     !route && (0, _router.UNSAFE_invariant)(false, "useFetcher must be used inside a RouteContext");
     let routeId = (_route$matches = route.matches[route.matches.length - 1]) == null ? void 0 : _route$matches.route.id;
@@ -28179,9 +28159,9 @@ let savedScrollPositions = {};
 /**
  * When rendered inside a RouterProvider, will restore scroll positions on navigations
  */ function useScrollRestoration(_temp3) {
-    let { getKey , storageKey  } = _temp3 === void 0 ? {} : _temp3;
-    let { router  } = useDataRouterContext(DataRouterHook.UseScrollRestoration);
-    let { restoreScrollPosition , preventScrollReset  } = useDataRouterState(DataRouterStateHook.UseScrollRestoration);
+    let { getKey, storageKey } = _temp3 === void 0 ? {} : _temp3;
+    let { router } = useDataRouterContext(DataRouterHook.UseScrollRestoration);
+    let { restoreScrollPosition, preventScrollReset } = useDataRouterState(DataRouterStateHook.UseScrollRestoration);
     let location = (0, _reactRouter.useLocation)();
     let matches = (0, _reactRouter.useMatches)();
     let navigation = (0, _reactRouter.useNavigation)(); // Trigger manual scroll restoration while we're active
@@ -28257,7 +28237,7 @@ let savedScrollPositions = {};
  * Note: The `callback` argument should be a function created with
  * `React.useCallback()`.
  */ function useBeforeUnload(callback, options) {
-    let { capture  } = options || {};
+    let { capture } = options || {};
     _react.useEffect(()=>{
         let opts = capture != null ? {
             capture
@@ -28279,7 +28259,7 @@ let savedScrollPositions = {};
  * Note: The `callback` argument should be a function created with
  * `React.useCallback()`.
  */ function usePageHide(callback, options) {
-    let { capture  } = options || {};
+    let { capture } = options || {};
     _react.useEffect(()=>{
         let opts = capture != null ? {
             capture
@@ -28301,7 +28281,7 @@ let savedScrollPositions = {};
  * very incorrectly in some cases) across browsers if user click addition
  * back/forward navigations while the confirm is open.  Use at your own risk.
  */ function usePrompt(_ref8) {
-    let { when , message  } = _ref8;
+    let { when, message } = _ref8;
     let blocker = (0, _reactRouter.unstable_useBlocker)(when);
     _react.useEffect(()=>{
         if (blocker.state === "blocked" && !when) blocker.reset();
@@ -28400,7 +28380,7 @@ var _react = require("react");
 }
 const is = typeof Object.is === "function" ? Object.is : isPolyfill; // Intentionally not using named imports because Rollup uses dynamic
 // dispatch for CommonJS interop named imports.
-const { useState , useEffect , useLayoutEffect , useDebugValue  } = _react;
+const { useState, useEffect, useLayoutEffect, useDebugValue } = _react;
 let didWarnOld18Alpha = false;
 let didWarnUncachedGetSnapshot = false; // Disclaimer: This shim breaks many of the rules of React, and only works
 // because of a very particular set of implementation details and assumptions
@@ -28446,7 +28426,7 @@ getServerSnapshot) {
     //
     // To force a re-render, we call forceUpdate({inst}). That works because the
     // new object always fails an equality check.
-    const [{ inst  }, forceUpdate] = useState({
+    const [{ inst }, forceUpdate] = useState({
         inst: {
             value,
             getSnapshot
@@ -28561,11 +28541,11 @@ function _extends() {
  *
  * @see https://reactrouter.com/hooks/use-href
  */ function useHref(to, _temp) {
-    let { relative  } = _temp === void 0 ? {} : _temp;
+    let { relative } = _temp === void 0 ? {} : _temp;
     !useInRouterContext() && (0, _router.UNSAFE_invariant)(false, // router loaded. We can help them understand how to avoid that.
     "useHref() may be used only in the context of a <Router> component.");
-    let { basename , navigator  } = _react.useContext(NavigationContext);
-    let { hash , pathname , search  } = useResolvedPath(to, {
+    let { basename, navigator } = _react.useContext(NavigationContext);
+    let { hash, pathname, search } = useResolvedPath(to, {
         relative
     });
     let joinedPathname = pathname; // If we're operating within a basename, prepend it to the pathname prior
@@ -28620,7 +28600,7 @@ function _extends() {
  */ function useMatch(pattern) {
     !useInRouterContext() && (0, _router.UNSAFE_invariant)(false, // router loaded. We can help them understand how to avoid that.
     "useMatch() may be used only in the context of a <Router> component.");
-    let { pathname  } = useLocation();
+    let { pathname } = useLocation();
     return _react.useMemo(()=>(0, _router.matchPath)(pattern, pathname), [
         pathname,
         pattern
@@ -28636,9 +28616,9 @@ function _extends() {
  */ function useNavigate() {
     !useInRouterContext() && (0, _router.UNSAFE_invariant)(false, // router loaded. We can help them understand how to avoid that.
     "useNavigate() may be used only in the context of a <Router> component.");
-    let { basename , navigator  } = _react.useContext(NavigationContext);
-    let { matches  } = _react.useContext(RouteContext);
-    let { pathname: locationPathname  } = useLocation();
+    let { basename, navigator } = _react.useContext(NavigationContext);
+    let { matches } = _react.useContext(RouteContext);
+    let { pathname: locationPathname } = useLocation();
     let routePathnamesJson = JSON.stringify((0, _router.UNSAFE_getPathContributingMatches)(matches).map((match)=>match.pathnameBase));
     let activeRef = _react.useRef(false);
     _react.useEffect(()=>{
@@ -28695,7 +28675,7 @@ const OutletContext = /*#__PURE__*/ _react.createContext(null);
  *
  * @see https://reactrouter.com/hooks/use-params
  */ function useParams() {
-    let { matches  } = _react.useContext(RouteContext);
+    let { matches } = _react.useContext(RouteContext);
     let routeMatch = matches[matches.length - 1];
     return routeMatch ? routeMatch.params : {};
 }
@@ -28704,9 +28684,9 @@ const OutletContext = /*#__PURE__*/ _react.createContext(null);
  *
  * @see https://reactrouter.com/hooks/use-resolved-path
  */ function useResolvedPath(to, _temp2) {
-    let { relative  } = _temp2 === void 0 ? {} : _temp2;
-    let { matches  } = _react.useContext(RouteContext);
-    let { pathname: locationPathname  } = useLocation();
+    let { relative } = _temp2 === void 0 ? {} : _temp2;
+    let { matches } = _react.useContext(RouteContext);
+    let { pathname: locationPathname } = useLocation();
     let routePathnamesJson = JSON.stringify((0, _router.UNSAFE_getPathContributingMatches)(matches).map((match)=>match.pathnameBase));
     return _react.useMemo(()=>(0, _router.resolveTo)(to, JSON.parse(routePathnamesJson), locationPathname, relative === "path"), [
         to,
@@ -28725,9 +28705,9 @@ const OutletContext = /*#__PURE__*/ _react.createContext(null);
  */ function useRoutes(routes, locationArg) {
     !useInRouterContext() && (0, _router.UNSAFE_invariant)(false, // router loaded. We can help them understand how to avoid that.
     "useRoutes() may be used only in the context of a <Router> component.");
-    let { navigator  } = _react.useContext(NavigationContext);
+    let { navigator } = _react.useContext(NavigationContext);
     let dataRouterStateContext = _react.useContext(DataRouterStateContext);
-    let { matches: parentMatches  } = _react.useContext(RouteContext);
+    let { matches: parentMatches } = _react.useContext(RouteContext);
     let routeMatch = parentMatches[parentMatches.length - 1];
     let parentParams = routeMatch ? routeMatch.params : {};
     let parentPathname = routeMatch ? routeMatch.pathname : "/";
@@ -28874,7 +28854,7 @@ class RenderErrorBoundary extends _react.Component {
     }
 }
 function RenderedRoute(_ref) {
-    let { routeContext , match , children  } = _ref;
+    let { routeContext, match, children } = _ref;
     let dataRouterContext = _react.useContext(DataRouterContext); // Track how deep we got in our render pass to emulate SSR componentDidCatch
     // in a DataStaticRouter
     if (dataRouterContext && dataRouterContext.static && dataRouterContext.staticContext && (match.route.errorElement || match.route.ErrorBoundary)) dataRouterContext.staticContext._deepestRenderedBoundaryId = match.route.id;
@@ -28996,9 +28976,9 @@ function useCurrentRouteId(hookName) {
  * Returns the active route matches, useful for accessing loaderData for
  * parent/child routes or the route "handle" property
  */ function useMatches() {
-    let { matches , loaderData  } = useDataRouterState(DataRouterStateHook.UseMatches);
+    let { matches, loaderData } = useDataRouterState(DataRouterStateHook.UseMatches);
     return _react.useMemo(()=>matches.map((match)=>{
-            let { pathname , params  } = match; // Note: This structure matches that created by createUseMatchesMatch
+            let { pathname, params } = match; // Note: This structure matches that created by createUseMatchesMatch
             // in the @remix-run/router , so if you change this please also change
             // that :)  Eventually we'll DRY this up
             return {
@@ -29071,7 +29051,7 @@ let blockerId = 0;
  * using half-filled form data.  This does not handle hard-reloads or
  * cross-origin navigations.
  */ function useBlocker(shouldBlock) {
-    let { router  } = useDataRouterContext(DataRouterHook.UseBlocker);
+    let { router } = useDataRouterContext(DataRouterHook.UseBlocker);
     let state = useDataRouterState(DataRouterStateHook.UseBlocker);
     let [blockerKey] = _react.useState(()=>String(++blockerId));
     let blockerFunction = _react.useCallback((args)=>{
@@ -29097,7 +29077,7 @@ function warningOnce(key, cond, message) {
 /**
  * Given a Remix Router instance, render the appropriate UI
  */ function RouterProvider(_ref) {
-    let { fallbackElement , router  } = _ref;
+    let { fallbackElement, router } = _ref;
     let getState = _react.useCallback(()=>router.state, [
         router
     ]); // Sync router state to our component state to force re-renders
@@ -29154,7 +29134,7 @@ function warningOnce(key, cond, message) {
  *
  * @see https://reactrouter.com/router-components/memory-router
  */ function MemoryRouter(_ref2) {
-    let { basename , children , initialEntries , initialIndex  } = _ref2;
+    let { basename, children, initialEntries, initialIndex } = _ref2;
     let historyRef = _react.useRef();
     if (historyRef.current == null) historyRef.current = (0, _router.createMemoryHistory)({
         initialEntries,
@@ -29186,7 +29166,7 @@ function warningOnce(key, cond, message) {
  *
  * @see https://reactrouter.com/components/navigate
  */ function Navigate(_ref3) {
-    let { to , replace , state , relative  } = _ref3;
+    let { to, replace, state, relative } = _ref3;
     !useInRouterContext() && (0, _router.UNSAFE_invariant)(false, // the router loaded. We can help them understand how to avoid that.
     "<Navigate> may be used only in the context of a <Router> component.");
     (0, _router.UNSAFE_warning)(!_react.useContext(NavigationContext).static, "<Navigate> must not be used on the initial render in a <StaticRouter>. This is a no-op, but you should modify your code so the <Navigate> is only ever rendered in response to some user interaction or state change.");
@@ -29228,7 +29208,7 @@ function warningOnce(key, cond, message) {
  *
  * @see https://reactrouter.com/router-components/router
  */ function Router(_ref4) {
-    let { basename: basenameProp = "/" , children =null , location: locationProp , navigationType =(0, _router.Action).Pop , navigator , static: staticProp = false  } = _ref4;
+    let { basename: basenameProp = "/", children = null, location: locationProp, navigationType = (0, _router.Action).Pop, navigator, static: staticProp = false } = _ref4;
     !!useInRouterContext() && (0, _router.UNSAFE_invariant)(false, "You cannot render a <Router> inside another <Router>. You should never have more than one in your app."); // Preserve trailing slashes on basename, so we can let the user control
     // the enforcement of trailing slashes throughout the app
     let basename = basenameProp.replace(/^\/*/, "/");
@@ -29242,7 +29222,7 @@ function warningOnce(key, cond, message) {
         staticProp
     ]);
     if (typeof locationProp === "string") locationProp = (0, _router.parsePath)(locationProp);
-    let { pathname ="/" , search ="" , hash ="" , state =null , key ="default"  } = locationProp;
+    let { pathname = "/", search = "", hash = "", state = null, key = "default" } = locationProp;
     let locationContext = _react.useMemo(()=>{
         let trailingPathname = (0, _router.stripBasename)(pathname, basename);
         if (trailingPathname == null) return null;
@@ -29280,7 +29260,7 @@ function warningOnce(key, cond, message) {
  *
  * @see https://reactrouter.com/components/routes
  */ function Routes(_ref5) {
-    let { children , location  } = _ref5;
+    let { children, location } = _ref5;
     let dataRouterContext = _react.useContext(DataRouterContext); // When in a DataRouterContext _without_ children, we use the router routes
     // directly.  If we have children, then we're in a descendant tree and we
     // need to use child routes.
@@ -29291,7 +29271,7 @@ function warningOnce(key, cond, message) {
  * Component to use for rendering lazily loaded data from returning defer()
  * in a loader function
  */ function Await(_ref6) {
-    let { children , errorElement , resolve  } = _ref6;
+    let { children, errorElement, resolve } = _ref6;
     return /*#__PURE__*/ _react.createElement(AwaitErrorBoundary, {
         resolve: resolve,
         errorElement: errorElement
@@ -29320,7 +29300,7 @@ class AwaitErrorBoundary extends _react.Component {
         console.error("<Await> caught the following error during render", error, errorInfo);
     }
     render() {
-        let { children , errorElement , resolve  } = this.props;
+        let { children, errorElement, resolve } = this.props;
         let promise = null;
         let status = AwaitRenderStatus.pending;
         if (!(resolve instanceof Promise)) {
@@ -29382,7 +29362,7 @@ class AwaitErrorBoundary extends _react.Component {
  * @private
  * Indirection to leverage useAsyncValue for a render-prop API on <Await>
  */ function ResolveAwait(_ref7) {
-    let { children  } = _ref7;
+    let { children } = _ref7;
     let data = useAsyncValue();
     let toRender = typeof children === "function" ? children(data) : children;
     return /*#__PURE__*/ _react.createElement(_react.Fragment, null, toRender);
@@ -29545,9 +29525,9 @@ const PopStateEventType = "popstate";
  * in stateful non-browser environments like tests and React Native.
  */ function createMemoryHistory(options) {
     if (options === void 0) options = {};
-    let { initialEntries =[
+    let { initialEntries = [
         "/"
-    ] , initialIndex , v5Compat =false  } = options;
+    ], initialIndex, v5Compat = false } = options;
     let entries; // Declare so we can access from createMemoryLocation
     entries = initialEntries.map((entry, index)=>createMemoryLocation(entry, typeof entry === "string" ? null : entry.state, index === 0 ? "default" : undefined));
     let index = clampIndex(initialIndex == null ? entries.length - 1 : initialIndex);
@@ -29640,7 +29620,7 @@ const PopStateEventType = "popstate";
  */ function createBrowserHistory(options) {
     if (options === void 0) options = {};
     function createBrowserLocation(window1, globalHistory) {
-        let { pathname , search , hash  } = window1.location;
+        let { pathname, search, hash } = window1.location;
         return createLocation("", {
             pathname,
             search,
@@ -29662,7 +29642,7 @@ const PopStateEventType = "popstate";
  */ function createHashHistory(options) {
     if (options === void 0) options = {};
     function createHashLocation(window1, globalHistory) {
-        let { pathname ="/" , search ="" , hash =""  } = parsePath(window1.location.hash.substr(1));
+        let { pathname = "/", search = "", hash = "" } = parsePath(window1.location.hash.substr(1));
         return createLocation("", {
             pathname,
             search,
@@ -29734,7 +29714,7 @@ function createKey() {
 /**
  * Creates a string URL path from the given pathname, search, and hash components.
  */ function createPath(_ref) {
-    let { pathname ="/" , search ="" , hash =""  } = _ref;
+    let { pathname = "/", search = "", hash = "" } = _ref;
     if (search && search !== "?") pathname += search.charAt(0) === "?" ? search : "?" + search;
     if (hash && hash !== "#") pathname += hash.charAt(0) === "#" ? hash : "#" + hash;
     return pathname;
@@ -29760,7 +29740,7 @@ function createKey() {
 }
 function getUrlBasedHistory(getLocation, createHref, validateLocation, options) {
     if (options === void 0) options = {};
-    let { window: window1 = document.defaultView , v5Compat =false  } = options;
+    let { window: window1 = document.defaultView, v5Compat = false } = options;
     let globalHistory = window1.history;
     let action = Action.Pop;
     let listener = null;
@@ -30052,7 +30032,7 @@ function compareIndexes(a, b) {
     0;
 }
 function matchRouteBranch(branch, pathname) {
-    let { routesMeta  } = branch;
+    let { routesMeta } = branch;
     let matchedParams = {};
     let matchedPathname = "/";
     let matches = [];
@@ -30221,7 +30201,7 @@ function safelyDecodeURIComponent(value, paramName) {
  * @see https://reactrouter.com/utils/resolve-path
  */ function resolvePath(to, fromPathname) {
     if (fromPathname === void 0) fromPathname = "/";
-    let { pathname: toPathname , search ="" , hash =""  } = typeof to === "string" ? parsePath(to) : to;
+    let { pathname: toPathname, search = "", hash = "" } = typeof to === "string" ? parsePath(to) : to;
     let pathname = toPathname ? toPathname.startsWith("/") ? toPathname : resolvePathname(toPathname, fromPathname) : fromPathname;
     return {
         pathname,
@@ -30586,7 +30566,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
         let error = getInternalRouterError(404, {
             pathname: init.history.location.pathname
         });
-        let { matches , route  } = getShortCircuitMatches(dataRoutes);
+        let { matches, route } = getShortCircuitMatches(dataRoutes);
         initialMatches = matches;
         initialErrors = {
             [route.id]: error
@@ -30648,7 +30628,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
         // If history informs us of a POP navigation, start the navigation but do not update
         // state.  We'll update our own state once the navigation completes
         unlistenHistory = init.history.listen((_ref)=>{
-            let { action: historyAction , location , delta  } = _ref;
+            let { action: historyAction, location, delta } = _ref;
             // Ignore this event if it was just us resetting the URL from a
             // blocked POP navigation
             if (ignoreNextHistoryUpdate) {
@@ -30772,7 +30752,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
             init.history.go(to);
             return;
         }
-        let { path , submission , error  } = normalizeNavigateOptions(to, future, opts);
+        let { path, submission, error } = normalizeNavigateOptions(to, future, opts);
         let currentLocation = state.location;
         let nextLocation = createLocation(state.location, path, opts && opts.state); // When using navigate as a PUSH/REPLACE we aren't reading an already-encoded
         // URL from window.location, so we need to encode it here so the behavior
@@ -30871,7 +30851,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
             let error = getInternalRouterError(404, {
                 pathname: location.pathname
             });
-            let { matches: notFoundMatches , route  } = getShortCircuitMatches(routesToUse); // Cancel all pending deferred on 404s since we don't keep any routes
+            let { matches: notFoundMatches, route } = getShortCircuitMatches(routesToUse); // Cancel all pending deferred on 404s since we don't keep any routes
             cancelActiveDeferreds();
             completeNavigation(location, {
                 matches: notFoundMatches,
@@ -30918,7 +30898,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
                 signal: request.signal
             });
         } // Call loaders
-        let { shortCircuited , loaderData , errors  } = await handleLoaders(request, location, matches, loadingNavigation, opts && opts.submission, opts && opts.fetcherSubmission, opts && opts.replace, pendingActionData, pendingError);
+        let { shortCircuited, loaderData, errors } = await handleLoaders(request, location, matches, loadingNavigation, opts && opts.submission, opts && opts.fetcherSubmission, opts && opts.replace, pendingActionData, pendingError);
         if (shortCircuited) return;
          // Clean up now that the action/loaders have completed.  Don't clean up if
         // we short circuited because pendingNavigationController will have already
@@ -31069,7 +31049,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
         }
         pendingNavigationLoadId = ++incrementingLoadId;
         revalidatingFetchers.forEach((rf)=>fetchControllers.set(rf.key, pendingNavigationController));
-        let { results , loaderResults , fetcherResults  } = await callLoadersAndMaybeResolveData(state.matches, matches, matchesToLoad, revalidatingFetchers, request);
+        let { results, loaderResults, fetcherResults } = await callLoadersAndMaybeResolveData(state.matches, matches, matchesToLoad, revalidatingFetchers, request);
         if (request.signal.aborted) return {
             shortCircuited: true
         };
@@ -31086,7 +31066,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
                 shortCircuited: true
             };
         } // Process and commit output from loaders
-        let { loaderData , errors  } = processLoaderData(state, matches, matchesToLoad, loaderResults, pendingError, revalidatingFetchers, fetcherResults, activeDeferreds); // Wire up subscribers to update loaderData as promises settle
+        let { loaderData, errors } = processLoaderData(state, matches, matchesToLoad, loaderResults, pendingError, revalidatingFetchers, fetcherResults, activeDeferreds); // Wire up subscribers to update loaderData as promises settle
         activeDeferreds.forEach((deferredData, routeId)=>{
             deferredData.subscribe((aborted)=>{
                 // Note: No need to updateState here since the TrackedPromise on
@@ -31118,7 +31098,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
             }));
             return;
         }
-        let { path , submission  } = normalizeNavigateOptions(href, future, opts, true);
+        let { path, submission } = normalizeNavigateOptions(href, future, opts, true);
         let match = getTargetMatch(matches, path);
         pendingPreventScrollReset = (opts && opts.preventScrollReset) === true;
         if (submission && isMutationMethod(submission.formMethod)) {
@@ -31231,7 +31211,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
         updateState({
             fetchers: new Map(state.fetchers)
         });
-        let { results , loaderResults , fetcherResults  } = await callLoadersAndMaybeResolveData(state.matches, matches, matchesToLoad, revalidatingFetchers, revalidationRequest);
+        let { results, loaderResults, fetcherResults } = await callLoadersAndMaybeResolveData(state.matches, matches, matchesToLoad, revalidatingFetchers, revalidationRequest);
         if (abortController.signal.aborted) return;
         fetchReloadIds.delete(key);
         fetchControllers.delete(key);
@@ -31239,7 +31219,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
         let redirect = findRedirect(results);
         if (redirect) return startRedirectNavigation(state, redirect);
          // Process and commit output from loaders
-        let { loaderData , errors  } = processLoaderData(state, state.matches, matchesToLoad, loaderResults, undefined, revalidatingFetchers, fetcherResults, activeDeferreds);
+        let { loaderData, errors } = processLoaderData(state, state.matches, matchesToLoad, loaderResults, undefined, revalidatingFetchers, fetcherResults, activeDeferreds);
         let doneFetcher = {
             state: "idle",
             data: actionResult.data,
@@ -31356,7 +31336,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
    * the history action from the original navigation (PUSH or REPLACE).
    */ async function startRedirectNavigation(state, redirect, _temp) {
         var _window;
-        let { submission , replace , isFetchActionRedirect  } = _temp === void 0 ? {} : _temp;
+        let { submission, replace, isFetchActionRedirect } = _temp === void 0 ? {} : _temp;
         if (redirect.revalidate) isRevalidationRequired = true;
         let redirectLocation = createLocation(state.location, redirect.location, _extends({
             _isRedirect: true
@@ -31377,7 +31357,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
         pendingNavigationController = null;
         let redirectHistoryAction = replace === true ? Action.Replace : Action.Push; // Use the incoming submission if provided, fallback on the active one in
         // state.navigation
-        let { formMethod , formAction , formEncType , formData  } = state.navigation;
+        let { formMethod, formAction, formEncType, formData } = state.navigation;
         if (!submission && formMethod && formAction && formData && formEncType) submission = {
             formMethod,
             formAction,
@@ -31550,7 +31530,7 @@ const defaultDetectErrorBoundary = (route)=>Boolean(route.hasErrorBoundary); //#
         });
     }
     function shouldBlockNavigation(_ref2) {
-        let { currentLocation , nextLocation , historyAction  } = _ref2;
+        let { currentLocation, nextLocation, historyAction } = _ref2;
         if (blockerFunctions.size === 0) return;
          // We ony support a single active blocker at the moment since we don't have
         // any compelling use cases for multi-blocker yet
@@ -31684,7 +31664,7 @@ function createStaticHandler(routes, opts) {
    * propagate that out and return the raw Response so the HTTP server can
    * return it directly.
    */ async function query(request, _temp2) {
-        let { requestContext  } = _temp2 === void 0 ? {} : _temp2;
+        let { requestContext } = _temp2 === void 0 ? {} : _temp2;
         let url = new URL(request.url);
         let method = request.method;
         let location = createLocation("", createPath(url), null, "default");
@@ -31693,7 +31673,7 @@ function createStaticHandler(routes, opts) {
             let error = getInternalRouterError(405, {
                 method
             });
-            let { matches: methodNotAllowedMatches , route  } = getShortCircuitMatches(dataRoutes);
+            let { matches: methodNotAllowedMatches, route } = getShortCircuitMatches(dataRoutes);
             return {
                 basename,
                 location,
@@ -31712,7 +31692,7 @@ function createStaticHandler(routes, opts) {
             let error = getInternalRouterError(404, {
                 pathname: location.pathname
             });
-            let { matches: notFoundMatches , route  } = getShortCircuitMatches(dataRoutes);
+            let { matches: notFoundMatches, route } = getShortCircuitMatches(dataRoutes);
             return {
                 basename,
                 location,
@@ -31758,7 +31738,7 @@ function createStaticHandler(routes, opts) {
    * code.  Examples here are 404 and 405 errors that occur prior to reaching
    * any user-defined loaders.
    */ async function queryRoute(request, _temp3) {
-        let { routeId , requestContext  } = _temp3 === void 0 ? {} : _temp3;
+        let { routeId, requestContext } = _temp3 === void 0 ? {} : _temp3;
         let url = new URL(request.url);
         let method = request.method;
         let location = createLocation("", createPath(url), null, "default");
@@ -32318,7 +32298,7 @@ function createClientSideRequest(history, location, signal, submission) {
         signal
     };
     if (submission && isMutationMethod(submission.formMethod)) {
-        let { formMethod , formEncType , formData  } = submission; // Didn't think we needed this but it turns out unlike other methods, patch
+        let { formMethod, formEncType, formData } = submission; // Didn't think we needed this but it turns out unlike other methods, patch
         // won't be properly normalized to uppercase and results in a 405 error.
         // See: https://fetch.spec.whatwg.org/#concept-method
         init.method = formMethod.toUpperCase();
@@ -32388,9 +32368,9 @@ function processRouteLoaderData(matches, matchesToLoad, results, pendingError, a
     };
 }
 function processLoaderData(state, matches, matchesToLoad, results, pendingError, revalidatingFetchers, fetcherResults, activeDeferreds) {
-    let { loaderData , errors  } = processRouteLoaderData(matches, matchesToLoad, results, pendingError, activeDeferreds); // Process results from our revalidating fetchers
+    let { loaderData, errors } = processRouteLoaderData(matches, matchesToLoad, results, pendingError, activeDeferreds); // Process results from our revalidating fetchers
     for(let index = 0; index < revalidatingFetchers.length; index++){
-        let { key , match  } = revalidatingFetchers[index];
+        let { key, match } = revalidatingFetchers[index];
         invariant(fetcherResults !== undefined && fetcherResults[index] !== undefined, "Did not find corresponding fetcher result");
         let result = fetcherResults[index]; // Process fetcher non-redirect errors
         if (isErrorResult(result)) {
@@ -32462,7 +32442,7 @@ function getShortCircuitMatches(routes) {
     };
 }
 function getInternalRouterError(status, _temp4) {
-    let { pathname , routeId , method , type  } = _temp4 === void 0 ? {} : _temp4;
+    let { pathname, routeId, method, type } = _temp4 === void 0 ? {} : _temp4;
     let statusText = "Unknown Server Error";
     let errorMessage = "Unknown @remix-run/router error";
     if (status === 400) {
@@ -32571,7 +32551,7 @@ function hasNakedIndexQuery(search) {
 } // Note: This should match the format exported by useMatches, so if you change
 // this please also change that :)  Eventually we'll DRY this up
 function createUseMatchesMatch(match, loaderData) {
-    let { route , pathname , params  } = match;
+    let { route, pathname, params } = match;
     return {
         id: route.id,
         pathname,
@@ -32620,47 +32600,9 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"74Yls":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$03b2 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
-var prevRefreshReg = window.$RefreshReg$;
-var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$03b2.prelude(module);
-
-try {
-var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
-parcelHelpers.defineInteropFlag(exports);
-var _react = require("react");
-var _s = $RefreshSig$();
-const useOnline = ()=>{
-    _s();
-    const [isOnline, setIsOnline] = (0, _react.useState)(true);
-    (0, _react.useEffect)(()=>{
-        const handleOnline = ()=>{
-            setIsOnline(true);
-        };
-        const handleOffline = ()=>{
-            setIsOnline(false);
-        };
-        window.addEventListener("online", handleOnline);
-        window.addEventListener("offline", handleOffline);
-        return ()=>{
-            window.removeEventListener("online", handleOnline);
-            window.removeEventListener("offline", handleOffline);
-        };
-    }, []);
-    return isOnline;
-};
-_s(useOnline, "mRBquyBAMh60D2Q5WI/A8/L/7j4=");
-exports.default = useOnline;
-
-  $parcel$ReactRefreshHelpers$03b2.postlude(module);
-} finally {
-  window.$RefreshReg$ = prevRefreshReg;
-  window.$RefreshSig$ = prevRefreshSig;
-}
-},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"km3Ru":[function(require,module,exports) {
+},{}],"km3Ru":[function(require,module,exports) {
 "use strict";
-var Refresh = require("c726b1a7fc4af65b");
+var Refresh = require("7422ead32dcc1e6b");
 function debounce(func, delay) {
     {
         let timeout = undefined;
@@ -32687,7 +32629,8 @@ function debounce(func, delay) {
 }
 var enqueueUpdate = debounce(function() {
     Refresh.performReactRefresh();
-}, 30); // Everthing below is either adapted or copied from
+}, 30);
+// Everthing below is either adapted or copied from
 // https://github.com/facebook/metro/blob/61de16bd1edd7e738dd0311c89555a644023ab2d/packages/metro/src/lib/polyfills/require.js
 // MIT License - Copyright (c) Facebook, Inc. and its affiliates.
 module.exports.prelude = function(module1) {
@@ -32706,9 +32649,11 @@ module.exports.postlude = function(module1) {
             });
             module1.hot.accept(function(getParents) {
                 var prevExports = module1.hot.data.prevExports;
-                var nextExports = module1.exports; // Since we just executed the code for it, it's possible
+                var nextExports = module1.exports;
+                // Since we just executed the code for it, it's possible
                 // that the new exports make it ineligible for being a boundary.
-                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports); // It can also become ineligible if its exports are incompatible
+                var isNoLongerABoundary = !isReactRefreshBoundary(nextExports);
+                // It can also become ineligible if its exports are incompatible
                 // with the previous exports.
                 // For example, if you add/remove/change exports, we'll want
                 // to re-execute the importing modules, and force those components
@@ -32758,7 +32703,8 @@ function shouldInvalidateReactRefreshBoundary(prevExports, nextExports) {
         if (prevSignature[i] !== nextSignature[i]) return true;
     }
     return false;
-} // When this signature changes, it's unsafe to stop at this refresh boundary.
+}
+// When this signature changes, it's unsafe to stop at this refresh boundary.
 function getRefreshBoundarySignature(exports) {
     var signature = [];
     signature.push(Refresh.getFamilyByType(exports));
@@ -32787,11 +32733,12 @@ function registerExportsForReactRefresh(module1) {
         var desc = Object.getOwnPropertyDescriptor(exports, key);
         if (desc && desc.get && !isESM) continue;
         var exportValue = exports[key];
-        Refresh.register(exportValue, id + " %exports% " + key);
+        var typeID = id + " %exports% " + key;
+        Refresh.register(exportValue, typeID);
     }
 }
 
-},{"c726b1a7fc4af65b":"786KC"}],"4IRxS":[function(require,module,exports) {
+},{"7422ead32dcc1e6b":"786KC"}],"4IRxS":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$e1e6 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -32802,7 +32749,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _constents = require("../constents");
-const RestrudentCard = ({ name , cuisines , avgRating , cloudinaryImageId , deliveryTime , costForTwoString  })=>{
+const RestrudentCard = ({ name, cuisines, avgRating, cloudinaryImageId, deliveryTime, costForTwoString })=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "restrurdentCard",
         children: [
@@ -35006,13 +34953,7 @@ var _shimmer = require("./Shimmer");
 var _shimmerDefault = parcelHelpers.interopDefault(_shimmer);
 var _reactRouterDom = require("react-router-dom");
 var _helper = require("../utils/helper");
-var _useOnline = require("../utils/useOnline");
-var _useOnlineDefault = parcelHelpers.interopDefault(_useOnline);
 var _s = $RefreshSig$();
-function filterData(searchText, restaurants) {
-    const filterData = restaurants.filter((restaurant)=>restaurant?.data?.name?.toUpperCase().includes(searchText.toUpperCase()));
-    return searchText === "" ? restaurants : filterData;
-}
 const Body = ()=>{
     _s();
     // const [restaurants, setRestaurants] = useState(restrudentList);
@@ -35042,7 +34983,7 @@ const Body = ()=>{
     // return <h1>No Restraunt match your Filter!!</h1>;
     return allRestaurants.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _shimmerDefault.default), {}, void 0, false, {
         fileName: "src/components/Body.js",
-        lineNumber: 54,
+        lineNumber: 50,
         columnNumber: 5
     }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
@@ -35057,7 +34998,7 @@ const Body = ()=>{
                         onChange: (e)=>setSearchText(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 58,
+                        lineNumber: 54,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -35074,13 +35015,13 @@ const Body = ()=>{
                         children: "Search"
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 65,
+                        lineNumber: 61,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/Body.js",
-                lineNumber: 57,
+                lineNumber: 53,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -35089,7 +35030,7 @@ const Body = ()=>{
                     children: "No Restraunt match your Filter!!"
                 }, void 0, false, {
                     fileName: "src/components/Body.js",
-                    lineNumber: 85,
+                    lineNumber: 81,
                     columnNumber: 11
                 }, undefined) : filteredRestaurants.map((restaurant)=>{
                     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
@@ -35098,18 +35039,18 @@ const Body = ()=>{
                             ...restaurant.data
                         }, void 0, false, {
                             fileName: "src/components/Body.js",
-                            lineNumber: 93,
+                            lineNumber: 89,
                             columnNumber: 15
                         }, undefined)
                     }, restaurant.data.id, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 89,
+                        lineNumber: 85,
                         columnNumber: 15
                     }, undefined);
                 })
             }, void 0, false, {
                 fileName: "src/components/Body.js",
-                lineNumber: 81,
+                lineNumber: 77,
                 columnNumber: 7
             }, undefined)
         ]
@@ -35126,7 +35067,7 @@ $RefreshReg$(_c, "Body");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../constents":"c3I22","./RestrudentCard":"4IRxS","./Shimmer":"g6ZGj","react-router-dom":"9xmpe","../utils/helper":"3GF3D","../utils/useOnline":"74Yls","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"g6ZGj":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","../constents":"c3I22","./RestrudentCard":"4IRxS","./Shimmer":"g6ZGj","react-router-dom":"9xmpe","../utils/helper":"3GF3D","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"g6ZGj":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$0b04 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -35215,8 +35156,8 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "filterData", ()=>filterData);
 function filterData(searchText, restaurants) {
-    const filterData = restaurants.filter((restaurant)=>restaurant?.data?.name?.toLowerCase()?.includes(searchText.toLowerCase()));
-    return filterData;
+    const filterData = restaurants.filter((restaurant)=>restaurant?.data?.name?.toUpperCase().includes(searchText.toUpperCase()));
+    return searchText === "" ? restaurants : filterData;
 }
 
 },{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"9R1Eu":[function(require,module,exports) {
@@ -35278,12 +35219,14 @@ var _restaurantItemCategory = require("./RestaurantItemCategory");
 var _restaurantItemCategoryDefault = parcelHelpers.interopDefault(_restaurantItemCategory);
 var _restaurantNestedItemCategoryJs = require("./RestaurantNestedItemCategory.js");
 var _restaurantNestedItemCategoryJsDefault = parcelHelpers.interopDefault(_restaurantNestedItemCategoryJs);
+var _useRestaurants = require("../utils/useRestaurants");
+var _useRestaurantsDefault = parcelHelpers.interopDefault(_useRestaurants);
 var _s = $RefreshSig$();
 // import useRestaurant from "../utils/useRestaurant";
 const RestrudentMenu = ()=>{
     _s();
     // how to read a dynamic URL params
-    const { id  } = (0, _reactRouterDom.useParams)();
+    const { id } = (0, _reactRouterDom.useParams)();
     // Use proper names
     const [restaurant, setRestauraunt] = (0, _react.useState)(null);
     (0, _react.useEffect)(()=>{
@@ -35300,6 +35243,7 @@ const RestrudentMenu = ()=>{
         // Optional Chaining
         setRestauraunt(modifiedData);
     }
+    // const restaurant=useRestaurant(id);
     const restrudentInfos = restaurant?.info;
     //   const menu=restaurant?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card?.itemCards[0]?.card?.info?.name
     //   const menu=restaurantData
@@ -35315,7 +35259,7 @@ const RestrudentMenu = ()=>{
     console.log(restaurantMenu);
     return !restrudentInfos ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _shimmerDefault.default), {}, void 0, false, {
         fileName: "src/components/RestrudentMenu.js",
-        lineNumber: 56,
+        lineNumber: 59,
         columnNumber: 5
     }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -35331,14 +35275,14 @@ const RestrudentMenu = ()=>{
                             ]
                         }, void 0, true, {
                             fileName: "src/components/RestrudentMenu.js",
-                            lineNumber: 61,
+                            lineNumber: 64,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
                             children: restrudentInfos?.name
                         }, void 0, false, {
                             fileName: "src/components/RestrudentMenu.js",
-                            lineNumber: 62,
+                            lineNumber: 65,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
@@ -35346,21 +35290,21 @@ const RestrudentMenu = ()=>{
                             src: (0, _constents.url) + restrudentInfos?.cloudinaryImageId
                         }, void 0, false, {
                             fileName: "src/components/RestrudentMenu.js",
-                            lineNumber: 63,
+                            lineNumber: 66,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
                             children: restrudentInfos?.areaName
                         }, void 0, false, {
                             fileName: "src/components/RestrudentMenu.js",
-                            lineNumber: 64,
+                            lineNumber: 67,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
                             children: restrudentInfos?.city
                         }, void 0, false, {
                             fileName: "src/components/RestrudentMenu.js",
-                            lineNumber: 65,
+                            lineNumber: 68,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
@@ -35370,20 +35314,20 @@ const RestrudentMenu = ()=>{
                             ]
                         }, void 0, true, {
                             fileName: "src/components/RestrudentMenu.js",
-                            lineNumber: 66,
+                            lineNumber: 69,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h3", {
                             children: restrudentInfos?.costForTwoMessage
                         }, void 0, false, {
                             fileName: "src/components/RestrudentMenu.js",
-                            lineNumber: 67,
+                            lineNumber: 70,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/RestrudentMenu.js",
-                    lineNumber: 60,
+                    lineNumber: 63,
                     columnNumber: 9
                 }, undefined),
                 /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -35392,7 +35336,7 @@ const RestrudentMenu = ()=>{
                             children: "Menu"
                         }, void 0, false, {
                             fileName: "src/components/RestrudentMenu.js",
-                            lineNumber: 70,
+                            lineNumber: 73,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("ul", {
@@ -35404,51 +35348,51 @@ const RestrudentMenu = ()=>{
                                                 ...groupedCards?.card?.card
                                             }, void 0, false, {
                                                 fileName: "src/components/RestrudentMenu.js",
-                                                lineNumber: 79,
+                                                lineNumber: 82,
                                                 columnNumber: 25
                                             }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _restaurantItemCategoryDefault.default), {
                                                 ...groupedCards?.card?.card
                                             }, void 0, false, {
                                                 fileName: "src/components/RestrudentMenu.js",
-                                                lineNumber: 83,
+                                                lineNumber: 86,
                                                 columnNumber: 25
                                             }, undefined)
                                         }, void 0, false, {
                                             fileName: "src/components/RestrudentMenu.js",
-                                            lineNumber: 77,
+                                            lineNumber: 80,
                                             columnNumber: 21
                                         }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                             children: "Fail"
                                         }, void 0, false, {
                                             fileName: "src/components/RestrudentMenu.js",
-                                            lineNumber: 87,
+                                            lineNumber: 90,
                                             columnNumber: 21
                                         }, undefined)
                                     }, index, false, {
                                         fileName: "src/components/RestrudentMenu.js",
-                                        lineNumber: 74,
+                                        lineNumber: 77,
                                         columnNumber: 17
                                     }, undefined))
                             }, void 0, false, {
                                 fileName: "src/components/RestrudentMenu.js",
-                                lineNumber: 72,
+                                lineNumber: 75,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/components/RestrudentMenu.js",
-                            lineNumber: 71,
+                            lineNumber: 74,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/RestrudentMenu.js",
-                    lineNumber: 69,
+                    lineNumber: 72,
                     columnNumber: 9
                 }, undefined)
             ]
         }, void 0, true, {
             fileName: "src/components/RestrudentMenu.js",
-            lineNumber: 59,
+            lineNumber: 62,
             columnNumber: 7
         }, undefined)
     }, void 0, false);
@@ -35468,7 +35412,7 @@ $RefreshReg$(_c, "RestrudentMenu");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","../constents":"c3I22","./Shimmer":"g6ZGj","./RestaurantItemCategory":"lbCQn","./RestaurantNestedItemCategory.js":"961IZ","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lbCQn":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","react-router-dom":"9xmpe","../constents":"c3I22","./Shimmer":"g6ZGj","./RestaurantItemCategory":"lbCQn","./RestaurantNestedItemCategory.js":"961IZ","../utils/useRestaurants":"3Dvwz","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"lbCQn":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$0d03 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
@@ -35722,50 +35666,44 @@ $RefreshReg$(_c, "RestaurantCategory");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","./RestaurantDish":"cnvu5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"gB4Fs":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$8238 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{"react/jsx-dev-runtime":"iTorj","./RestaurantDish":"cnvu5","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"3Dvwz":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$d0be = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$8238.prelude(module);
+$parcel$ReactRefreshHelpers$d0be.prelude(module);
 
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-var _jsxDevRuntime = require("react/jsx-dev-runtime");
-const Instamart = ()=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                children: "Instamart"
-            }, void 0, false, {
-                fileName: "src/components/Instamart.js",
-                lineNumber: 4,
-                columnNumber: 9
-            }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                children: "100s of componnets inside it"
-            }, void 0, false, {
-                fileName: "src/components/Instamart.js",
-                lineNumber: 5,
-                columnNumber: 9
-            }, undefined)
-        ]
-    }, void 0, true, {
-        fileName: "src/components/Instamart.js",
-        lineNumber: 3,
-        columnNumber: 7
-    }, undefined);
+var _react = require("react");
+var _s = $RefreshSig$();
+const useRestaurant = (id)=>{
+    _s();
+    const [restaurant, setRestauraunt] = (0, _react.useState)(null);
+    (0, _react.useEffect)(()=>{
+        getRestaurantInfo();
+    }, []);
+    async function getRestaurantInfo() {
+        const data = await fetch("https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=23.5408357&lng=87.3406605&restaurantId=" + id);
+        const json = await data.json();
+        const jj = json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card?.itemCards;
+        const modifiedData = {
+            info: json?.data?.cards[0]?.card?.card?.info,
+            groupedCards: json?.data?.cards?.find((o)=>o?.groupedCard).groupedCard?.cardGroupMap?.REGULAR?.cards?.filter((o)=>o?.card?.card?.itemCards || o?.card?.card?.categories)
+        };
+        // Optional Chaining
+        setRestauraunt(modifiedData);
+    }
+    return restaurant;
 };
-_c = Instamart;
-exports.default = Instamart;
-var _c;
-$RefreshReg$(_c, "Instamart");
+_s(useRestaurant, "NfkFv4ruhzzz8IUbDolDpyMc8F4=");
+exports.default = useRestaurant;
 
-  $parcel$ReactRefreshHelpers$8238.postlude(module);
+  $parcel$ReactRefreshHelpers$d0be.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}]},["1xC6H","cJcMZ","2kQhy"], "2kQhy", "parcelRequired804")
+},{"react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}]},["hcwwj","1xC6H","2kQhy"], "2kQhy", "parcelRequired804")
 
 //# sourceMappingURL=index.7271efb6.js.map

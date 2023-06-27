@@ -1,7 +1,6 @@
 export function filterData(searchText, restaurants) {
     const filterData = restaurants.filter((restaurant) =>
-      restaurant?.data?.name?.toLowerCase()?.includes(searchText.toLowerCase())
+      restaurant?.data?.name?.toUpperCase().includes(searchText.toUpperCase())
     );
-  
-    return filterData;
+    return searchText === "" ? restaurants : filterData;
   }

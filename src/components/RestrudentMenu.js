@@ -4,6 +4,7 @@ import { url } from "../constents";
 import Shimmer from "./Shimmer";
 import RestaurantItemCategory from "./RestaurantItemCategory";
 import RestaurantNestedItemCategory from "./RestaurantNestedItemCategory.js";
+import useRestaurant from "../utils/useRestaurants";
 // import useRestaurant from "../utils/useRestaurant";
 const RestrudentMenu = () => {
   // how to read a dynamic URL params
@@ -36,6 +37,8 @@ const RestrudentMenu = () => {
     // Optional Chaining
     setRestauraunt(modifiedData);
   }
+
+  // const restaurant=useRestaurant(id);
   const restrudentInfos = restaurant?.info;
   //   const menu=restaurant?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card?.itemCards[0]?.card?.info?.name
   //   const menu=restaurantData

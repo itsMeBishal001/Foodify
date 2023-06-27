@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import Heading from "./components/Header";
 import RestrudentCard from "./components/RestrudentCard";
@@ -10,7 +10,6 @@ import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 
 import Shimmer from "./components/Shimmer";
 
-import Instamart from "./components/Instamart";
 // const About = lazy(() => import("./components/About"));
 // Chunking
 // Code Splitting
@@ -60,10 +59,7 @@ const appRouter = createBrowserRouter([
         path: "/restrudentmenu/:id",
         element: <RestrudentMenu />,
       },
-      {
-        path: "/instamart",
-        element: <Instamart />,
-      },
+      
     ],
   },
 ]);

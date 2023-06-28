@@ -1,16 +1,20 @@
-import React from "react";
+import React ,{Suspense, lazy}from "react";
 import ReactDOM from "react-dom/client";
 import Heading from "./components/Header";
 import RestrudentCard from "./components/RestrudentCard";
 import Footer from "./components/Footer";
 import Body from "./components/Body";
-import About from "./components/About";
+// import About from "./components/About";
+// import Cart from "./components/Cart";
+// import Contact from "./components/Contact";
 import RestrudentMenu from "./components/RestrudentMenu";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 
 import Shimmer from "./components/Shimmer";
 
-// const About = lazy(() => import("./components/About"));
+const About = lazy(() => import("./components/About"));
+const Cart=lazy(()=>import("./components/Cart"));
+const Contact=lazy(()=>import("./components/Contact"));
 // Chunking
 // Code Splitting
 // Dynamic Bundling
@@ -49,7 +53,15 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/about",
-        element: <About />,
+        element:  <Suspense><About /></Suspense>,
+      },
+      {
+        path: "/cart",
+        element:  <Suspense><Cart/></Suspense>,
+      },
+      {
+        path: "/contact",
+        element:  <Suspense><Contact/></Suspense>,
       },
       {
         path: "/",

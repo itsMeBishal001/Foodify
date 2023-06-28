@@ -25,8 +25,14 @@ const Heading = () => {
           <li> <Link to="/about">
             About
           </Link></li>
-          <li>Contact</li>
-          <li>Cart</li>
+          {/* <li>Contact</li> */}
+          <li> <Link to="/cart">
+            Cart
+          </Link></li>
+          <li> <Link to="/contact">
+            Contact
+          </Link></li>
+          {/* <li>Cart</li> */}
           
         </ul>
       </div>

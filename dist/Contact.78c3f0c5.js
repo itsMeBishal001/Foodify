@@ -608,18 +608,20 @@ const Contact = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                children: "under devolopment"
+                className: "text-2xl font-bold mb-4",
+                children: "Under Development"
             }, void 0, false, {
                 fileName: "src/components/Contact.js",
-                lineNumber: 3,
-                columnNumber: 1
+                lineNumber: 6,
+                columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                children: "creating a form using formik library "
+                className: "text-lg",
+                children: "Creating a form using Formik library"
             }, void 0, false, {
                 fileName: "src/components/Contact.js",
-                lineNumber: 4,
-                columnNumber: 1
+                lineNumber: 7,
+                columnNumber: 7
             }, undefined)
         ]
     }, void 0, true);

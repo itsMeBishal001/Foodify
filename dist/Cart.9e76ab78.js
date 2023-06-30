@@ -604,33 +604,40 @@ try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
-const cart = ()=>{
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+const Cart = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                children: "here i will make the cart component "
+                className: "text-2xl font-bold mb-4",
+                children: "Here I will make the Cart component"
             }, void 0, false, {
                 fileName: "src/components/Cart.js",
-                lineNumber: 3,
-                columnNumber: 5
+                lineNumber: 6,
+                columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h2", {
-                children: "it is under devolopment "
+                className: "text-lg",
+                children: "It is under development"
             }, void 0, false, {
                 fileName: "src/components/Cart.js",
-                lineNumber: 4,
-                columnNumber: 5
+                lineNumber: 7,
+                columnNumber: 7
             }, undefined)
         ]
     }, void 0, true);
 };
-exports.default = cart;
+_c = Cart;
+exports.default = Cart;
+var _c;
+$RefreshReg$(_c, "Cart");
 
   $parcel$ReactRefreshHelpers$ad24.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}]},["lTJaZ","1xC6H"], null, "parcelRequired804")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}]},["lTJaZ","1xC6H"], null, "parcelRequired804")
 
 //# sourceMappingURL=Cart.9e76ab78.js.map

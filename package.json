@@ -18,8 +18,11 @@
   },
   "homepage": "https://github.com/itsMeBishal001/Lets-Start-with-React#readme",
   "devDependencies": {
+    "autoprefixer": "^10.4.14",
     "parcel": "^2.8.3",
-    "process": "^0.11.10"
+    "postcss": "^8.4.24",
+    "process": "^0.11.10",
+    "tailwindcss": "^3.3.2"
   },
   "dependencies": {
     "http-proxy-middleware": "^2.0.6",

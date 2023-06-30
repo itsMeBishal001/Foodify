@@ -601,6 +601,7 @@ var prevRefreshSig = window.$RefreshSig$;
 $parcel$ReactRefreshHelpers$5b98.prelude(module);
 
 try {
+// import React from "react";
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
@@ -608,18 +609,20 @@ const About = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                children: "This App is under devolopment"
+                className: "text-2xl font-bold mb-4",
+                children: "This App is under development"
             }, void 0, false, {
                 fileName: "src/components/About.js",
-                lineNumber: 4,
-                columnNumber: 5
+                lineNumber: 6,
+                columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
-                children: "slowly slowly learning new stuff of react and enjoying the journey"
+                className: "text-lg",
+                children: "Slowly slowly learning new stuff of React and enjoying the journey"
             }, void 0, false, {
                 fileName: "src/components/About.js",
-                lineNumber: 5,
-                columnNumber: 5
+                lineNumber: 7,
+                columnNumber: 7
             }, undefined)
         ]
     }, void 0, true);

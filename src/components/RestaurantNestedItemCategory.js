@@ -1,25 +1,26 @@
 import RestaurantDish from "./RestaurantDish";
+
 const RestaurantCategory = (category) => {
-    return (
-      <div>
-        <h1 className="nested_item_header">{category?.title}</h1>
-        {category?.categories?.map((groupedSubCategory, index) => (
-          <div key={index}>
-            <h2 className="nested_item_subheader">
-              {groupedSubCategory?.title}({groupedSubCategory?.itemCards?.length})
-            </h2>
-            <div className="divider nested_item_subheader_divider"></div>
-            <ol>
-              {groupedSubCategory?.itemCards?.map((dish, index) => (
-                <div key={index}>
-                  <RestaurantDish {...dish?.card?.info} />
-                  {/* <p>{dish?.card?.info?.description}</p> */}
-                </div>
-              ))}
-            </ol>
-          </div>
-        ))}
-      </div>
-    );
-  };
-  export default RestaurantCategory;
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-4">{category?.title}</h1>
+      {category?.categories?.map((groupedSubCategory, index) => (
+        <div key={index} className="mb-8">
+          <h2 className="text-xl font-bold mb-2">
+            {groupedSubCategory?.title} ({groupedSubCategory?.itemCards?.length})
+          </h2>
+          <div className="border-b-2 border-gray-300 mb-4"></div>
+          <ul>
+            {groupedSubCategory?.itemCards?.map((dish, index) => (
+              <li key={index} className="mb-4">
+                <RestaurantDish {...dish?.card?.info} />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default RestaurantCategory;

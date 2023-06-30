@@ -5,12 +5,11 @@ import Shimmer from "./Shimmer";
 import RestaurantItemCategory from "./RestaurantItemCategory";
 import RestaurantNestedItemCategory from "./RestaurantNestedItemCategory.js";
 import useRestaurant from "../utils/useRestaurants";
-// import useRestaurant from "../utils/useRestaurant";
+
 const RestrudentMenu = () => {
-  // how to read a dynamic URL params
   const { id } = useParams();
-  // Use proper names
   const [restaurant, setRestauraunt] = useState(null);
+
   useEffect(() => {
     getRestaurantInfo();
   }, []);
@@ -19,12 +18,8 @@ const RestrudentMenu = () => {
     const data = await fetch(
       "https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=23.5408357&lng=87.3406605&restaurantId=" +
         id
-        //
     );
     const json = await data.json();
-    const jj =
-      json?.data?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card
-        ?.card?.itemCards;
     const modifiedData = {
       info: json?.data?.cards[0]?.card?.card?.info,
       groupedCards: json?.data?.cards
@@ -34,54 +29,41 @@ const RestrudentMenu = () => {
         )
     };
 
-    // Optional Chaining
     setRestauraunt(modifiedData);
   }
 
-  // const restaurant=useRestaurant(id);
   const restrudentInfos = restaurant?.info;
-  //   const menu=restaurant?.cards[2]?.groupedCard?.cardGroupMap?.REGULAR?.cards[1]?.card?.card?.itemCards[0]?.card?.info?.name
-  //   const menu=restaurantData
-  // ?.find((obj) => obj.groupedCard)
-  // ?.groupedCard?.cardGroupMap?.REGULAR?.cards.filter(
-  //   (obj) => obj.card.card.itemCards || obj.card.card.categories
-  // );
   const restaurantMenu = restaurant?.groupedCards;
-  console.log(restaurantMenu);
-  // console.log(restaurant)
 
-  const itemCategory =
-    "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory";
-  const nestedItemCategory =
-    "type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory";
-  console.log(restaurantMenu);
   return !restrudentInfos ? (
     <Shimmer />
   ) : (
     <>
       <div className="menu">
         <div className="restrudent_details">
-          <h1>Restraunt id: {restrudentInfos?.id}</h1>
-          <h2>{restrudentInfos?.name}</h2>
-          <img  className="restrudent_img" src={url + restrudentInfos?.cloudinaryImageId} />
-          <h3>{restrudentInfos?.areaName}</h3>
-          <h3>{restrudentInfos?.city}</h3>
-          <h3>{restrudentInfos?.avgRating} stars</h3>
-          <h3>{restrudentInfos?.costForTwoMessage}</h3>
+          <h1 className="text-2xl">Restraunt id: {restrudentInfos?.id}</h1>
+          <h2 className="text-xl">{restrudentInfos?.name}</h2>
+          <img
+            className="restrudent_img rounded-lg"
+            src={url + restrudentInfos?.cloudinaryImageId}
+            alt={restrudentInfos?.name}
+          />
+          <h3 className="text-lg">{restrudentInfos?.areaName}</h3>
+          <h3 className="text-lg">{restrudentInfos?.city}</h3>
+          <h3 className="text-lg">{restrudentInfos?.avgRating} stars</h3>
+          <h3 className="text-lg">{restrudentInfos?.costForTwoMessage}</h3>
         </div>
         <div>
-          <h1>Menu</h1>
+          <h1 className="text-2xl">Menu</h1>
           <ul>
             <div className="restaurant_menu">
               {Object.values(restaurantMenu)?.map((groupedCards, index) => (
                 <div key={index}>
-                  {groupedCards?.card?.card["@type"] === nestedItemCategory ||
-                  itemCategory ? (
+                  {groupedCards?.card?.card["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory" ||
+                  groupedCards?.card?.card["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory" ? (
                     <div>
                       {groupedCards?.card?.card?.categories ? (
-                        <RestaurantNestedItemCategory
-                          {...groupedCards?.card?.card}
-                        />
+                        <RestaurantNestedItemCategory {...groupedCards?.card?.card} />
                       ) : (
                         <RestaurantItemCategory {...groupedCards?.card?.card} />
                       )}
@@ -98,4 +80,5 @@ const RestrudentMenu = () => {
     </>
   );
 };
+
 export default RestrudentMenu;

@@ -1,7 +1,12 @@
-const cart=()=>{
-    return<>
-    <h1>here i will make the cart component </h1>
-    <h2>it is under devolopment </h2>
+import React from "react";
+
+const Cart = () => {
+  return (
+    <>
+      <h1 className="text-2xl font-bold mb-4">Here I will make the Cart component</h1>
+      <h2 className="text-lg">It is under development</h2>
     </>
-}
-export default cart;
+  );
+};
+
+export default Cart;

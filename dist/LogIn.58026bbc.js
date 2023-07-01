@@ -142,13 +142,13 @@
       this[globalName] = mainExports;
     }
   }
-})({"3EtMM":[function(require,module,exports) {
+})({"1WmcV":[function(require,module,exports) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = null;
 var HMR_SECURE = false;
 var HMR_ENV_HASH = "d6ea1d42532a7575";
-module.bundle.HMR_BUNDLE_ID = "b097ecc884db8bad";
+module.bundle.HMR_BUNDLE_ID = "f5b9604d58026bbc";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_ENV_HASH, HMR_SECURE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -594,49 +594,194 @@ window.addEventListener("parcelhmraccept", ()=>{
     ErrorOverlay.dismissRuntimeErrors();
 });
 
-},{"6d18d6bd340e7473":"786KC","74ad5ea14201648c":"1dldy"}],"9R1Eu":[function(require,module,exports) {
-var $parcel$ReactRefreshHelpers$5b98 = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
+},{"6d18d6bd340e7473":"786KC","74ad5ea14201648c":"1dldy"}],"f318t":[function(require,module,exports) {
+var $parcel$ReactRefreshHelpers$0c6d = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
-$parcel$ReactRefreshHelpers$5b98.prelude(module);
+$parcel$ReactRefreshHelpers$0c6d.prelude(module);
 
 try {
-// import React from "react";
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
-const About = ()=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+var _react = require("react");
+var _reactDefault = parcelHelpers.interopDefault(_react);
+var _s = $RefreshSig$();
+const LogIn = ()=>{
+    _s();
+    const [email, setEmail] = (0, _react.useState)("");
+    const [password, setPassword] = (0, _react.useState)("");
+    const handleEmailChange = (e)=>{
+        setEmail(e.target.value);
+    };
+    const handlePasswordChange = (e)=>{
+        setPassword(e.target.value);
+    };
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "flex flex-grow pt-20 bg-gray-100",
         children: [
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                className: "flex-grow pt-20 text-2xl font-bold mb-4",
-                children: "This App is under development"
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "text-3xl bg-gray-950 font-medium text-white px-60 py-44",
+                children: "Board."
             }, void 0, false, {
-                fileName: "src/components/About.js",
-                lineNumber: 6,
+                fileName: "src/components/LogIn.js",
+                lineNumber: 17,
                 columnNumber: 7
             }, undefined),
-            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h4", {
-                className: "text-lg",
-                children: "Slowly slowly learning new stuff of React and enjoying the journey"
-            }, void 0, false, {
-                fileName: "src/components/About.js",
-                lineNumber: 7,
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "mx-auto",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "font-bold text-xl mb-4",
+                        children: "Sign In"
+                    }, void 0, false, {
+                        fileName: "src/components/LogIn.js",
+                        lineNumber: 22,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-sm mb-4",
+                        children: "Sign in to your account"
+                    }, void 0, false, {
+                        fileName: "src/components/LogIn.js",
+                        lineNumber: 23,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "flex justify-center mb-4",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "text-xs text-gray-500 px-4 py-2 mr-2",
+                                children: "Sign in with Google"
+                            }, void 0, false, {
+                                fileName: "src/components/LogIn.js",
+                                lineNumber: 25,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "text-xs text-gray-500 px-4 py-2",
+                                children: "Sign in with Apple"
+                            }, void 0, false, {
+                                fileName: "src/components/LogIn.js",
+                                lineNumber: 28,
+                                columnNumber: 11
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/LogIn.js",
+                        lineNumber: 24,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "mb-4 border-r-2 bg-white px-6 py-4",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "mb-2 text-sm",
+                                children: "Email address"
+                            }, void 0, false, {
+                                fileName: "src/components/LogIn.js",
+                                lineNumber: 33,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "email",
+                                value: email,
+                                onChange: handleEmailChange,
+                                className: "border rounded-md bg-gray-100 border-gray-400 px-2 py-1 mb-2"
+                            }, void 0, false, {
+                                fileName: "src/components/LogIn.js",
+                                lineNumber: 34,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "mb-2 text-sm",
+                                children: "Password"
+                            }, void 0, false, {
+                                fileName: "src/components/LogIn.js",
+                                lineNumber: 40,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("input", {
+                                type: "password",
+                                value: password,
+                                onChange: handlePasswordChange,
+                                className: "border rounded-md bg-gray-100 border-gray-400 px-2 py-1 mb-2"
+                            }, void 0, false, {
+                                fileName: "src/components/LogIn.js",
+                                lineNumber: 41,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "text-sm text-blue-500 cursor-pointer",
+                                children: "Forgot password?"
+                            }, void 0, false, {
+                                fileName: "src/components/LogIn.js",
+                                lineNumber: 47,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
+                                className: "rounded-md text-sm font-medium bg-black text-white px-20 py-2 mt-4",
+                                children: "Sign in"
+                            }, void 0, false, {
+                                fileName: "src/components/LogIn.js",
+                                lineNumber: 50,
+                                columnNumber: 11
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/LogIn.js",
+                        lineNumber: 32,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "text-center flex justify-center",
+                        children: [
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: "text-xs",
+                                children: "Don’t have an account? "
+                            }, void 0, false, {
+                                fileName: "src/components/LogIn.js",
+                                lineNumber: 55,
+                                columnNumber: 11
+                            }, undefined),
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                className: "text-xs text-blue-400",
+                                children: "Register here"
+                            }, void 0, false, {
+                                fileName: "src/components/LogIn.js",
+                                lineNumber: 56,
+                                columnNumber: 11
+                            }, undefined)
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/LogIn.js",
+                        lineNumber: 54,
+                        columnNumber: 9
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/LogIn.js",
+                lineNumber: 21,
                 columnNumber: 7
             }, undefined)
         ]
-    }, void 0, true);
+    }, void 0, true, {
+        fileName: "src/components/LogIn.js",
+        lineNumber: 16,
+        columnNumber: 5
+    }, undefined);
 };
-_c = About;
-exports.default = About;
+_s(LogIn, "3B3pqDcVnkT+z/sPK6Z9zQsLP+s=");
+_c = LogIn;
+exports.default = LogIn;
 var _c;
-$RefreshReg$(_c, "About");
+$RefreshReg$(_c, "LogIn");
 
-  $parcel$ReactRefreshHelpers$5b98.postlude(module);
+  $parcel$ReactRefreshHelpers$0c6d.postlude(module);
 } finally {
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}]},["3EtMM","1xC6H"], null, "parcelRequired804")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}]},["1WmcV","1xC6H"], null, "parcelRequired804")
 
-//# sourceMappingURL=About.84db8bad.js.map
+//# sourceMappingURL=LogIn.58026bbc.js.map

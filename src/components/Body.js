@@ -29,8 +29,8 @@ const Body = () => {
   return allRestaurants.length === 0 ? (
     <Shimmer />
   ) : (
-    <>
-      <div className="flex items-center justify-center py-4 m-1">
+    <div className="flex-grow pt-20">
+      <div className="flex  items-center justify-center py-4 m-1">
         <input
           className="border border-gray-300 rounded-md py-2 px-5 mr-2 focus:outline-none"
           type="text"
@@ -63,7 +63,7 @@ const Body = () => {
           ))
         )}
       </div>
-    </>
+    </div>
   );
 };
 

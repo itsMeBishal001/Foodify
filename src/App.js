@@ -15,6 +15,7 @@ import Shimmer from "./components/Shimmer";
 const About = lazy(() => import("./components/About"));
 const Cart=lazy(()=>import("./components/Cart"));
 const Contact=lazy(()=>import("./components/Contact"));
+const LogIn=lazy(()=>import("./components/LogIn"))
 // Chunking
 // Code Splitting
 // Dynamic Bundling
@@ -62,6 +63,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/contact",
         element:  <Suspense><Contact/></Suspense>,
+      },
+      {
+        path: "/login",
+        element:  <Suspense><LogIn/></Suspense>,
       },
       {
         path: "/",

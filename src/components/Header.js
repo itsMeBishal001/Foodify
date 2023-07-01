@@ -8,13 +8,9 @@ const Heading = () => {
   const [isLogIn, setIsLogIn] = useState(false);
 
   return (
-    <div className="flex items-center space-x-10 justify-between">
-      <img
-        className="w-20 h-20 object-contain"
-        src={logoI}
-        alt="Logo"
-      />
-     <div>
+    <div className="fixed top-0 left-0 right-0 bg-gray-100 flex items-center space-x-10 justify-between">
+      <img className="w-20 h-20 object-contain" src={logoI} alt="Logo" />
+      <div>
         <ul className="flex space-x-5">
           <li>
             <Link
@@ -41,6 +37,7 @@ const Heading = () => {
             </Link>
           </li>
           <li>
+            
             <Link
               to="/contact"
               className="text-black-300 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
@@ -48,6 +45,9 @@ const Heading = () => {
               Contact
             </Link>
           </li>
+          <li>
+            <Link to="/login">Log In</Link>
+            </li>
         </ul>
       </div>
       <button

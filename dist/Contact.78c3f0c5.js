@@ -605,14 +605,15 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 const Contact = ()=>{
-    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: " flex-grow pt-20 flex flex-col",
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
                 className: "text-2xl font-bold mb-4",
                 children: "Under Development"
             }, void 0, false, {
                 fileName: "src/components/Contact.js",
-                lineNumber: 6,
+                lineNumber: 5,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -620,11 +621,15 @@ const Contact = ()=>{
                 children: "Creating a form using Formik library"
             }, void 0, false, {
                 fileName: "src/components/Contact.js",
-                lineNumber: 7,
+                lineNumber: 6,
                 columnNumber: 7
             }, undefined)
         ]
-    }, void 0, true);
+    }, void 0, true, {
+        fileName: "src/components/Contact.js",
+        lineNumber: 4,
+        columnNumber: 5
+    }, undefined);
 };
 _c = Contact;
 exports.default = Contact;

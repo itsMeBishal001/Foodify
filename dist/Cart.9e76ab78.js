@@ -610,7 +610,7 @@ const Cart = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _jsxDevRuntime.Fragment), {
         children: [
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
-                className: "text-2xl font-bold mb-4",
+                className: " flex-grow pt-20 text-2xl font-bold mb-4",
                 children: "Here I will make the Cart component"
             }, void 0, false, {
                 fileName: "src/components/Cart.js",

@@ -1,12 +1,14 @@
 import logoI from "../components/images/logo.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { UseSelector, useSelector } from "react-redux";
 
 const logo = <img className="image" src={logoI} alt="Logo" />;
 
 const Heading = () => {
   const [isLogIn, setIsLogIn] = useState(false);
-
+const cartItems=useSelector((store)=>store.cart.items);
+console.log(cartItems)
   return (
     <div className="fixed top-0 left-0 right-0 bg-gray-100 flex items-center space-x-10 justify-between">
       <img className="w-20 h-20 object-contain" src={logoI} alt="Logo" />
@@ -33,7 +35,7 @@ const Heading = () => {
               to="/cart"
               className="text-black-300 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
             >
-              Cart
+              Cart -{cartItems.length} items
             </Link>
           </li>
           <li>

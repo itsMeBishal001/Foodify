@@ -48,7 +48,7 @@ const Body = () => {
           Search
         </button>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 w-100">
         {filteredRestaurants.length === 0 ? (
           <h1 className="text-center">No Restaurants match your filter!</h1>
         ) : (
@@ -56,7 +56,7 @@ const Body = () => {
             <Link
               to={"/restrudentmenu/" + restaurant.data.id}
               key={restaurant.data.id}
-              className="carousel-item focus:outline-none hover:bg-gray-100 rounded-lg p-4"
+              className="carousel-item focus:outline-none hover:bg-gray-100 rounded-lg p-6"
             >
               <RestrudentCard {...restaurant.data} />
             </Link>

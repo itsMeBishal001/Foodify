@@ -9,8 +9,12 @@ const RestrudentCard = ({
   costForTwoString,
 }) => {
   return (
-    <div className="restrurdentCard bg-white rounded-lg shadow-md p-4">
-      <img className="cardImg object-cover h-40 w-full rounded" src={url + cloudinaryImageId} alt={name} />
+    <div className="restrurdentCard bg-white rounded-lg shadow-md p-5 w-auto">
+      <img
+        className="cardImg object-cover h-40 w-full rounded"
+        src={url + cloudinaryImageId}
+        alt={name}
+      />
       <div className="res-cui mt-4">
         <div className="resName text-lg font-bold">{name}</div>
         <div className="cuisines text-gray-600">{cuisines.join(", ")}</div>

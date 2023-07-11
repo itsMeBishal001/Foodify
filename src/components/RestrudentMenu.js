@@ -5,6 +5,8 @@ import Shimmer from "./Shimmer";
 import RestaurantItemCategory from "./RestaurantItemCategory";
 import RestaurantNestedItemCategory from "./RestaurantNestedItemCategory.js";
 import useRestaurant from "../utils/useRestaurants";
+// import { addItem } from "../utils/cartSlice";
+import { useDispatch } from "react-redux";
 
 const RestrudentMenu = () => {
   const { id } = useParams();
@@ -35,24 +37,37 @@ const RestrudentMenu = () => {
   const restrudentInfos = restaurant?.info;
   const restaurantMenu = restaurant?.groupedCards;
 
+
+  //add item
+  const dispatch=useDispatch();
+  const addFoodItem=(item)=>{
+    dispatch(addItem(item));
+  }
   return !restrudentInfos ? (
     <Shimmer />
   ) : (
     <>
-      <div className="menu">
-        <div className="restrudent_details">
-          <h1 className="text-2xl">Restraunt id: {restrudentInfos?.id}</h1>
-          <h2 className="text-xl">{restrudentInfos?.name}</h2>
-          <img
-            className="restrudent_img rounded-lg"
-            src={url + restrudentInfos?.cloudinaryImageId}
-            alt={restrudentInfos?.name}
-          />
-          <h3 className="text-lg">{restrudentInfos?.areaName}</h3>
-          <h3 className="text-lg">{restrudentInfos?.city}</h3>
-          <h3 className="text-lg">{restrudentInfos?.avgRating} stars</h3>
-          <h3 className="text-lg">{restrudentInfos?.costForTwoMessage}</h3>
-        </div>
+      <div className=" flex-grow pt-20 ">
+      <div className="restrudent_details flex">
+  <div className="flex-2 m-5">
+    <h2 className="text-xl font-bold font-sans">{restrudentInfos?.name}</h2>
+    <h1 className="text-2xl">Restaurant id: {restrudentInfos?.id}</h1>
+    <img
+      className="restrudent_img rounded-lg h-40 my-2"
+      src={url + restrudentInfos?.cloudinaryImageId}
+      alt={restrudentInfos?.name}
+    />
+  </div>
+  <div className="flex  items-end space-x-3 p-5">
+  <h3 className="text-lg ">{restrudentInfos?.areaName}</h3>
+  <h3 className="text-lg">{restrudentInfos?.city}</h3>
+  <h3 className="text-lg font-medium">{restrudentInfos?.avgRating} <span className="icon-star text-yellow-500">★</span></h3>
+  
+  <h3 className="text-lg font-medium">{restrudentInfos?.costForTwoMessage}</h3>
+</div>
+
+</div>
+
         <div>
           <h1 className="text-2xl">Menu</h1>
           <ul>

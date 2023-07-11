@@ -1,4 +1,11 @@
+import { addItem } from "../utils/cartSlice";
+import { useDispatch } from "react-redux";
 const RestaurantDish = (dish) => {
+  const dispatch = useDispatch();
+
+  const addFoodItem = (item) => {
+    dispatch(addItem(item));
+  };
   return (
     <>
       <div className="dish_Container bg-white rounded-lg shadow-md p-4">
@@ -9,11 +16,18 @@ const RestaurantDish = (dish) => {
           </h2>
           <p className="dish_Description text-gray-600">{dish.description}</p>
         </div>
+
+        <button className="p-1 bg-green-50" onClick={() => addFoodItem(dish)}>
+          Add
+        </button>
         <div className="dish_ImageContainer">
           {dish.imageId ? (
             <img
               className="dish_Image object-cover h-32 w-32 rounded"
-              src={"https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/" + dish.imageId}
+              src={
+                "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_208,h_208,c_fit/" +
+                dish.imageId
+              }
               alt={dish.name}
             />
           ) : (

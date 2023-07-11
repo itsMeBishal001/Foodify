@@ -9,13 +9,10 @@ import Body from "./components/Body";
 // import Contact from "./components/Contact";
 import RestrudentMenu from "./components/RestrudentMenu";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
-
+import { Provider } from "react-redux";
+import store from "./utils/store";
 import Shimmer from "./components/Shimmer";
 
-const About = lazy(() => import("./components/About"));
-const Cart=lazy(()=>import("./components/Cart"));
-const Contact=lazy(()=>import("./components/Contact"));
-const LogIn=lazy(()=>import("./components/LogIn"))
 // Chunking
 // Code Splitting
 // Dynamic Bundling
@@ -23,6 +20,11 @@ const LogIn=lazy(()=>import("./components/LogIn"))
 // On Demand Loading
 // Dynamic Import
 
+
+const About = lazy(() => import("./components/About"));
+const Cart=lazy(()=>import("./components/Cart"));
+const Contact=lazy(()=>import("./components/Contact"));
+const LogIn=lazy(()=>import("./components/LogIn"));
 /*
  * App layout --
  *  header -
@@ -38,6 +40,7 @@ const LogIn=lazy(()=>import("./components/LogIn"))
 
 const AppLayout = () => {
   return (
+    <Provider store={store}>
     <div className="applayout">
       {<Heading />}
       {<Outlet />}
@@ -45,6 +48,7 @@ const AppLayout = () => {
       {/* {<Body />} */}
       {<Footer />}
     </div>
+    </Provider>
   );
 };
 const appRouter = createBrowserRouter([
@@ -58,7 +62,7 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/cart",
-        element:  <Suspense><Cart/></Suspense>,
+        element:  <Cart/>,
       },
       {
         path: "/contact",

@@ -2,13 +2,14 @@ import logoI from "../components/images/logo.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { UseSelector, useSelector } from "react-redux";
+import cartImage from "../components/images/shopping-cart-icon.png"
 
 const logo = <img className="image" src={logoI} alt="Logo" />;
 
 const Heading = () => {
   const [isLogIn, setIsLogIn] = useState(false);
-const cartItems=useSelector((store)=>store.cart.items);
-console.log(cartItems)
+  const cartItems = useSelector((store) => store.cart.items);
+  console.log(cartItems);
   return (
     <div className="fixed top-0 left-0 right-0 bg-gray-100 flex items-center space-x-10 justify-between">
       <img className="w-20 h-20 object-contain" src={logoI} alt="Logo" />
@@ -30,16 +31,8 @@ console.log(cartItems)
               About
             </Link>
           </li>
+
           <li>
-            <Link
-              to="/cart"
-              className="text-black-300 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
-            >
-              Cart -{cartItems.length} items
-            </Link>
-          </li>
-          <li>
-            
             <Link
               to="/contact"
               className="text-black-300 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300"
@@ -49,7 +42,17 @@ console.log(cartItems)
           </li>
           <li>
             <Link to="/login">Log In</Link>
-            </li>
+          </li>
+          <li>
+            <Link
+              to="/cart"
+              className=" flex  bg-amber-200 hover:text-blue-500  rounded-md text-sm font-medium transition-colors duration-300"
+            ><img className="w-7 h-8 object-contain" src={cartImage} alt="cart" />
+             <div className="text-red-400 ">{cartItems.length}</div>
+            
+             
+            </Link>
+          </li>
         </ul>
       </div>
       <button

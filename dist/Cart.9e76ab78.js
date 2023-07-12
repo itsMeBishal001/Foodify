@@ -617,7 +617,7 @@ const Cart = ()=>{
     const [total, setTotal] = (0, _react.useState)(0);
     (0, _react.useEffect)(()=>{
         // Calculate the total amount when cartItems change
-        const newTotal = cartItems.reduce((acc, item)=>acc + item.price / 100, 0);
+        const newTotal = cartItems.reduce((acc, item)=>acc + item?.price / 100, 0);
         setTotal(newTotal);
     }, [
         cartItems
@@ -677,11 +677,11 @@ const Cart = ()=>{
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                             children: [
                                 "total items - ",
-                                cartItems.length
+                                cartItems?.length
                             ]
                         }, void 0, true, {
                             fileName: "src/components/Cart.js",
-                            lineNumber: 41,
+                            lineNumber: 42,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -691,7 +691,7 @@ const Cart = ()=>{
                             ]
                         }, void 0, true, {
                             fileName: "src/components/Cart.js",
-                            lineNumber: 42,
+                            lineNumber: 43,
                             columnNumber: 11
                         }, undefined)
                     ]
@@ -803,6 +803,6 @@ $RefreshReg$(_c, "FoodItem");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","../constents":"c3I22"}]},["lTJaZ","1xC6H"], null, "parcelRequired804")
+},{"react/jsx-dev-runtime":"iTorj","../constents":"c3I22","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}]},["lTJaZ","1xC6H"], null, "parcelRequired804")
 
 //# sourceMappingURL=Cart.9e76ab78.js.map

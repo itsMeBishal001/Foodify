@@ -10,7 +10,7 @@ const Cart = () => {
 
   useEffect(() => {
     // Calculate the total amount when cartItems change
-    const newTotal = cartItems.reduce((acc, item) => acc + item.price/100, 0);
+    const newTotal = cartItems.reduce((acc, item) => acc + item?.price/100, 0);
     setTotal(newTotal);
   }, [cartItems]);
 
@@ -38,10 +38,11 @@ const Cart = () => {
       <div className="w-1/3">
         <div className=" text-3xl">
           Price Details
-          <div>total items - {cartItems.length}</div>
+           {/* Add your price details components or content here */}
+          <div>total items - {cartItems?.length}</div>
           <div>Total Amount ₹ {total}</div>
         </div>
-        {/* Add your price details components or content here */}
+       
       </div>
     </div>
   );

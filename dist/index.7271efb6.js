@@ -3050,10 +3050,16 @@ const appRouter = (0, _reactRouterDom.createBrowserRouter)([
             },
             {
                 path: "/cart",
-                element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Cart, {}, void 0, false, {
+                element: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _react.Suspense), {
+                    children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)(Cart, {}, void 0, false, {
+                        fileName: "src/App.js",
+                        lineNumber: 65,
+                        columnNumber: 28
+                    }, undefined)
+                }, void 0, false, {
                     fileName: "src/App.js",
                     lineNumber: 65,
-                    columnNumber: 19
+                    columnNumber: 18
                 }, undefined)
             },
             {
@@ -27324,6 +27330,8 @@ var _logoPngDefault = parcelHelpers.interopDefault(_logoPng);
 var _react = require("react");
 var _reactRouterDom = require("react-router-dom");
 var _reactRedux = require("react-redux");
+var _shoppingCartIconPng = require("../components/images/shopping-cart-icon.png");
+var _shoppingCartIconPngDefault = parcelHelpers.interopDefault(_shoppingCartIconPng);
 var _s = $RefreshSig$();
 const logo = /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
     className: "image",
@@ -27331,7 +27339,7 @@ const logo = /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
     alt: "Logo"
 }, void 0, false, {
     fileName: "src/components/Header.js",
-    lineNumber: 6,
+    lineNumber: 7,
     columnNumber: 14
 }, undefined);
 const Heading = ()=>{
@@ -27348,7 +27356,7 @@ const Heading = ()=>{
                 alt: "Logo"
             }, void 0, false, {
                 fileName: "src/components/Header.js",
-                lineNumber: 14,
+                lineNumber: 15,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27362,12 +27370,12 @@ const Heading = ()=>{
                                 children: "Home"
                             }, void 0, false, {
                                 fileName: "src/components/Header.js",
-                                lineNumber: 18,
+                                lineNumber: 19,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/components/Header.js",
-                            lineNumber: 17,
+                            lineNumber: 18,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -27377,31 +27385,12 @@ const Heading = ()=>{
                                 children: "About"
                             }, void 0, false, {
                                 fileName: "src/components/Header.js",
-                                lineNumber: 26,
+                                lineNumber: 27,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/components/Header.js",
-                            lineNumber: 25,
-                            columnNumber: 11
-                        }, undefined),
-                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
-                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                                to: "/cart",
-                                className: "text-black-300 hover:text-blue-500 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-300",
-                                children: [
-                                    "Cart -",
-                                    cartItems.length,
-                                    " items"
-                                ]
-                            }, void 0, true, {
-                                fileName: "src/components/Header.js",
-                                lineNumber: 34,
-                                columnNumber: 13
-                            }, undefined)
-                        }, void 0, false, {
-                            fileName: "src/components/Header.js",
-                            lineNumber: 33,
+                            lineNumber: 26,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -27411,12 +27400,12 @@ const Heading = ()=>{
                                 children: "Contact"
                             }, void 0, false, {
                                 fileName: "src/components/Header.js",
-                                lineNumber: 43,
+                                lineNumber: 36,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/components/Header.js",
-                            lineNumber: 41,
+                            lineNumber: 35,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -27425,23 +27414,56 @@ const Heading = ()=>{
                                 children: "Log In"
                             }, void 0, false, {
                                 fileName: "src/components/Header.js",
-                                lineNumber: 51,
+                                lineNumber: 44,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/components/Header.js",
-                            lineNumber: 50,
+                            lineNumber: 43,
+                            columnNumber: 11
+                        }, undefined),
+                        /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
+                            children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
+                                to: "/cart",
+                                className: " flex  bg-amber-200 hover:text-blue-500  rounded-md text-sm font-medium transition-colors duration-300",
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                                        className: "w-7 h-8 object-contain",
+                                        src: (0, _shoppingCartIconPngDefault.default),
+                                        alt: "cart"
+                                    }, void 0, false, {
+                                        fileName: "src/components/Header.js",
+                                        lineNumber: 50,
+                                        columnNumber: 14
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                        className: "text-red-400 ",
+                                        children: cartItems.length
+                                    }, void 0, false, {
+                                        fileName: "src/components/Header.js",
+                                        lineNumber: 51,
+                                        columnNumber: 14
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
+                                fileName: "src/components/Header.js",
+                                lineNumber: 47,
+                                columnNumber: 13
+                            }, undefined)
+                        }, void 0, false, {
+                            fileName: "src/components/Header.js",
+                            lineNumber: 46,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/Header.js",
-                    lineNumber: 16,
+                    lineNumber: 17,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/Header.js",
-                lineNumber: 15,
+                lineNumber: 16,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -27450,13 +27472,13 @@ const Heading = ()=>{
                 children: isLogIn ? "Log Out" : "Log In"
             }, void 0, false, {
                 fileName: "src/components/Header.js",
-                lineNumber: 55,
+                lineNumber: 58,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/Header.js",
-        lineNumber: 13,
+        lineNumber: 14,
         columnNumber: 5
     }, undefined);
 };
@@ -27475,7 +27497,7 @@ $RefreshReg$(_c, "Heading");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","../components/images/logo.png":"anxMB","react":"21dqq","react-router-dom":"9xmpe","react-redux":"bdVon","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"anxMB":[function(require,module,exports) {
+},{"react/jsx-dev-runtime":"iTorj","../components/images/logo.png":"anxMB","react":"21dqq","react-router-dom":"9xmpe","react-redux":"bdVon","../components/images/shopping-cart-icon.png":"cVG91","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"anxMB":[function(require,module,exports) {
 module.exports = require("848bc9d66acb02ab").getBundleURL("aXMci") + "logo.e1c619cf.png" + "?" + Date.now();
 
 },{"848bc9d66acb02ab":"lgJ39"}],"lgJ39":[function(require,module,exports) {
@@ -34514,7 +34536,10 @@ const useStore = /*#__PURE__*/ createStoreHook();
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"km3Ru":[function(require,module,exports) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"cVG91":[function(require,module,exports) {
+module.exports = require("6c60f8ac5a8c7a7c").getBundleURL("aXMci") + "shopping-cart-icon.e4714fc9.png" + "?" + Date.now();
+
+},{"6c60f8ac5a8c7a7c":"lgJ39"}],"km3Ru":[function(require,module,exports) {
 "use strict";
 var Refresh = require("7422ead32dcc1e6b");
 function debounce(func, delay) {
@@ -37009,28 +37034,6 @@ var prevRefreshSig = window.$RefreshSig$;
 $parcel$ReactRefreshHelpers$0b04.prelude(module);
 
 try {
-// const Shimmer = () => {
-//   return (
-//     <>
-//       <div className="restrudentList">
-//         {Array(15)
-//           .fill("")
-//           .map((e, index) => (
-//             <div key={index} className="Shimmer bg-white rounded-lg p-4 mb-4">
-//               <div className="ShimmerImg w-32 h-32 bg-gray-300 rounded"></div>
-//               <div className="ShimmerContainer">
-//                 <div className="ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"></div>
-//                 <div className="ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"></div>
-//                 <div className="ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"></div>
-//                 <div className="ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"></div>
-//               </div>
-//             </div>
-//           ))}
-//       </div>
-//     </>
-//   );
-// };
-// export default Shimmer;
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
@@ -37044,7 +37047,7 @@ const Shimmer = ()=>{
                         className: "ShimmerImg w-50 h-40 bg-gray-300 rounded"
                     }, void 0, false, {
                         fileName: "src/components/Shimmer.js",
-                        lineNumber: 33,
+                        lineNumber: 9,
                         columnNumber: 13
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -37054,45 +37057,45 @@ const Shimmer = ()=>{
                                 className: "ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"
                             }, void 0, false, {
                                 fileName: "src/components/Shimmer.js",
-                                lineNumber: 35,
+                                lineNumber: 11,
                                 columnNumber: 15
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"
                             }, void 0, false, {
                                 fileName: "src/components/Shimmer.js",
-                                lineNumber: 36,
+                                lineNumber: 12,
                                 columnNumber: 15
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"
                             }, void 0, false, {
                                 fileName: "src/components/Shimmer.js",
-                                lineNumber: 37,
+                                lineNumber: 13,
                                 columnNumber: 15
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"
                             }, void 0, false, {
                                 fileName: "src/components/Shimmer.js",
-                                lineNumber: 38,
+                                lineNumber: 14,
                                 columnNumber: 15
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/Shimmer.js",
-                        lineNumber: 34,
+                        lineNumber: 10,
                         columnNumber: 13
                     }, undefined)
                 ]
             }, index, true, {
                 fileName: "src/components/Shimmer.js",
-                lineNumber: 32,
+                lineNumber: 8,
                 columnNumber: 11
             }, undefined))
     }, void 0, false, {
         fileName: "src/components/Shimmer.js",
-        lineNumber: 28,
+        lineNumber: 4,
         columnNumber: 5
     }, undefined);
 };

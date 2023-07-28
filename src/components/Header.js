@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { UseSelector, useSelector } from "react-redux";
 import cartImage from "../components/images/shopping-cart-icon.png"
+// import LogIn from "../components/LogIn.js";
 
 const logo = <img className="image" src={logoI} alt="Logo" />;
 
@@ -60,6 +61,7 @@ const Heading = () => {
         onClick={() => setIsLogIn(!isLogIn)}
       >
         {isLogIn ? "Log Out" : "Log In"}
+        {/* <LogIn/> */}
       </button>
     </div>
   );

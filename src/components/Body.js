@@ -16,12 +16,16 @@ const Body = () => {
 
   async function getRestaurants() {
     const data = await fetch(
-      "https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.3192377&lng=84.7921049&page_type=DESKTOP_WEB_LISTING"
+      "https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.3192377&lng=84.7921049&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
     const json = await data.json();
 
-    setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-    setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+    // setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+    setAllRestaurants(
+      json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    );
+    // setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+    setFilteredRestaurants(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
   }
 
   if (!allRestaurants) return null;
@@ -54,11 +58,11 @@ const Body = () => {
         ) : (
           filteredRestaurants.map((restaurant) => (
             <Link
-              to={"/restrudentmenu/" + restaurant.data.id}
-              key={restaurant.data.id}
+              to={"/restrudentmenu/" + restaurant?.info.id}
+              key={restaurant?.info.id}
               className="carousel-item focus:outline-none hover:bg-gray-100 rounded-lg p-6"
             >
-              <RestrudentCard {...restaurant.data} />
+              <RestrudentCard {...restaurant.info} />
             </Link>
           ))
         )}

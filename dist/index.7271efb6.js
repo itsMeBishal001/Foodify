@@ -27333,13 +27333,14 @@ var _reactRedux = require("react-redux");
 var _shoppingCartIconPng = require("../components/images/shopping-cart-icon.png");
 var _shoppingCartIconPngDefault = parcelHelpers.interopDefault(_shoppingCartIconPng);
 var _s = $RefreshSig$();
+// import LogIn from "../components/LogIn.js";
 const logo = /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
     className: "image",
     src: (0, _logoPngDefault.default),
     alt: "Logo"
 }, void 0, false, {
     fileName: "src/components/Header.js",
-    lineNumber: 7,
+    lineNumber: 8,
     columnNumber: 14
 }, undefined);
 const Heading = ()=>{
@@ -27356,7 +27357,7 @@ const Heading = ()=>{
                 alt: "Logo"
             }, void 0, false, {
                 fileName: "src/components/Header.js",
-                lineNumber: 15,
+                lineNumber: 16,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27370,12 +27371,12 @@ const Heading = ()=>{
                                 children: "Home"
                             }, void 0, false, {
                                 fileName: "src/components/Header.js",
-                                lineNumber: 19,
+                                lineNumber: 20,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/components/Header.js",
-                            lineNumber: 18,
+                            lineNumber: 19,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -27385,12 +27386,12 @@ const Heading = ()=>{
                                 children: "About"
                             }, void 0, false, {
                                 fileName: "src/components/Header.js",
-                                lineNumber: 27,
+                                lineNumber: 28,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/components/Header.js",
-                            lineNumber: 26,
+                            lineNumber: 27,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -27400,12 +27401,12 @@ const Heading = ()=>{
                                 children: "Contact"
                             }, void 0, false, {
                                 fileName: "src/components/Header.js",
-                                lineNumber: 36,
+                                lineNumber: 37,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/components/Header.js",
-                            lineNumber: 35,
+                            lineNumber: 36,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -27414,12 +27415,12 @@ const Heading = ()=>{
                                 children: "Log In"
                             }, void 0, false, {
                                 fileName: "src/components/Header.js",
-                                lineNumber: 44,
+                                lineNumber: 45,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/components/Header.js",
-                            lineNumber: 43,
+                            lineNumber: 44,
                             columnNumber: 11
                         }, undefined),
                         /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("li", {
@@ -27433,7 +27434,7 @@ const Heading = ()=>{
                                         alt: "cart"
                                     }, void 0, false, {
                                         fileName: "src/components/Header.js",
-                                        lineNumber: 50,
+                                        lineNumber: 51,
                                         columnNumber: 14
                                     }, undefined),
                                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -27441,29 +27442,29 @@ const Heading = ()=>{
                                         children: cartItems.length
                                     }, void 0, false, {
                                         fileName: "src/components/Header.js",
-                                        lineNumber: 51,
+                                        lineNumber: 52,
                                         columnNumber: 14
                                     }, undefined)
                                 ]
                             }, void 0, true, {
                                 fileName: "src/components/Header.js",
-                                lineNumber: 47,
+                                lineNumber: 48,
                                 columnNumber: 13
                             }, undefined)
                         }, void 0, false, {
                             fileName: "src/components/Header.js",
-                            lineNumber: 46,
+                            lineNumber: 47,
                             columnNumber: 11
                         }, undefined)
                     ]
                 }, void 0, true, {
                     fileName: "src/components/Header.js",
-                    lineNumber: 17,
+                    lineNumber: 18,
                     columnNumber: 9
                 }, undefined)
             }, void 0, false, {
                 fileName: "src/components/Header.js",
-                lineNumber: 16,
+                lineNumber: 17,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -27472,13 +27473,13 @@ const Heading = ()=>{
                 children: isLogIn ? "Log Out" : "Log In"
             }, void 0, false, {
                 fileName: "src/components/Header.js",
-                lineNumber: 58,
+                lineNumber: 59,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/Header.js",
-        lineNumber: 14,
+        lineNumber: 15,
         columnNumber: 5
     }, undefined);
 };
@@ -36935,15 +36936,17 @@ const Body = ()=>{
         getRestaurants();
     }, []);
     async function getRestaurants() {
-        const data = await fetch("https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.3192377&lng=84.7921049&page_type=DESKTOP_WEB_LISTING");
+        const data = await fetch("https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.3192377&lng=84.7921049&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
         const json = await data.json();
-        setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-        setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+        // setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+        setAllRestaurants(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        // setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+        setFilteredRestaurants(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
     }
     if (!allRestaurants) return null;
     return allRestaurants.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _shimmerDefault.default), {}, void 0, false, {
         fileName: "src/components/Body.js",
-        lineNumber: 30,
+        lineNumber: 34,
         columnNumber: 5
     }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "flex-grow pt-20",
@@ -36959,7 +36962,7 @@ const Body = ()=>{
                         onChange: (e)=>setSearchText(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 34,
+                        lineNumber: 38,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -36971,13 +36974,13 @@ const Body = ()=>{
                         children: "Search"
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 41,
+                        lineNumber: 45,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/Body.js",
-                lineNumber: 33,
+                lineNumber: 37,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36987,32 +36990,32 @@ const Body = ()=>{
                     children: "No Restaurants match your filter!"
                 }, void 0, false, {
                     fileName: "src/components/Body.js",
-                    lineNumber: 53,
+                    lineNumber: 57,
                     columnNumber: 11
                 }, undefined) : filteredRestaurants.map((restaurant)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
-                        to: "/restrudentmenu/" + restaurant.data.id,
+                        to: "/restrudentmenu/" + restaurant?.info.id,
                         className: "carousel-item focus:outline-none hover:bg-gray-100 rounded-lg p-6",
                         children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _restrudentCardDefault.default), {
-                            ...restaurant.data
+                            ...restaurant.info
                         }, void 0, false, {
                             fileName: "src/components/Body.js",
-                            lineNumber: 61,
+                            lineNumber: 65,
                             columnNumber: 15
                         }, undefined)
-                    }, restaurant.data.id, false, {
+                    }, restaurant?.info.id, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 56,
+                        lineNumber: 60,
                         columnNumber: 13
                     }, undefined))
             }, void 0, false, {
                 fileName: "src/components/Body.js",
-                lineNumber: 51,
+                lineNumber: 55,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/Body.js",
-        lineNumber: 32,
+        lineNumber: 36,
         columnNumber: 5
     }, undefined);
 };
@@ -37114,7 +37117,7 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "filterData", ()=>filterData);
 function filterData(searchText, restaurants) {
-    const filterData = restaurants.filter((restaurant)=>restaurant?.data?.name?.toUpperCase().includes(searchText.toUpperCase()));
+    const filterData = restaurants.filter((restaurant)=>restaurant?.info?.name?.toUpperCase().includes(searchText.toUpperCase()));
     return searchText === "" ? restaurants : filterData;
 }
 

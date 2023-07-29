@@ -34689,42 +34689,69 @@ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
 var _constents = require("../constents");
-const RestrudentCard = ({ name, cuisines, avgRating, cloudinaryImageId, deliveryTime, costForTwoString })=>{
+const RestrudentCard = ({ name, cuisines, avgRating, cloudinaryImageId, areaName, costForTwo, totalRatingsString, sla, promoted })=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-        className: "restrurdentCard bg-white rounded-lg shadow-md p-5 w-auto",
+        className: "h-fit rounded overflow-hidden bg-white",
         children: [
+            promoted && /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("h1", {
+                className: "bg-blue-400 text-white px-2 py-1 rounded inline-block absolute",
+                children: "Promoted"
+            }, void 0, false, {
+                fileName: "src/components/RestrudentCard.js",
+                lineNumber: 17,
+                columnNumber: 21
+            }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
-                className: "cardImg object-cover h-40 w-full rounded",
+                className: "cardImg object-cover w-fit rounded",
                 src: (0, _constents.url) + cloudinaryImageId,
                 alt: name
             }, void 0, false, {
                 fileName: "src/components/RestrudentCard.js",
-                lineNumber: 13,
+                lineNumber: 19,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                className: "res-cui mt-4",
+                className: "px-6 pt-4 mt-4",
                 children: [
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "resName text-lg font-bold",
                         children: name
                     }, void 0, false, {
                         fileName: "src/components/RestrudentCard.js",
-                        lineNumber: 19,
+                        lineNumber: 25,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "cuisines text-gray-600",
+                        className: "text-gray-700 text-sm mb-2",
                         children: cuisines.join(", ")
                     }, void 0, false, {
                         fileName: "src/components/RestrudentCard.js",
-                        lineNumber: 20,
+                        lineNumber: 26,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                        className: "text-gray-700 text-sm mb-2",
+                        children: [
+                            "Address: ",
+                            areaName
+                        ]
+                    }, void 0, true, {
+                        fileName: "src/components/RestrudentCard.js",
+                        lineNumber: 27,
+                        columnNumber: 9
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "pt-2 font-medium",
+                        children: costForTwo
+                    }, void 0, false, {
+                        fileName: "src/components/RestrudentCard.js",
+                        lineNumber: 28,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/RestrudentCard.js",
-                lineNumber: 18,
+                lineNumber: 24,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -34733,71 +34760,86 @@ const RestrudentCard = ({ name, cuisines, avgRating, cloudinaryImageId, delivery
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                         className: "rating flex items-center",
                         children: [
-                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                className: "icon-star text-yellow-500",
-                                children: "★"
-                            }, void 0, false, {
+                            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                                className: `${avgRating > 3.9 ? "bg-green-600" : "bg-orange-500"} inline-flex items-center rounded p-1`,
+                                children: [
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("svg", {
+                                        className: "w-4 h-4 fill-current text-white mr-1",
+                                        xmlns: "http://www.w3.org/2000/svg",
+                                        viewBox: "0 0 20 20",
+                                        children: /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("path", {
+                                            d: "M10 1L12.39 6.36L18.18 7.27L13.96 11.18L15.09 16.14L10 13.77L4.91 16.14L6.04 11.18L1.82 7.27L7.61 6.36L10 1Z"
+                                        }, void 0, false, {
+                                            fileName: "src/components/RestrudentCard.js",
+                                            lineNumber: 35,
+                                            columnNumber: 29
+                                        }, undefined)
+                                    }, void 0, false, {
+                                        fileName: "src/components/RestrudentCard.js",
+                                        lineNumber: 34,
+                                        columnNumber: 25
+                                    }, undefined),
+                                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("p", {
+                                        className: "text-white text-sm font-bold",
+                                        children: avgRating
+                                    }, void 0, false, {
+                                        fileName: "src/components/RestrudentCard.js",
+                                        lineNumber: 37,
+                                        columnNumber: 25
+                                    }, undefined)
+                                ]
+                            }, void 0, true, {
                                 fileName: "src/components/RestrudentCard.js",
-                                lineNumber: 24,
-                                columnNumber: 11
+                                lineNumber: 33,
+                                columnNumber: 21
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("span", {
-                                className: "ml-1",
-                                children: avgRating
-                            }, void 0, false, {
+                                className: "ml-2 text-sm font-thin",
+                                children: [
+                                    totalRatingsString,
+                                    " ratings"
+                                ]
+                            }, void 0, true, {
                                 fileName: "src/components/RestrudentCard.js",
-                                lineNumber: 25,
+                                lineNumber: 40,
                                 columnNumber: 11
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/RestrudentCard.js",
-                        lineNumber: 23,
+                        lineNumber: 31,
                         columnNumber: 9
                     }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "mx-2",
-                        children: "•"
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("img", {
+                        className: " ml-2 h-7",
+                        alt: "delivery-boi-image",
+                        src: "https://icon-library.com/images/food-delivery-icon/food-delivery-icon-9.jpg"
                     }, void 0, false, {
                         fileName: "src/components/RestrudentCard.js",
-                        lineNumber: 27,
+                        lineNumber: 43,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "mx-2 ",
                         children: [
-                            deliveryTime,
-                            " MINS"
+                            sla?.slaString,
+                            "  "
                         ]
                     }, void 0, true, {
                         fileName: "src/components/RestrudentCard.js",
-                        lineNumber: 28,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        className: "mx-2",
-                        children: "•"
-                    }, void 0, false, {
-                        fileName: "src/components/RestrudentCard.js",
-                        lineNumber: 29,
-                        columnNumber: 9
-                    }, undefined),
-                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
-                        children: costForTwoString
-                    }, void 0, false, {
-                        fileName: "src/components/RestrudentCard.js",
-                        lineNumber: 30,
+                        lineNumber: 44,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/RestrudentCard.js",
-                lineNumber: 22,
+                lineNumber: 30,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/RestrudentCard.js",
-        lineNumber: 12,
+        lineNumber: 15,
         columnNumber: 5
     }, undefined);
 };
@@ -36936,7 +36978,8 @@ const Body = ()=>{
         getRestaurants();
     }, []);
     async function getRestaurants() {
-        const data = await fetch("https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=19.3192377&lng=84.7921049&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+        const data = await fetch(// "https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&page_type=DESKTOP_WEB_LISTING"
+        "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&page_type=DESKTOP_WEB_LISTING");
         const json = await data.json();
         // setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
         setAllRestaurants(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
@@ -36946,7 +36989,7 @@ const Body = ()=>{
     if (!allRestaurants) return null;
     return allRestaurants.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _shimmerDefault.default), {}, void 0, false, {
         fileName: "src/components/Body.js",
-        lineNumber: 34,
+        lineNumber: 35,
         columnNumber: 5
     }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "flex-grow pt-20",
@@ -36962,11 +37005,12 @@ const Body = ()=>{
                         onChange: (e)=>setSearchText(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 38,
+                        lineNumber: 39,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
-                        className: "bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md focus:outline-none",
+                        type: "submit",
+                        className: "items-center bg-orange-400 p-1 mx-4 rounded-md text-white hover:bg-orange-600 hover:shadow hover:shadow-green-500 transition ease-linear duration-200",
                         onClick: ()=>{
                             const data = (0, _helper.filterData)(searchText, allRestaurants);
                             setFilteredRestaurants(data);
@@ -36974,13 +37018,13 @@ const Body = ()=>{
                         children: "Search"
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 45,
+                        lineNumber: 46,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/Body.js",
-                lineNumber: 37,
+                lineNumber: 38,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -36990,7 +37034,7 @@ const Body = ()=>{
                     children: "No Restaurants match your filter!"
                 }, void 0, false, {
                     fileName: "src/components/Body.js",
-                    lineNumber: 57,
+                    lineNumber: 58,
                     columnNumber: 11
                 }, undefined) : filteredRestaurants.map((restaurant)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
                         to: "/restrudentmenu/" + restaurant?.info.id,
@@ -36999,23 +37043,23 @@ const Body = ()=>{
                             ...restaurant.info
                         }, void 0, false, {
                             fileName: "src/components/Body.js",
-                            lineNumber: 65,
+                            lineNumber: 66,
                             columnNumber: 15
                         }, undefined)
                     }, restaurant?.info.id, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 60,
+                        lineNumber: 61,
                         columnNumber: 13
                     }, undefined))
             }, void 0, false, {
                 fileName: "src/components/Body.js",
-                lineNumber: 55,
+                lineNumber: 56,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/Body.js",
-        lineNumber: 36,
+        lineNumber: 37,
         columnNumber: 5
     }, undefined);
 };
@@ -37040,6 +37084,55 @@ try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 var _jsxDevRuntime = require("react/jsx-dev-runtime");
+const Card = ()=>{
+    return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+        className: "card flex flex-col justify-between w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 p-2 h-96 animate-pulse",
+        children: [
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "h-48 rounded-t bg-gray-300"
+            }, void 0, false, {
+                fileName: "src/components/Shimmer.js",
+                lineNumber: 4,
+                columnNumber: 11
+            }, undefined),
+            /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                className: "flex-1 px-4 py-8 space-y-4 sm:p-8 bg-gray-50",
+                children: [
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "w-full h-6 rounded bg-gray-300"
+                    }, void 0, false, {
+                        fileName: "src/components/Shimmer.js",
+                        lineNumber: 6,
+                        columnNumber: 15
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "w-full h-6 rounded bg-gray-300"
+                    }, void 0, false, {
+                        fileName: "src/components/Shimmer.js",
+                        lineNumber: 7,
+                        columnNumber: 15
+                    }, undefined),
+                    /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
+                        className: "w-3/4 h-6 rounded bg-gray-300"
+                    }, void 0, false, {
+                        fileName: "src/components/Shimmer.js",
+                        lineNumber: 8,
+                        columnNumber: 15
+                    }, undefined)
+                ]
+            }, void 0, true, {
+                fileName: "src/components/Shimmer.js",
+                lineNumber: 5,
+                columnNumber: 11
+            }, undefined)
+        ]
+    }, void 0, true, {
+        fileName: "src/components/Shimmer.js",
+        lineNumber: 3,
+        columnNumber: 7
+    }, undefined);
+};
+_c = Card;
 const Shimmer = ()=>{
     return /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "restrudentList flex flex-wrap",
@@ -37050,7 +37143,7 @@ const Shimmer = ()=>{
                         className: "ShimmerImg w-50 h-40 bg-gray-300 rounded"
                     }, void 0, false, {
                         fileName: "src/components/Shimmer.js",
-                        lineNumber: 9,
+                        lineNumber: 21,
                         columnNumber: 13
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -37060,52 +37153,53 @@ const Shimmer = ()=>{
                                 className: "ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"
                             }, void 0, false, {
                                 fileName: "src/components/Shimmer.js",
-                                lineNumber: 11,
+                                lineNumber: 23,
                                 columnNumber: 15
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"
                             }, void 0, false, {
                                 fileName: "src/components/Shimmer.js",
-                                lineNumber: 12,
+                                lineNumber: 24,
                                 columnNumber: 15
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"
                             }, void 0, false, {
                                 fileName: "src/components/Shimmer.js",
-                                lineNumber: 13,
+                                lineNumber: 25,
                                 columnNumber: 15
                             }, undefined),
                             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
                                 className: "ShimmerRestrudent bg-gray-300 h-4 rounded mt-2"
                             }, void 0, false, {
                                 fileName: "src/components/Shimmer.js",
-                                lineNumber: 14,
+                                lineNumber: 26,
                                 columnNumber: 15
                             }, undefined)
                         ]
                     }, void 0, true, {
                         fileName: "src/components/Shimmer.js",
-                        lineNumber: 10,
+                        lineNumber: 22,
                         columnNumber: 13
                     }, undefined)
                 ]
             }, index, true, {
                 fileName: "src/components/Shimmer.js",
-                lineNumber: 8,
+                lineNumber: 20,
                 columnNumber: 11
             }, undefined))
     }, void 0, false, {
         fileName: "src/components/Shimmer.js",
-        lineNumber: 4,
+        lineNumber: 16,
         columnNumber: 5
     }, undefined);
 };
-_c = Shimmer;
+_c1 = Shimmer;
 exports.default = Shimmer;
-var _c;
-$RefreshReg$(_c, "Shimmer");
+var _c, _c1;
+$RefreshReg$(_c, "Card");
+$RefreshReg$(_c1, "Shimmer");
 
   $parcel$ReactRefreshHelpers$0b04.postlude(module);
 } finally {

@@ -36978,18 +36978,51 @@ const Body = ()=>{
         getRestaurants();
     }, []);
     async function getRestaurants() {
-        const data = await fetch(// "https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&page_type=DESKTOP_WEB_LISTING"
-        "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&page_type=DESKTOP_WEB_LISTING");
-        const json = await data.json();
-        // setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-        setAllRestaurants(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
-        // setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
-        setFilteredRestaurants(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        // const data = await fetch(
+        //   // "https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&page_type=DESKTOP_WEB_LISTING"
+        //   "https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&page_type=DESKTOP_WEB_LISTING"
+        // );
+        // const json = await data.json();
+        // // setAllRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+        // setAllRestaurants(
+        //   json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+        // );
+        // // setFilteredRestaurants(json?.data?.cards[2]?.data?.data?.cards);
+        // setFilteredRestaurants(json?.data?.cards[5]?.card?.card?.gridElements?.infoWithStyle?.restaurants);
+        // handle the error using try... catch
+        try {
+            const response = await fetch("https://corsproxy.io/?https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9715987&lng=77.5945627&page_type=DESKTOP_WEB_LISTING");
+            // if response is not ok then throw new Error
+            if (!response.ok) {
+                const err = response.status;
+                throw new Error(err);
+            } else {
+                const json = await response.json();
+                // Initialize resData for Swiggy Restuarant data
+                // const resData = json?.data?.cards[2]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+                // initialize checkJsonData() function to check Swiggy Restaurant data
+                async function checkJsonData(jsonData) {
+                    for(let i = 0; i < jsonData?.data?.cards.length; i++){
+                        // initialize checkData for Swiggy Restaurant data
+                        let checkData = jsonData?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+                        // if checkData is not undefined then return it
+                        if (checkData !== undefined) return checkData;
+                    }
+                }
+                // call the checkJsonData() function which return Swiggy Restaurant data
+                const resData = await checkJsonData(json);
+                // update the state variable restaurants with Swiggy API data
+                setAllRestaurants(resData);
+                setFilteredRestaurants(resData);
+            }
+        } catch (error) {
+            console.error(error); // show error in console
+        }
     }
     if (!allRestaurants) return null;
     return allRestaurants.length === 0 ? /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _shimmerDefault.default), {}, void 0, false, {
         fileName: "src/components/Body.js",
-        lineNumber: 35,
+        lineNumber: 73,
         columnNumber: 5
     }, undefined) : /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
         className: "flex-grow pt-20",
@@ -37005,7 +37038,7 @@ const Body = ()=>{
                         onChange: (e)=>setSearchText(e.target.value)
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 39,
+                        lineNumber: 77,
                         columnNumber: 9
                     }, undefined),
                     /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("button", {
@@ -37018,13 +37051,13 @@ const Body = ()=>{
                         children: "Search"
                     }, void 0, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 46,
+                        lineNumber: 84,
                         columnNumber: 9
                     }, undefined)
                 ]
             }, void 0, true, {
                 fileName: "src/components/Body.js",
-                lineNumber: 38,
+                lineNumber: 76,
                 columnNumber: 7
             }, undefined),
             /*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)("div", {
@@ -37034,7 +37067,7 @@ const Body = ()=>{
                     children: "No Restaurants match your filter!"
                 }, void 0, false, {
                     fileName: "src/components/Body.js",
-                    lineNumber: 58,
+                    lineNumber: 96,
                     columnNumber: 11
                 }, undefined) : filteredRestaurants.map((restaurant)=>/*#__PURE__*/ (0, _jsxDevRuntime.jsxDEV)((0, _reactRouterDom.Link), {
                         to: "/restrudentmenu/" + restaurant?.info.id,
@@ -37043,23 +37076,23 @@ const Body = ()=>{
                             ...restaurant.info
                         }, void 0, false, {
                             fileName: "src/components/Body.js",
-                            lineNumber: 66,
+                            lineNumber: 104,
                             columnNumber: 15
                         }, undefined)
                     }, restaurant?.info.id, false, {
                         fileName: "src/components/Body.js",
-                        lineNumber: 61,
+                        lineNumber: 99,
                         columnNumber: 13
                     }, undefined))
             }, void 0, false, {
                 fileName: "src/components/Body.js",
-                lineNumber: 56,
+                lineNumber: 94,
                 columnNumber: 7
             }, undefined)
         ]
     }, void 0, true, {
         fileName: "src/components/Body.js",
-        lineNumber: 37,
+        lineNumber: 75,
         columnNumber: 5
     }, undefined);
 };

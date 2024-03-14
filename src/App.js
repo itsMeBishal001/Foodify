@@ -1,17 +1,12 @@
 import React ,{Suspense, lazy}from "react";
 import ReactDOM from "react-dom/client";
 import Heading from "./components/Header";
-import RestrudentCard from "./components/RestrudentCard";
 import Footer from "./components/Footer";
 import Body from "./components/Body";
-// import About from "./components/About";
-// import Cart from "./components/Cart";
-// import Contact from "./components/Contact";
 import RestrudentMenu from "./components/RestrudentMenu";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./utils/store";
-import Shimmer from "./components/Shimmer";
 
 // Chunking
 // Code Splitting
@@ -44,8 +39,6 @@ const AppLayout = () => {
     <div className="applayout">
       {<Heading />}
       {<Outlet />}
-
-      {/* {<Body />} */}
       {<Footer />}
     </div>
     </Provider>

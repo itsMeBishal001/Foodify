@@ -5,7 +5,7 @@ import { UseSelector, useSelector } from "react-redux";
 import cartImage from "../components/images/shopping-cart-icon.png"
 // import LogIn from "../components/LogIn.js";
 
-const logo = <img className="image" src={logoI} alt="Logo" />;
+const logo = <img className="w-20 md:w-32 object-contain" src={logoI} alt="Logo" />;
 
 const Heading = () => {
   const [isLogIn, setIsLogIn] = useState(false);
@@ -49,9 +49,9 @@ const Heading = () => {
               to="/cart"
               className=" flex  bg-amber-200 hover:text-blue-500  rounded-md text-sm font-medium transition-colors duration-300"
             ><img className="w-7 h-8 object-contain" src={cartImage} alt="cart" />
-             <div className="text-red-400 ">{cartItems.length}</div>
-            
-             
+              <div className="text-red-400 ">{cartItems.length}</div>
+
+
             </Link>
           </li>
         </ul>
@@ -61,7 +61,6 @@ const Heading = () => {
         onClick={() => setIsLogIn(!isLogIn)}
       >
         {isLogIn ? "Log Out" : "Log In"}
-        {/* <LogIn/> */}
       </button>
     </div>
   );

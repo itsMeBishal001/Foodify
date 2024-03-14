@@ -18,12 +18,12 @@ const RestrudentMenu = () => {
 
   async function getRestaurantInfo() {
     const data = await fetch(
-      "https://cors-anywhere-axpo.onrender.com/https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=23.5408357&lng=87.3406605&restaurantId=" +
+      "https://thingproxy.freeboard.io/fetch/https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=23.5408357&lng=87.3406605&restaurantId=" +
         id
     );
     const json = await data.json();
     const modifiedData = {
-      info: json?.data?.cards[0]?.card?.card?.info,
+      info: json?.data?.cards[2]?.card?.card?.info,
       groupedCards: json?.data?.cards
         ?.find((o) => o?.groupedCard)
         .groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(

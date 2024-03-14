@@ -13,7 +13,7 @@ const LogIn = () => {
   };
 
   return (
-    <div className="flex flex-grow pt-20 bg-gray-100">
+    <div className="flex flex-grow pt-20 bg-gray-100 ">
       <div className="text-3xl bg-gray-950 font-medium text-white px-60 py-44">
      
         Board.

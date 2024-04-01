@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
@@ -14,10 +14,6 @@ const LogIn = () => {
 
   return (
     <div className="flex flex-grow pt-20 bg-gray-100 ">
-      <div className="text-3xl bg-gray-950 font-medium text-white px-60 py-44">
-     
-        Board.
-      </div>
       <div className="mx-auto">
         <div className="font-bold text-xl mb-4">Sign In</div>
         <div className="text-sm mb-4">Sign in to your account</div>
@@ -61,4 +57,3 @@ const LogIn = () => {
 };
 
 export default LogIn;
-

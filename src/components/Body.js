@@ -20,7 +20,7 @@ const Body = () => {
     const filteredData = filterData(searchText, allRestaurants);
     setFilteredRestaurants(filteredData);
     setIsFiltering(false);
-  }, [searchText])
+  }, [searchText]);
 
   useEffect(() => {
     getRestaurants();
@@ -29,26 +29,33 @@ const Body = () => {
   async function getRestaurants() {
     // handle the error using try... catch
     try {
-      const response = await fetch("https://thingproxy.freeboard.io/fetch/https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.51800&lng=88.38320&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING");
+      const response = await fetch(
+        "https://foodfiy-server.onrender.com/api/restaurants?lat=22.51800&lng=88.38320&page_type=DESKTOP_WEB_LISTING"
+      );
+      // ("https://foodfire.onrender.com/api/restaurants?lat=21.1702401&lng=72.83106070000001&page_type=DESKTOP_WEB_LISTING");
       // if response is not ok then throw new Error
       if (!response.ok) {
         const err = response.status;
         throw new Error(err);
       } else {
         const json = await response.json();
-        console.log(json)
+        console.log(json);
         // Initialize resData for Swiggy Restuarant data
         // initialize checkJsonData() function to check Swiggy Restaurant data
         async function checkJsonData(jsonData) {
           for (let i = 0; i < jsonData?.data?.cards.length; i++) {
             // initialize checkData for Swiggy Restaurant data
-            let checkData = jsonData?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
+            let checkData =
+              json?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle
+                ?.restaurants;
+
             // if checkData is not undefined then return it
             if (checkData !== undefined) {
               return checkData;
             }
           }
         }
+
         // call the checkJsonData() function which return Swiggy Restaurant data
         const resData = await checkJsonData(json);
         // update the state variable restaurants with Swiggy API data
@@ -59,7 +66,6 @@ const Body = () => {
       console.error(error); // show error in console
     }
   }
-
 
   if (!allRestaurants) return null;
 
@@ -86,7 +92,6 @@ const Body = () => {
         >
           {isFiltering ? "Filtering..." : "Search"}
         </button>
-
       </div>
       {isFiltering && <p>Filtering restaurants...</p>}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  2xl:grid-cols-6 gap-4 p-4 w-100">

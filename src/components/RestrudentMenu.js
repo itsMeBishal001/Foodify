@@ -4,7 +4,7 @@ import { url } from "../constents";
 import Shimmer from "./Shimmer";
 import RestaurantItemCategory from "./RestaurantItemCategory";
 import RestaurantNestedItemCategory from "./RestaurantNestedItemCategory.js";
-import useRestaurant from "../utils/useRestaurants";
+// import useRestaurant from "../utils/useRestaurants";
 // import { addItem } from "../utils/cartSlice";
 import { useDispatch } from "react-redux";
 

@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import { restrudentList } from "../constents";
+import { useState, useEffect, useRef, useCallback } from "react";
 import RestrudentCard from "./RestrudentCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import { filterData } from "../utils/helper";
+import useGetRestaurants from "../utils/useGetRestaurants";
+
 
 const Body = () => {
   const [searchText, setSearchText] = useState("");
@@ -66,6 +67,46 @@ const Body = () => {
       console.error(error); // show error in console
     }
   }
+  // const [searchText, setSearchText] = useState("");
+  // Custom hook to call the API which get Restaurants
+  // Which helps make code look very clean and readable
+  // It returns the restaurantList, setRestaurantList, filteredRestList, setFilteredRestList, errMsg
+  const [resultsFound, restaurantList, setRestaurantList, filteredRestList, setFilteredRestList, errMsg, setOffset, loading, setLoading, hasMore] = useGetRestaurants();
+  const observer = useRef();
+  const lastRestaurant = useCallback((node) => {
+    // 
+    // if loading return
+    if (loading) return
+    if (observer.current) observer.current.disconnect()
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+
+        setOffset(prevOffset => prevOffset + 31);
+      }
+    })
+    if (node) observer.current.observe(node)
+  })
+  const filterRestaurant = () => {
+    if (restaurantList.length > 0) {
+      setLoading(true);
+      const data = filterData(searchText, restaurantList);
+      setFilteredRestList(data);
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    const i = setTimeout(() => {
+      if (searchText?.length >= 0) {
+
+        filterRestaurant();
+        window.scrollTo(0, 0);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(i);
+    }
+  }, [searchText])
 
   if (!allRestaurants) return null;
 
@@ -98,10 +139,10 @@ const Body = () => {
         {filteredRestaurants.length === 0 ? (
           <h1 className="text-center">No Restaurants match your filter!</h1>
         ) : (
-          filteredRestaurants.map((restaurant) => (
-            <Link
+          filteredRestaurants.map((restaurant,index) => (
+            <Link ref={lastRestaurant}
               to={"/restrudentmenu/" + restaurant?.info.id}
-              key={restaurant?.info.id}
+              key={restaurant?.info.id+ "_" + index}
               className="carousel-item focus:outline-none hover:bg-gray-100 rounded-lg p-6"
             >
               <RestrudentCard {...restaurant.info} />

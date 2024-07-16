@@ -49,7 +49,7 @@ const Heading = () => {
 
   return (
     <div className="bg-gray-100" onClick={handleOutsideClick}>
-      <div className="fixed top-0 left-0 right-0 bg-gray-100 flex items-center space-x-10 justify-between">
+      <div className="fixed top-0 left-0 right-0 bg-gray-100 flex items-center space-x-10 justify-between z-30">
         <div className="flex items-center">
           <Link to="/">
             <img className="w-20 h-20" src={logoI} alt="Logo" />

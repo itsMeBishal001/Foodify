@@ -14,7 +14,6 @@ const useGetRestaurants = () => {
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
     const REST_API_URL = `${API_BASE_URL}/api/restaurants?`;
     const REST_API_OFFSET_URL = `${API_BASE_URL}/api/restaurants?/list/v5/offset`;
-    console.log('API_BASE_URL:', process.env.REACT_APP_API_BASE_URL);
 
     async function getRestaurants() {
         setLoading(true);
@@ -54,10 +53,8 @@ const useGetRestaurants = () => {
 
         setLoadingForMoreRes(true);
         try {
-            console.log(`Fetching more restaurants with offset: ${offset}`);
             const data = await fetch(`${REST_API_OFFSET_URL}=${offset}&lat=${geolocation.latitude}&lng=${geolocation.longitude}`);
             const json = await data.json();
-            console.log("Fetched more restaurants data:", json);
 
             if (offset >= json.data.totalSize) {
                 setHasMore(false);

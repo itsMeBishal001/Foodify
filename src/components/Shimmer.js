@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Card = () => (
+export const Card = () => (
   <div className="flex-grow pt-20 bg-white rounded-lg p-4 mb-4 w-64 mx-2">
     <div className="w-50 h-40 rounded bg-gray-300 animate-pulse"></div>
     <div>

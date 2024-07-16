@@ -1,91 +1,44 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import RestrudentCard from "./RestrudentCard";
 import Shimmer from "./Shimmer";
 import { Link } from "react-router-dom";
 import { filterData } from "../utils/helper";
 import useGetRestaurants from "../utils/useGetRestaurants";
 
-
 const Body = () => {
   const [searchText, setSearchText] = useState("");
-  const [allRestaurants, setAllRestaurants] = useState([]);
-  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [isFiltering, setIsFiltering] = useState(false);
 
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
   };
 
-  useEffect(() => {
-    setIsFiltering(true);
-    const filteredData = filterData(searchText, allRestaurants);
-    setFilteredRestaurants(filteredData);
-    setIsFiltering(false);
-  }, [searchText]);
-
-  useEffect(() => {
-    getRestaurants();
-  }, []);
-
-  async function getRestaurants() {
-    // handle the error using try... catch
-    try {
-      const response = await fetch(
-        "https://foodfiy-server.onrender.com/api/restaurants?lat=22.51800&lng=88.38320&page_type=DESKTOP_WEB_LISTING"
-      );
-      // ("https://foodfire.onrender.com/api/restaurants?lat=21.1702401&lng=72.83106070000001&page_type=DESKTOP_WEB_LISTING");
-      // if response is not ok then throw new Error
-      if (!response.ok) {
-        const err = response.status;
-        throw new Error(err);
-      } else {
-        const json = await response.json();
-        console.log(json);
-        // Initialize resData for Swiggy Restuarant data
-        // initialize checkJsonData() function to check Swiggy Restaurant data
-        async function checkJsonData(jsonData) {
-          for (let i = 0; i < jsonData?.data?.cards.length; i++) {
-            // initialize checkData for Swiggy Restaurant data
-            let checkData =
-              json?.data?.cards[i]?.card?.card?.gridElements?.infoWithStyle
-                ?.restaurants;
-
-            // if checkData is not undefined then return it
-            if (checkData !== undefined) {
-              return checkData;
-            }
-          }
-        }
-
-        // call the checkJsonData() function which return Swiggy Restaurant data
-        const resData = await checkJsonData(json);
-        // update the state variable restaurants with Swiggy API data
-        setAllRestaurants(resData);
-        setFilteredRestaurants(resData);
-      }
-    } catch (error) {
-      console.error(error); // show error in console
-    }
-  }
-  // const [searchText, setSearchText] = useState("");
-  // Custom hook to call the API which get Restaurants
-  // Which helps make code look very clean and readable
-  // It returns the restaurantList, setRestaurantList, filteredRestList, setFilteredRestList, errMsg
-  const [resultsFound, restaurantList, setRestaurantList, filteredRestList, setFilteredRestList, errMsg, setOffset, loading, setLoading, hasMore] = useGetRestaurants();
+  const [
+    resultsFound,
+    restaurantList,
+    setRestaurantList,
+    filteredRestList,
+    setFilteredRestList,
+    errMsg,
+    setOffset,
+    loading,
+    setLoading,
+    hasMore,
+    loadingForMoreRes
+  ] = useGetRestaurants();
   const observer = useRef();
-  const lastRestaurant = useCallback((node) => {
-    // 
-    // if loading return
-    if (loading) return
-    if (observer.current) observer.current.disconnect()
-    observer.current = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting && hasMore) {
 
-        setOffset(prevOffset => prevOffset + 31);
+  const lastRestaurant = useCallback((node) => {
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && hasMore) {
+        setOffset((prevOffset) => prevOffset + 31);
       }
-    })
-    if (node) observer.current.observe(node)
-  })
+    });
+
+    if (node) observer.current.observe(node);
+  }, [loadingForMoreRes, hasMore, setOffset]);
+
   const filterRestaurant = () => {
     if (restaurantList.length > 0) {
       setLoading(true);
@@ -93,28 +46,27 @@ const Body = () => {
       setFilteredRestList(data);
       setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    const i = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       if (searchText?.length >= 0) {
-
         filterRestaurant();
         window.scrollTo(0, 0);
       }
     }, 1000);
     return () => {
-      clearInterval(i);
-    }
-  }, [searchText])
+      clearTimeout(timeoutId);
+    };
+  }, [searchText]);
 
-  if (!allRestaurants) return null;
+  if (!restaurantList) return null;
 
-  return allRestaurants.length === 0 ? (
+  return restaurantList?.length === 0 ? (
     <Shimmer />
   ) : (
     <div className="flex-grow pt-20">
-      <div className="flex  items-center justify-center py-4 m-1">
+      <div className="flex items-center justify-center py-4 m-1">
         <input
           className="border border-gray-300 rounded-md py-2 px-5 mr-2 focus:outline-none w-80"
           type="text"
@@ -126,8 +78,7 @@ const Body = () => {
           type="submit"
           className="items-center bg-orange-400 p-1 mx-4 rounded-md text-white hover:bg-orange-600 hover:shadow hover:shadow-green-500 transition ease-linear duration-200"
           onClick={() => {
-            const data = filterData(searchText, allRestaurants);
-            setFilteredRestaurants(data);
+            filterRestaurant();
           }}
           disabled={isFiltering}
         >
@@ -135,19 +86,23 @@ const Body = () => {
         </button>
       </div>
       {isFiltering && <p>Filtering restaurants...</p>}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  2xl:grid-cols-6 gap-4 p-4 w-100">
-        {filteredRestaurants.length === 0 ? (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4 p-4 w-100">
+        {filteredRestList.length === 0 ? (
           <h1 className="text-center">No Restaurants match your filter!</h1>
         ) : (
-          filteredRestaurants.map((restaurant,index) => (
-            <Link ref={lastRestaurant}
-              to={"/restrudentmenu/" + restaurant?.info.id}
-              key={restaurant?.info.id+ "_" + index}
-              className="carousel-item focus:outline-none hover:bg-gray-100 rounded-lg p-6"
-            >
-              <RestrudentCard {...restaurant.info} />
-            </Link>
-          ))
+          <>
+            {filteredRestList.map((restaurant, index) => (
+              <Link
+                ref={index === filteredRestList.length - 1 ? lastRestaurant : null}
+                to={"/restrudentmenu/" + restaurant?.info.id}
+                key={restaurant?.info.id + "_" + index}
+                className="carousel-item focus:outline-none hover:bg-gray-100 rounded-lg p-6"
+              >
+                <RestrudentCard {...restaurant.info} />
+              </Link>
+            ))}
+            {loadingForMoreRes && <p>Loading more restaurants...</p>}
+          </>
         )}
       </div>
     </div>

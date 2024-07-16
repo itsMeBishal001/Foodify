@@ -62,8 +62,8 @@ const Body = () => {
 
   if (!restaurantList) return null;
 
-  return restaurantList?.length === 0 ? (
-    <Shimmer />
+  return true ? (
+    <Shimmer count={16} />
   ) : (
     <div className="flex-grow pt-20">
       <div className="flex items-center justify-center py-4 m-1">

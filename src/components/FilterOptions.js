@@ -3,7 +3,7 @@ import React from 'react';
 const FilterOptions = ({ onFilterClick, activeFilters }) => {
   const filters = [
     { name: 'Fast Delivery', value: 'fast_delivery' },
-    { name: 'New on Swiggy', value: 'new_on_swiggy' },
+    { name: 'New on Foodify', value: 'new_on_swiggy' },
     { name: 'Ratings 4.0+', value: 'ratings_4_plus' },
     { name: 'Pure Veg', value: 'pure_veg' },
     { name: 'Offers', value: 'offers' },

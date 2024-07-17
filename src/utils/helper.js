@@ -9,32 +9,33 @@ export const filterData = (searchText, restaurantList, activeFilters) => {
     restaurant.info.name.toLowerCase().includes(searchText.toLowerCase())
   );
 
-  // 2. Multi-Filter Application with `some`
+  // 2. Active Filters Application
   const filteredByFilters = filteredByName.filter((restaurant) => {
-    return activeFilters.some((filter) => {
+    const costForTwo = parseInt(restaurant.info.costForTwo.replace(/[^0-9]/g, ''), 10);
+
+    // Check if the restaurant satisfies all of the active filters
+    return activeFilters.every((filter) => {
       switch (filter) {
         case 'fast_delivery':
           return restaurant.info.sla.deliveryTime <= 30;
         case 'new_on_swiggy':
-          return restaurant.info.newOnSwiggy;
+          return restaurant.info.totalRatingsString < 10;
         case 'ratings_4_plus':
-          return restaurant.info.rating >= 4.0;
+          return restaurant.info.avgRating >= 4.0;
         case 'pure_veg':
-          return restaurant.info.pureVeg;
+          return restaurant.info.veg;
         case 'offers':
-          return restaurant.info.hasOffer;
+          return restaurant.info.aggregatedDiscountInfoV3?.header?.includes('%');
         case '300_600':
-          return restaurant.info.price >= 300 && restaurant.info.price <= 600;
+          return costForTwo >= 300 && costForTwo <= 600;
         case 'less_300':
-          return restaurant.info.price < 300;
+          return costForTwo < 300;
         default:
-          // Handle unexpected filters
           console.warn(`Unknown filter: ${filter}`);
-          return false; // Avoid unexpected behaviors
+          return false;
       }
     });
   });
 
-  // 3. Return Filtered List
   return filteredByFilters;
 };

@@ -39,9 +39,13 @@ const Body = () => {
     });
 
     if (node) observer.current.observe(node);
-  }, [loadingForMoreRes, hasMore, setOffset]);
+  }, [hasMore, setOffset]);
 
   const filterRestaurant = () => {
+    if (searchText.length === 0 && activeFilters.length === 0) {
+      setFilteredRestList(restaurantList)
+    }
+  
     if (restaurantList.length > 0) {
       setLoading(true);
       const data = filterData(searchText, restaurantList, activeFilters);
@@ -51,15 +55,18 @@ const Body = () => {
   };
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      if (searchText?.length >= 0) {
-        filterRestaurant();
-        window.scrollTo(0, 0);
-      }
-    }, 1000);
-    return () => {
-      clearTimeout(timeoutId);
-    };
+    //call when search key word is present or active filter is present 
+    if (searchText.length > 0 || activeFilters.length > 0) {
+      const timeoutId = setTimeout(() => {
+        if (searchText?.length >= 0) {
+          filterRestaurant();
+          window.scrollTo(0, 0);
+        }
+      }, 500);
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
   }, [searchText, activeFilters, restaurantList]);
 
   const handleFilterClick = (filter) => {
@@ -70,11 +77,6 @@ const Body = () => {
         return [...prevFilters, filter];
       }
     });
-    filterRestaurant();
-  };
-
-  const handleFilterRemove = (filter) => {
-    setActiveFilters((prevFilters) => prevFilters.filter((f) => f !== filter));
     filterRestaurant();
   };
 
@@ -125,7 +127,7 @@ const Body = () => {
               {loadingForMoreRes && Array(10)
                 .fill('')
                 .map(() => (
-                  <Card key={Math.random()} />
+                  <Card key={Math.random()} className={"pt-20"}/>
                 ))}
             </>
           )}

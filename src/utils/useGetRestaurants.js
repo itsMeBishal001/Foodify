@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-// import { REST_API_OFFSET_URL, REST_API_URL } from '../config';
+import { useState, useEffect, useRef } from 'react';
+import _ from 'lodash';
 
 const useGetRestaurants = () => {
     const [restaurantList, setRestaurantList] = useState([]);
@@ -11,10 +11,24 @@ const useGetRestaurants = () => {
     const [loadingForMoreRes, setLoadingForMoreRes] = useState(true);
     const [hasMore, setHasMore] = useState(true);
     const [errMsg, setErrMsg] = useState("");
+    const [scrollPosition, setScrollPosition] = useState(0);
+    const [restaurantCache, setRestaurantCache] = useState({});
+    const [fetchingForOffset, setFetchingForOffset] = useState(false);
+
     const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
     const REST_API_URL = `${API_BASE_URL}/api/restaurants?`;
     const REST_API_OFFSET_URL = `${API_BASE_URL}/api/restaurants?/list/v5/offset`;
-    console.log('API_BASE_URL:', process.env.REACT_APP_API_BASE_URL);
+
+    const initialFetchRef = useRef(true);
+
+    const debouncedGetRestaurants = _.debounce(getRestaurants, 100);
+
+    useEffect(() => {
+        if (initialFetchRef.current) {
+            debouncedGetRestaurants();
+            initialFetchRef.current = false;
+        }
+    }, []); // Ensure getRestaurants is called once on mount
 
     async function getRestaurants() {
         setLoading(true);
@@ -38,49 +52,58 @@ const useGetRestaurants = () => {
                 }
             } catch (e) {
                 setErrMsg(e.message);
-                setLoading(false);
             }
+            setLoading(false);
         }, (err) => {
             setErrMsg("You have blocked Foodiewoodie from tracking your location. To use this app, change your location settings in the browser.");
+            setLoading(false);
         });
-        setLoading(false);
     }
 
     async function getMoreRestaurants() {
+        if (fetchingForOffset) return; // Prevent duplicate calls
         if (!geolocation.latitude || !geolocation.longitude) {
             setErrMsg("Geolocation is not set");
             return;
         }
 
+        // Capture scroll position before fetching more data
+        setScrollPosition(window.scrollY);
+        setFetchingForOffset(true);
         setLoadingForMoreRes(true);
-        try {
-            console.log(`Fetching more restaurants with offset: ${offset}`);
-            const data = await fetch(`${REST_API_OFFSET_URL}=${offset}&lat=${geolocation.latitude}&lng=${geolocation.longitude}`);
-            const json = await data.json();
-            console.log("Fetched more restaurants data:", json);
 
-            if (offset >= json.data.totalSize) {
-                setHasMore(false);
+        try {
+            const cachedData = restaurantCache[offset];
+            if (cachedData) {
+                setRestaurantList(prevList => [...prevList, ...cachedData]); // Use cached data
+                setFilteredRestList(prevList => [...prevList, ...cachedData]); // Update filtered list with cached data
             } else {
-                const formattedList = [];
+                const data = await fetch(`${REST_API_OFFSET_URL}?=${offset}&lat=${geolocation.latitude}&lng=${geolocation.longitude}`);
+                const json = await data.json();
+
+                if (offset >= json.data.totalSize) {
+                    setHasMore(false);
+                } else {
+                    const formattedList = [];
                     for (let i = 0; i < json.data.cards.length; i++) {
                         let checkData = json.data.cards[i]?.card?.card?.gridElements?.infoWithStyle?.restaurants;
                         if (checkData !== undefined) {
                             formattedList.push(checkData);
                         }
                     }
-                setRestaurantList(prevRestList => [...prevRestList, ...formattedList[0]]);
-                setFilteredRestList(prevRestList => [...prevRestList, ...formattedList[0]]);
+                    setRestaurantList(prevRestList => [...prevRestList, ...formattedList[0]]);
+                    setFilteredRestList(prevRestList => [...prevRestList, ...formattedList[0]]);
+                    setRestaurantCache(prevCache => ({ ...prevCache, [offset]: formattedList[0] })); // Update cache
+                }
             }
         } catch (error) {
             setErrMsg(error.message);
+        } finally {
+            setFetchingForOffset(false); // Reset flag
+            setLoadingForMoreRes(false);
+            window.scrollTo(0, scrollPosition); // Restore scroll position after fetching more data
         }
-        setLoadingForMoreRes(false);
     }
-
-    useEffect(() => {
-        getRestaurants();
-    }, []);
 
     useEffect(() => {
         if (offset > 0 && hasMore) {
@@ -88,7 +111,7 @@ const useGetRestaurants = () => {
         }
     }, [offset, hasMore]);
 
-    return [resultsFound, restaurantList, setRestaurantList, filteredRestList, setFilteredRestList, errMsg, setOffset, loading, setLoading, hasMore, loadingForMoreRes];
+    return [resultsFound, restaurantList, setRestaurantList, filteredRestList, setFilteredRestList, errMsg, setOffset, loading, setLoading, hasMore, loadingForMoreRes, scrollPosition];
 }
 
 export default useGetRestaurants;

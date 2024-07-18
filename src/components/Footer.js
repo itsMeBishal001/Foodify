@@ -1,46 +1,40 @@
 import React from "react";
-import { FiMail, FiPhone, FiMapPin } from "react-icons/fi";
+import { FiMail, FiPhone, FiGithub, FiLinkedin } from "react-icons/fi";
 
 const Footer = () => {
   const handlePhoneClick = () => {
-    window.location.href = "tel:" + phoneNumber;
+    window.location.href = "tel:+917586930061"; 
   };
+
   return (
-    <div className="flex flex-col">
-      <div className="flex-grow"></div>
-      <div className="bg-gray-800 text-white py-6">
-        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
-          <div className="flex flex-col md:flex-row items-center">
-            <h5 className="text-sm text-center md:text-left mb-2 md:mb-0">
-              Contact Us:
-            </h5>
-            <div className="flex items-center ml-4">
-              <FiMail className="mr-2" size={18} />
-              <a href="mailto:dattabishal001@gmail.com" className="text-white">
-                dattabishal001@gmail.com
-              </a>
-            </div>
-            <div className="flex items-center ml-4">
-              <FiPhone className="mr-2" size={18} />
-              <span
-                className="text-white cursor-pointer"
-                onClick={handlePhoneClick}
-              >
-                Click to call
-              </span>
-            </div>
-          </div>
-          <div className="mt-4 md:mt-0">
-            <h2 className="text-lg text-center md:text-left font-bold">
-              Bishal Datta
-            </h2>
-            <p className="text-sm text-center md:text-left">
-              A Web Developer based in India
-            </p>
-          </div>
+    <footer className="bg-gray-900 text-white py-8 px-4 flex flex-col md:flex-row items-center justify-between">
+      <div className="flex flex-col md:flex-row items-center">
+        <div className="flex items-center mr-4">
+          <FiMail className="mr-2" size={18} />
+          <a href="mailto:dattabishal001@gmail.com" className="text-white hover:underline">
+            dattabishal001@gmail.com
+          </a>
+        </div>
+        <div className="flex items-center">
+          <FiPhone className="mr-2" size={18} />
+          <span className="text-white cursor-pointer hover:underline" onClick={handlePhoneClick}>
+            Click to Call
+          </span>
         </div>
       </div>
-    </div>
+      <div className="flex flex-col items-center mt-4 md:mt-0">
+        <h2 className="text-lg font-bold">Bishal Datta</h2>
+        <p className="text-sm">Software Developer based in India</p>
+        <div className="flex items-center mt-2">
+          <a href="https://github.com/itsmebishal001" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400 mr-4">
+            <FiGithub size={20} />
+          </a>
+          <a href="https://www.linkedin.com/in/bishaldatta/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400">
+            <FiLinkedin size={20} />
+          </a>
+        </div>
+      </div>
+    </footer>
   );
 };
 

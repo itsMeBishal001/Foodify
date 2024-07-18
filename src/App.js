@@ -1,4 +1,4 @@
-import React ,{Suspense, lazy}from "react";
+import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
 import Heading from "./components/Header";
 import Footer from "./components/Footer";
@@ -8,42 +8,25 @@ import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./utils/store";
 
-// Chunking
-// Code Splitting
-// Dynamic Bundling
-// Lazy Loading
-// On Demand Loading
-// Dynamic Import
-
-
+// Lazy loading components
 const About = lazy(() => import("./components/About"));
-const Cart=lazy(()=>import("./components/Cart"));
-const Contact=lazy(()=>import("./components/Contact"));
-const LogIn=lazy(()=>import("./components/LogIn"));
-/*
- * App layout --
- *  header -
- *    logo
- *    home about cart
- *  body -
- *     search
- *     restrudnt list-
- *         restrudent card
- *            image rating name cuisins
- *  footer
- */
+const Cart = lazy(() => import("./components/Cart"));
+const Contact = lazy(() => import("./components/Contact"));
+const LogIn = lazy(() => import("./components/LogIn"));
+const Register = lazy(() => import("./components/Register"));
 
 const AppLayout = () => {
   return (
     <Provider store={store}>
-    <div className="applayout">
-      {<Heading />}
-      {<Outlet />}
-      {<Footer />}
-    </div>
+      <div className="applayout">
+        <Heading />
+        <Outlet />
+        <Footer />
+      </div>
     </Provider>
   );
 };
+
 const appRouter = createBrowserRouter([
   {
     path: "/",
@@ -51,19 +34,43 @@ const appRouter = createBrowserRouter([
     children: [
       {
         path: "/about",
-        element:  <Suspense><About /></Suspense>,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <About />
+          </Suspense>
+        ),
       },
       {
         path: "/cart",
-        element: <Suspense><Cart/></Suspense> ,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Cart />
+          </Suspense>
+        ),
       },
       {
         path: "/contact",
-        element:  <Suspense><Contact/></Suspense>,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Contact />
+          </Suspense>
+        ),
       },
       {
         path: "/login",
-        element:  <Suspense><LogIn/></Suspense>,
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <LogIn />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/register",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Register />
+          </Suspense>
+        ),
       },
       {
         path: "/",
@@ -73,12 +80,9 @@ const appRouter = createBrowserRouter([
         path: "/restrudentmenu/:id",
         element: <RestrudentMenu />,
       },
-      
     ],
   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-
-// can call  a functional component ==> <component/> && component()-- because it is a function
 root.render(<RouterProvider router={appRouter} />);

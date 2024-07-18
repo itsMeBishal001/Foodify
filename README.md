@@ -128,10 +128,3 @@ One advantage of using a Config Driven UI is that it makes it easier to maintain
 Another advantage of a Config Driven UI is that it can simplify the development process by separating the UI design from the application logic. This can make it easier to build and maintain complex UIs, and can also make it easier to reuse UI components across multiple applications or projects.
 
 Overall, a Config Driven UI can provide greater flexibility and efficiency in UI design and development, while also making it easier to maintain and update the UI over time.
-
-# Links of diffrent repos for insites and learn new things 
-1. https://github.com/Learn-React-With-Harshi/chapter-12-lets-build-our-store/blob/main/src/components/RestaurantMenuList.js
-2. https://foodfire-app.netlify.app/
-3. https://foodyshark.netlify.app/
-4. https://github.com/AnnZoeFreelancer/Namaste-React
-5. https://github.com/tahirkhan056/namaste-react

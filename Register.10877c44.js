@@ -982,6 +982,6 @@ $RefreshReg$(_c, "Register");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","formik":"aefoQ","yup":"jMMeX","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru","react-router-dom":"9xmpe"}]},["idYvz","1xC6H"], null, "parcelRequired804")
+},{"react/jsx-dev-runtime":"iTorj","react":"21dqq","formik":"aefoQ","yup":"jMMeX","react-router-dom":"9xmpe","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}]},["idYvz","1xC6H"], null, "parcelRequired804")
 
 //# sourceMappingURL=Register.10877c44.js.map

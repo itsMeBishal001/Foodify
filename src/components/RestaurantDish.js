@@ -57,7 +57,9 @@ const RestaurantDish = (dish) => {
               alt={dish.name}
             />
           ) : (
-            <div className="text-gray-400">No Image Available</div>
+            <div className="dish-image-placeholder flex items-center justify-center h-32 w-32 rounded-xl bg-gray-200">
+              <span className="text-gray-600 font-bold text-center">{dish.name}</span>
+            </div>
           )}
           <button
             className="bg-white text-green-700 font-bold px-4 py-2 rounded mt-2 w-24 absolute -bottom-5 left-1/2 transform -translate-x-1/2"

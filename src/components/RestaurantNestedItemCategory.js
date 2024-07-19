@@ -2,11 +2,19 @@ import { useState } from 'react';
 import RestaurantDish from "./RestaurantDish";
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
-const RestaurantCategory = (category) => {
-  const [showDishes, setShowDishes] = useState(false);
+const RestaurantCategory = ({ category }) => {
+  const initialVisibilityState = category?.categories?.reduce((acc, _, index) => {
+    acc[index] = false;
+    return acc;
+  }, {});
 
-  const toggleDishes = () => {
-    setShowDishes(!showDishes);
+  const [showDishes, setShowDishes] = useState(initialVisibilityState);
+
+  const toggleDishes = (index) => {
+    setShowDishes((prevState) => ({
+      ...prevState,
+      [index]: !prevState[index]
+    }));
   };
 
   return (
@@ -18,19 +26,20 @@ const RestaurantCategory = (category) => {
             <h2 className="text-xl font-bold mb-2">
               {groupedSubCategory?.title} ({groupedSubCategory?.itemCards?.length})
             </h2>
-            <button onClick={toggleDishes} className="text-blue-600 w-6">
-              {showDishes ? <FaChevronUp /> : <FaChevronDown />}
+            <button onClick={() => toggleDishes(index)} className="text-blue-600 w-6">
+              {showDishes[index] ? <FaChevronUp /> : <FaChevronDown />}
             </button>
           </div>
           <div className="border-b-2 border-gray-300 mb-4"></div>
-          {showDishes && (
+          {showDishes[index] && (
             <ul>
-              {groupedSubCategory?.itemCards?.map((dish, index) => (
-                <li key={index} className="mb-4">
+              {groupedSubCategory?.itemCards?.map((dish, dishIndex) => (
+                <li key={dishIndex} className="mb-4">
                   <RestaurantDish {...dish?.card?.info} />
                 </li>
               ))}
-            </ul>)}
+            </ul>
+          )}
         </div>
       ))}
     </div>

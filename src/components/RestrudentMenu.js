@@ -1,21 +1,17 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import Shimmer from "./Shimmer";
+import { ShimmerDish, ShimmerRestaurantInfo } from "./Shimmer";
 import RestaurantItemCategory from "./RestaurantItemCategory";
 import RestaurantNestedItemCategory from "./RestaurantNestedItemCategory.js";
-import useGetRestaurantMenu from "../utils/useGetRestaurantMenu"; // Adjusted import name
-import { CDN_IMG_URL_RES } from "../config.js";
+import useGetRestaurantMenu from "../utils/useGetRestaurantMenu";
+import RestaurantInfo from "./RestaurantInfo.js";
 
 const RestrudentMenu = () => {
   const { id } = useParams();
-  const { restaurantMenu, loading, error } = useGetRestaurantMenu(id); // Use custom hook
-
-  if (loading) {
-    return <Shimmer />; // Show shimmer or loading state while fetching data
-  }
+  const { restaurantMenu, loading, error } = useGetRestaurantMenu(id);
 
   if (error) {
-    return <div>Error: {error}</div>; // Handle error state if fetch fails
+    return <div>Error: {error}</div>;
   }
 
   const restrudentInfos = restaurantMenu?.info;
@@ -23,34 +19,9 @@ const RestrudentMenu = () => {
 
   return (
     <div className="flex items-center flex-col">
-      <div className=" flex-grow pt-20 w-1/2">
-        <div className="restrudent_details flex">
-          <div className="flex-2 m-5">
-            <h2 className="text-xl font-bold font-sans">
-              {restrudentInfos?.name}
-            </h2>
-            <h1 className="text-2xl">Restaurant id: {restrudentInfos?.id}</h1>
-            <img
-              className="restrudent_img rounded-lg h-40 my-2"
-              src={CDN_IMG_URL_RES + restrudentInfos?.cloudinaryImageId}
-              alt={restrudentInfos?.name}
-            />
-          </div>
-          <div className="flex  items-end space-x-3 p-5">
-            <h3 className="text-lg ">{restrudentInfos?.areaName}</h3>
-            <h3 className="text-lg">{restrudentInfos?.city}</h3>
-            <h3 className="text-lg font-medium">
-              {restrudentInfos?.avgRating}{" "}
-              <span className="icon-star text-yellow-500">★</span>
-            </h3>
-
-            <h3 className="text-lg font-medium">
-              {restrudentInfos?.costForTwoMessage}
-            </h3>
-          </div>
-        </div>
-
-        <div>
+      <div className="flex-grow pt-20 w-11/12 sm:w-11/12 md:w-10/12 lg:w-5/6 xl:w-3/5 2xl:w-1/2 ">
+        {loading ? <ShimmerRestaurantInfo /> : <RestaurantInfo restrudentInfos={restrudentInfos} />}
+        {loading ? Array(5).fill().map((_, index) => <ShimmerDish key={index} />) : <div>
           <h1 className="text-2xl">Menu</h1>
           <ul>
             <div className="restaurant_menu">
@@ -78,7 +49,7 @@ const RestrudentMenu = () => {
               ))}
             </div>
           </ul>
-        </div>
+        </div>}
       </div>
     </div>
   );

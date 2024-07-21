@@ -5,20 +5,23 @@
   "scripts": {
     "start": "parcel index.html",
     "build": "parcel build index.html",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/itsMeBishal001/Lets-Start-with-React.git"
+    "url": "https://github.com/itsMeBishal001/Foodify.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/itsMeBishal001/Lets-Start-with-React/issues"
+    "url": "https://github.com/itsMeBishal001/Foodify/issues"
   },
-  "homepage": "https://github.com/itsMeBishal001/Lets-Start-with-React#readme",
+  "homepage": "https://itsMeBishal001.github.io/Foodify",
   "devDependencies": {
     "autoprefixer": "^10.4.14",
+    "gh-pages": "^6.1.1",
     "parcel": "^2.8.3",
     "postcss": "^8.4.24",
     "process": "^0.11.10",

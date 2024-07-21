@@ -1,86 +1,45 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import { url } from "../constents";
-import Shimmer from "./Shimmer";
+import { ShimmerDish, ShimmerRestaurantInfo } from "./Shimmer";
 import RestaurantItemCategory from "./RestaurantItemCategory";
 import RestaurantNestedItemCategory from "./RestaurantNestedItemCategory.js";
-// import useRestaurant from "../utils/useRestaurants";
-// import { addItem } from "../utils/cartSlice";
-import { useDispatch } from "react-redux";
+import useGetRestaurantMenu from "../utils/useGetRestaurantMenu";
+import RestaurantInfo from "./RestaurantInfo.js";
 
 const RestrudentMenu = () => {
   const { id } = useParams();
-  const [restaurant, setRestauraunt] = useState(null);
+  const { restaurantMenu, loading, error } = useGetRestaurantMenu(id);
 
-  useEffect(() => {
-    getRestaurantInfo();
-  }, []);
-
-  async function getRestaurantInfo() {
-    const data = await fetch(
-      "https://thingproxy.freeboard.io/fetch/https://www.swiggy.com/dapi/menu/pl?page-type=REGULAR_MENU&complete-menu=true&lat=23.5408357&lng=87.3406605&restaurantId=" +
-        id
-    );
-    const json = await data.json();
-    const modifiedData = {
-      info: json?.data?.cards[2]?.card?.card?.info,
-      groupedCards: json?.data?.cards
-        ?.find((o) => o?.groupedCard)
-        .groupedCard?.cardGroupMap?.REGULAR?.cards?.filter(
-          (o) => o?.card?.card?.itemCards || o?.card?.card?.categories
-        )
-    };
-
-    setRestauraunt(modifiedData);
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
-  const restrudentInfos = restaurant?.info;
-  const restaurantMenu = restaurant?.groupedCards;
+  const restrudentInfos = restaurantMenu?.info;
+  const groupedCards = restaurantMenu?.groupedCards;
 
-
-  //add item
-  const dispatch=useDispatch();
-  const addFoodItem=(item)=>{
-    dispatch(addItem(item));
-  }
-  return !restrudentInfos ? (
-    <Shimmer />
-  ) : (
-    <>
-      <div className=" flex-grow pt-20 ">
-      <div className="restrudent_details flex">
-  <div className="flex-2 m-5">
-    <h2 className="text-xl font-bold font-sans">{restrudentInfos?.name}</h2>
-    <h1 className="text-2xl">Restaurant id: {restrudentInfos?.id}</h1>
-    <img
-      className="restrudent_img rounded-lg h-40 my-2"
-      src={url + restrudentInfos?.cloudinaryImageId}
-      alt={restrudentInfos?.name}
-    />
-  </div>
-  <div className="flex  items-end space-x-3 p-5">
-  <h3 className="text-lg ">{restrudentInfos?.areaName}</h3>
-  <h3 className="text-lg">{restrudentInfos?.city}</h3>
-  <h3 className="text-lg font-medium">{restrudentInfos?.avgRating} <span className="icon-star text-yellow-500">★</span></h3>
-  
-  <h3 className="text-lg font-medium">{restrudentInfos?.costForTwoMessage}</h3>
-</div>
-
-</div>
-
-        <div>
+  return (
+    <div className="flex items-center flex-col">
+      <div className="flex-grow pt-20 w-11/12 sm:w-11/12 md:w-10/12 lg:w-5/6 xl:w-3/5 2xl:w-1/2 ">
+        {loading ? <ShimmerRestaurantInfo /> : <RestaurantInfo restrudentInfos={restrudentInfos} />}
+        {loading ? Array(5).fill().map((_, index) => <ShimmerDish key={index} />) : <div>
           <h1 className="text-2xl">Menu</h1>
           <ul>
             <div className="restaurant_menu">
-              {Object.values(restaurantMenu)?.map((groupedCards, index) => (
+              {groupedCards?.map((groupedCard, index) => (
                 <div key={index}>
-                  {groupedCards?.card?.card["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory" ||
-                  groupedCards?.card?.card["@type"] === "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory" ? (
-                    <div>
-                      {groupedCards?.card?.card?.categories ? (
-                        <RestaurantNestedItemCategory {...groupedCards?.card?.card} />
+                  {groupedCard?.card?.card["@type"] ===
+                    "type.googleapis.com/swiggy.presentation.food.v2.NestedItemCategory" ||
+                    groupedCard?.card?.card["@type"] ===
+                    "type.googleapis.com/swiggy.presentation.food.v2.ItemCategory" ? (
+                    <div className="">
+                      {groupedCard?.card?.card?.categories ? (
+                        <RestaurantNestedItemCategory
+                          {...groupedCard?.card?.card}
+                        />
                       ) : (
-                        <RestaurantItemCategory {...groupedCards?.card?.card} />
+                        <RestaurantItemCategory
+                          {...groupedCard?.card?.card}
+                        />
                       )}
                     </div>
                   ) : (
@@ -90,9 +49,9 @@ const RestrudentMenu = () => {
               ))}
             </div>
           </ul>
-        </div>
+        </div>}
       </div>
-    </>
+    </div>
   );
 };
 

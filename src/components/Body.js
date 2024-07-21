@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import RestrudentCard from "./RestrudentCard";
-import Shimmer, { Card } from "./Shimmer";
+import Shimmer, { ShimmerRestrudentCard } from "./Shimmer";
 import { Link } from "react-router-dom";
 import { filterData } from "../utils/helper";
 import useGetRestaurants from "../utils/useGetRestaurants";
 import FilterOptions from "./FilterOptions";
+import { useMediaQuery } from 'react-responsive';
 
 const Body = () => {
   const [searchText, setSearchText] = useState("");
   const [isFiltering, setIsFiltering] = useState(false);
   const [activeFilters, setActiveFilters] = useState([]);
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+  const isTablet = useMediaQuery({ query: '(min-width: 768px) and (max-width: 1023px)' });
+  const isDesktop = useMediaQuery({ query: '(min-width: 1024px)' });
 
   const handleSearchChange = (e) => {
     setSearchText(e.target.value);
@@ -45,7 +49,7 @@ const Body = () => {
     if (searchText.length === 0 && activeFilters.length === 0) {
       setFilteredRestList(restaurantList)
     }
-  
+
     if (restaurantList.length > 0) {
       setLoading(true);
       const data = filterData(searchText, restaurantList, activeFilters);
@@ -82,8 +86,10 @@ const Body = () => {
 
   if (!restaurantList) return null;
 
-  return restaurantList?.length === 0 ? (
-    <Shimmer count={16} />
+  const shimmerCount = isMobile ? 8 : isTablet ? 12 : 16;
+
+  return loading ? (
+    <Shimmer count={shimmerCount} />
   ) : (
     <div className="flex items-center flex-col">
       <div className="pt-20 w-3/4">
@@ -127,7 +133,7 @@ const Body = () => {
               {loadingForMoreRes && Array(10)
                 .fill('')
                 .map(() => (
-                  <Card key={Math.random()} className={"pt-20"}/>
+                  <ShimmerRestrudentCard key={Math.random()} className={"pt-20"} />
                 ))}
             </>
           )}

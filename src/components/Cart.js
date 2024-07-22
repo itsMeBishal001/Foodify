@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart, removeItem, updateItemQuantity } from "../utils/cartSlice";
-import { IMG_CDN_URL } from "../constents";
+import { clearCart, removeItem, updateItemQuantity } from "../store/cartSlice";
+import { IMG_CDN_URL } from "../utils/constents";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import emptyCart from "./images/empty-cart.jpg";
+import emptyCart from "../assets/images/empty-cart.jpg";
 
 const Cart = () => {
   const cartItems = useSelector((store) => store.cart.items);

@@ -98,12 +98,14 @@ const Shimmer = ({ count = 15, className }) => {
     <div className={`flex items-center flex-col pt-20 ${className}`}>
       <ShimmerSearchBar />
       <ShimmerFilterOptions />
-      <div className="flex flex-wrap justify-around w-3/4">
-        {Array(count)
-          .fill('')
-          .map((_, index) => (
-            <ShimmerRestrudentCard key={index} />
-          ))}
+      <div className="w-3/4">
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4 p-6'>
+          {Array(count)
+            .fill('')
+            .map((_, index) => (
+              <ShimmerRestrudentCard key={index} />
+            ))}
+        </div>
       </div>
     </div>
   );

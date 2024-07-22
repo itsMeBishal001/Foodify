@@ -14,6 +14,7 @@ const Cart = lazy(() => import("./components/Cart"));
 const Contact = lazy(() => import("./components/pages/Contact"));
 const LogIn = lazy(() => import("./components/user/LogIn"));
 const Register = lazy(() => import("./components/user/Register"));
+const Profile = lazy(() => import ('./components/user/Profile'));
 
 const AppLayout = () => {
   return (
@@ -69,6 +70,14 @@ const appRouter = createBrowserRouter([
         element: (
           <Suspense fallback={<div>Loading...</div>}>
             <Register />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/profile",
+        element: (
+          <Suspense fallback={<div>Loading...</div>}>
+            <Profile />
           </Suspense>
         ),
       },

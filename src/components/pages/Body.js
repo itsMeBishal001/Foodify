@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import RestrudentCard from "./RestrudentCard";
-import Shimmer, { ShimmerRestrudentCard } from "./Shimmer";
+import RestrudentCard from "../restaurant/RestrudentCard";
+import Shimmer, { ShimmerRestrudentCard } from "../common/Shimmer";
 import { Link } from "react-router-dom";
-import { filterData } from "../utils/helper";
-import useGetRestaurants from "../utils/useGetRestaurants";
-import FilterOptions from "./FilterOptions";
+import { filterData } from "../../utils/helper";
+import useGetRestaurants from "../../hooks/useGetRestaurants";
+import FilterOptions from "../FilterOptions";
 import { useMediaQuery } from 'react-responsive';
 
 const Body = () => {
@@ -86,7 +86,7 @@ const Body = () => {
 
   if (!restaurantList) return null;
 
-  const shimmerCount = isMobile ? 8 : isTablet ? 12 : 16;
+  const shimmerCount = isMobile ? 8 : isTablet ? 12 : isDesktop ? 16 : 6 ;
 
   return loading ? (
     <Shimmer count={shimmerCount} />

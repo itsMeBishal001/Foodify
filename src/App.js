@@ -1,19 +1,19 @@
 import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
-import Heading from "./components/Header";
-import Footer from "./components/Footer";
-import Body from "./components/Body";
-import RestrudentMenu from "./components/RestrudentMenu";
+import Heading from "./components/common/Header";
+import Footer from "./components/common/Footer";
+import Body from "./components/pages/Body";
+import RestrudentMenu from "./components/restaurant/RestrudentMenu";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
-import store from "./utils/store";
+import store from "./store/store";
 
 // Lazy loading components
-const About = lazy(() => import("./components/About"));
+const About = lazy(() => import("./components/pages/About"));
 const Cart = lazy(() => import("./components/Cart"));
-const Contact = lazy(() => import("./components/Contact"));
-const LogIn = lazy(() => import("./components/LogIn"));
-const Register = lazy(() => import("./components/Register"));
+const Contact = lazy(() => import("./components/pages/Contact"));
+const LogIn = lazy(() => import("./components/user/LogIn"));
+const Register = lazy(() => import("./components/user/Register"));
 
 const AppLayout = () => {
   return (

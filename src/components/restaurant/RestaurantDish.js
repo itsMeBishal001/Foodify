@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
-import { CDN_IMG_URL_RES } from "../config";
-import { addItem } from "../utils/cartSlice";
+import { CDN_IMG_URL_RES } from "../../utils/config";
+import { addItem } from "../../store/cartSlice";
 import { useDispatch } from "react-redux";
 
 const RestaurantDish = (dish) => {

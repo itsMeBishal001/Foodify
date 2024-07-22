@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import cartImage from "../components/images/shopping-cart-icon.png";
-import logoI from "../components/images/logo.png";
+import cartImage from "../../assets/images/shopping-cart-icon.png";
+import logoI from "../../assets/images/logo.png";
 
 const navigationItems = [
   { to: "/", text: "Home" },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { url } from "../constents";
+import { url } from "../../utils/constents";
 const RestrudentCard = ({
   name,
   cuisines,

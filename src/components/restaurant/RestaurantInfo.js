@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaStar } from 'react-icons/fa';
-import { CDN_IMG_URL_RES } from '../config';
+import { CDN_IMG_URL_RES } from '../../utils/config';
 
 const RestaurantInfo = ({ restrudentInfos }) => {
   return (

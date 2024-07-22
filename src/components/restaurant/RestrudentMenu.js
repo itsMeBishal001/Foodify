@@ -1,9 +1,9 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { ShimmerDish, ShimmerRestaurantInfo } from "./Shimmer";
-import RestaurantItemCategory from "./RestaurantItemCategory";
+import { ShimmerDish, ShimmerRestaurantInfo } from "../common/Shimmer.js";
+import RestaurantItemCategory from "./RestaurantItemCategory.js";
 import RestaurantNestedItemCategory from "./RestaurantNestedItemCategory.js";
-import useGetRestaurantMenu from "../utils/useGetRestaurantMenu";
+import useGetRestaurantMenu from "../../hooks/useGetRestaurantMenu.js";
 import RestaurantInfo from "./RestaurantInfo.js";
 
 const RestrudentMenu = () => {

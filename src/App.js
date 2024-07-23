@@ -1,5 +1,6 @@
-import React, { Suspense, lazy } from "react";
+import React, { Suspense, lazy, useEffect } from "react";
 import ReactDOM from "react-dom/client";
+import { useSelector, useDispatch } from "react-redux";
 import Heading from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import Body from "./components/pages/Body";
@@ -7,6 +8,9 @@ import RestrudentMenu from "./components/restaurant/RestrudentMenu";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import { selectLoading, listenForAuthChanges } from "./store/userSlice";
+import PrivateRoute from "./components/PrivateRoute";
+import Loader from "./components/common/Loader";
 
 // Lazy loading components
 const About = lazy(() => import("./components/pages/About"));
@@ -14,17 +18,28 @@ const Cart = lazy(() => import("./components/Cart"));
 const Contact = lazy(() => import("./components/pages/Contact"));
 const LogIn = lazy(() => import("./components/user/LogIn"));
 const Register = lazy(() => import("./components/user/Register"));
-const Profile = lazy(() => import ('./components/user/Profile'));
+const Profile = lazy(() => import('./components/user/Profile'));
+const Checkout = lazy(() => import('./components/Checkout'));
+const OrderConfirmation = lazy(() => import('./components/OrderConfirmation'));
 
 const AppLayout = () => {
+  const dispatch = useDispatch();
+  const loading = useSelector(selectLoading);
+
+  useEffect(() => {
+    dispatch(listenForAuthChanges());
+  }, [dispatch]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
   return (
-    <Provider store={store}>
-      <div className="applayout">
-        <Heading />
-        <Outlet />
-        <Footer />
-      </div>
-    </Provider>
+    <div className="applayout">
+      <Heading />
+      <Outlet />
+      <Footer />
+    </div>
   );
 };
 
@@ -36,7 +51,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/about",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loader />}>
             <About />
           </Suspense>
         ),
@@ -44,15 +59,31 @@ const appRouter = createBrowserRouter([
       {
         path: "/cart",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loader />}>
             <Cart />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/checkout",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Checkout />
+          </Suspense>
+        ),
+      },
+      {
+        path: "/order-confirmation",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <OrderConfirmation />
           </Suspense>
         ),
       },
       {
         path: "/contact",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loader />}>
             <Contact />
           </Suspense>
         ),
@@ -60,7 +91,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/login",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loader />}>
             <LogIn />
           </Suspense>
         ),
@@ -68,7 +99,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/register",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loader />}>
             <Register />
           </Suspense>
         ),
@@ -76,8 +107,10 @@ const appRouter = createBrowserRouter([
       {
         path: "/profile",
         element: (
-          <Suspense fallback={<div>Loading...</div>}>
-            <Profile />
+          <Suspense fallback={<Loader />}>
+            <PrivateRoute>
+              <Profile />
+            </PrivateRoute>
           </Suspense>
         ),
       },
@@ -87,11 +120,19 @@ const appRouter = createBrowserRouter([
       },
       {
         path: "/restrudentmenu/:id",
-        element: <RestrudentMenu />,
+        element: (
+          <PrivateRoute>
+            <RestrudentMenu />
+          </PrivateRoute>
+        ),
       },
     ],
   },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RouterProvider router={appRouter} />);
+root.render(
+  <Provider store={store}>
+    <RouterProvider router={appRouter} />
+  </Provider>
+);

@@ -30,7 +30,6 @@ const Register = () => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      console.log(user);
       if (user) {
         await setDoc(doc(db, "Users", user.uid), {
           email: user.email,
@@ -62,7 +61,7 @@ const Register = () => {
       toast.success("User Signed in with Google Successfully!!", {
         position: "top-center",
       });
-      window.location.href = "/profile";
+      navigate('/profile');
     } catch (error) {
       toast.error(error.message, {
         position: "bottom-center",

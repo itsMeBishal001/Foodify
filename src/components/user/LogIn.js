@@ -7,7 +7,8 @@ import * as Yup from 'yup';
 import GoogleSignInButton from './GoogleSignInButton';
 import signInWithGoogle from './signInWithGoogle';
 import FormComponent from './FormComponent';
-import { ErrorMessage, Field } from 'formik';
+import FormField from './FormField';
+import { useNavigate } from 'react-router-dom';
 
 const validationSchema = Yup.object({
   email: Yup.string().email('Invalid email address').required('Required'),
@@ -16,19 +17,19 @@ const validationSchema = Yup.object({
 });
 
 const LogIn = () => {
+  const navigate = useNavigate();
 
   const handleSubmit = async (values, { setSubmitting }) => {
     const { email, password } = values;
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("User logged in successfully");
-      window.location.href = "/profile";
       toast.success("User logged in successfully", {
         position: "top-center",
       });
+      navigate("/profile");
     } catch (error) {
-      console.error(error.message);
-      toast.error(error.message, {
+      console.error("Login error:", error.message);
+      toast.error("Failed to log in. Please check your credentials.", {
         position: "bottom-center",
       });
     } finally {
@@ -39,12 +40,12 @@ const LogIn = () => {
   const handleGoogleSignIn = async () => {
     try {
       const user = await signInWithGoogle();
-      toast.success("User Signed in with Google Successfully!!", {
+      toast.success("User signed in with Google successfully!", {
         position: "top-center",
       });
-      window.location.href = "/profile";
+      navigate("/profile");
     } catch (error) {
-      toast.error(error.message, {
+      toast.error("Google Sign-In failed. Please try again.", {
         position: "bottom-center",
       });
     }
@@ -66,40 +67,27 @@ const LogIn = () => {
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          <div>
-            <label htmlFor="email" className="block text-sm mb-1">
-              Email address
-            </label>
-            <Field
-              type="email"
-              name="email"
-              className="w-full px-3 py-2 border rounded-md bg-gray-50 focus:outline-none focus:border-indigo-500"
-            />
-            <ErrorMessage name="email" component="div" className="text-red-500 text-xs mt-1" />
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-sm mb-1">
-              Password
-            </label>
-            <Field
-              type="password"
-              name="password"
-              className="w-full px-3 py-2 border rounded-md bg-gray-50 focus:outline-none focus:border-indigo-500"
-            />
-            <ErrorMessage name="password" component="div" className="text-red-500 text-xs mt-1" />
-          </div>
-          <div>
-            <label htmlFor="role" className="block text-sm mb-1">
-              I am a...
-            </label>
-            <Field as="select" name="role" className="w-full px-3 py-2 border rounded-md bg-gray-50 focus:outline-none focus:border-indigo-500">
-              <option value="">Select your role</option>
-              <option value="restaurantOwner">Restaurant Owner</option>
-              <option value="user">User</option>
-              <option value="deliveryBoy">Delivery Boy</option>
-            </Field>
-            <ErrorMessage name="role" component="div" className="text-red-500 text-xs mt-1" />
-          </div>
+          <FormField
+            label="Email address"
+            name="email"
+            type="email"
+          />
+          <FormField
+            label="Password"
+            name="password"
+            type="password"
+          />
+          <FormField
+            label="I am a..."
+            name="role"
+            as="select"
+            options={[
+              { value: '', label: 'Select your role' },
+              { value: 'restaurantOwner', label: 'Restaurant Owner' },
+              { value: 'user', label: 'User' },
+              { value: 'deliveryBoy', label: 'Delivery Boy' }
+            ]}
+          />
         </FormComponent>
         <div className="text-center text-sm mt-4">
           <span>Don't have an account? </span>

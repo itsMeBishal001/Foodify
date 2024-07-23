@@ -1,6 +1,5 @@
-// signInWithGoogle.js
 import { signInWithPopup } from 'firebase/auth';
-import { auth, provider, db } from '../firebase'; // Adjust the path if needed
+import { auth, provider, db } from '../firebase';
 import { setDoc, doc } from 'firebase/firestore';
 
 const signInWithGoogle = async () => {
@@ -13,12 +12,10 @@ const signInWithGoogle = async () => {
         email: user.email,
         firstName: user.displayName.split(' ')[0],
         lastName: user.displayName.split(' ')[1],
-        role: "user", // default role, you can adjust as needed
+        role: "user",
         photo: user.photoURL,
       });
     }
-
-    console.log("User signed in with Google:", user);
     return user;
   } catch (error) {
     console.error("Error signing in with Google:", error.message);

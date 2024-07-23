@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "updating all the staf related my react learning journy",
   "scripts": {
-    "start": "parcel index.html",
+    "start": "parcel index.html && parcel watch index.html",
     "build": "parcel build index.html",
     "test": "echo \"Error: no test specified\" && exit 1",
     "predeploy": "npm run build",

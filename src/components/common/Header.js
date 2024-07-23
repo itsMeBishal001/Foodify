@@ -1,31 +1,39 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useMediaQuery } from "react-responsive";
-import cartImage from "../../assets/images/shopping-cart-icon.png";
-import logoI from "../../assets/images/logo.png";
+import { useState, useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useMediaQuery } from 'react-responsive';
+import cartImage from '../../assets/images/shopping-cart-icon.png';
+import logoI from '../../assets/images/logo.png';
+import { selectIsLoggedIn, selectUser, listenForAuthChanges } from '../../store/userSlice';
 
-const navigationItems = [
+const navigationItems = (isLoggedIn) => [
   { to: "/", text: "Home" },
   { to: "/about", text: "About" },
   { to: "/contact", text: "Contact" },
-  { to: "/login", text: "Login" },
+  isLoggedIn
+    ? { to: "/profile", text: "Profile" }
+    : { to: "/login", text: "Login" },
 ];
 
-const NavigationItem = ({ to, text, onClick, className }) => {
-  return (
-    <li onClick={onClick}>
-      <Link to={to} className={className || "block py-2"}>
-        {text}
-      </Link>
-    </li>
-  );
-};
+const NavigationItem = ({ to, text, onClick, className }) => (
+  <li onClick={onClick}>
+    <Link to={to} className={className || "block py-2"}>
+      {text}
+    </Link>
+  </li>
+);
 
 const Heading = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const cartItems = useSelector((store) => store.cart.items);
+  const cartItems = useSelector((state) => state.cart.items);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
   const isMobile = useMediaQuery({ maxWidth: 768 });
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(listenForAuthChanges());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isMobile) {
@@ -33,22 +41,32 @@ const Heading = () => {
     }
   }, [isMobile]);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = useCallback(() => {
+    setIsMenuOpen((prev) => !prev);
+  }, []);
 
-  const closeMenu = () => {
+  const closeMenu = useCallback(() => {
     setIsMenuOpen(false);
-  };
+  }, []);
 
-  const handleOutsideClick = (e) => {
-    if (!e.target.closest(".drawer-menu") && isMenuOpen) {
-      closeMenu();
-    }
-  };
+  const handleOutsideClick = useCallback(
+    (e) => {
+      if (!e.target.closest('.drawer-menu') && isMenuOpen) {
+        closeMenu();
+      }
+    },
+    [isMenuOpen, closeMenu]
+  );
+
+  useEffect(() => {
+    document.addEventListener('click', handleOutsideClick);
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [handleOutsideClick]);
 
   return (
-    <div className="bg-gray-100" onClick={handleOutsideClick}>
+    <div className="bg-gray-100">
       <div className="fixed top-0 left-0 right-0 bg-gray-100 flex items-center space-x-10 justify-between z-30">
         <div className="flex items-center">
           <Link to="/">
@@ -56,7 +74,11 @@ const Heading = () => {
           </Link>
         </div>
         <div className="md:hidden">
-          <button className="text-gray-800" onClick={toggleMenu}>
+          <button
+            className="text-gray-800"
+            onClick={toggleMenu}
+            aria-label="Toggle menu"
+          >
             <svg
               className="w-6 h-6"
               fill="none"
@@ -76,7 +98,7 @@ const Heading = () => {
         </div>
         <div className="hidden md:block">
           <ul className="flex space-x-5">
-            {navigationItems.map((item, index) => (
+            {navigationItems(isLoggedIn).map((item, index) => (
               <NavigationItem
                 key={index}
                 to={item.to}
@@ -104,7 +126,7 @@ const Heading = () => {
       {isMenuOpen && (
         <div className="fixed top-0 right-0 bottom-0 bg-gray-800 text-white py-4 px-2 w-52 flex flex-col justify-center items-center z-50 drawer-menu">
           <ul className="py-4 text-center">
-            {navigationItems.map((item, index) => (
+            {navigationItems(isLoggedIn).map((item, index) => (
               <NavigationItem
                 key={index}
                 to={item.to}

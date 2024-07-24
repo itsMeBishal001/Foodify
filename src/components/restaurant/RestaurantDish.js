@@ -1,17 +1,31 @@
 import { useState, useRef, useEffect } from "react";
 import { CDN_IMG_URL_RES } from "../../utils/config";
-import { addItem } from "../../store/cartSlice";
-import { useDispatch } from "react-redux";
+import { addItem, syncCartWithFirebase } from "../../store/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { auth } from "../firebase"
 
 const RestaurantDish = (dish) => {
   const dispatch = useDispatch();
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const descriptionRef = useRef(null);
+  const user = auth.currentUser; // Get the current user
+// console.log(user)
+  const cartItems = useSelector((state) => state.cart.items); // Get cart items from Redux store
 
   const addFoodItem = (item) => {
-    dispatch(addItem(item));
+    const itemWithQuantity = { ...item, quantity: 1 };
+    dispatch(addItem(itemWithQuantity));
+  
+    if (user) {
+      console.log("User ID:", user.uid);
+      const updatedCartItems = [...cartItems, itemWithQuantity];
+      dispatch(syncCartWithFirebase(user.uid, updatedCartItems)); // Sync with Firebase
+    } else {
+      console.warn("User not logged in. Cart will not be synced to Firebase.");
+    }
   };
+  
 
   const toggleDescription = () => {
     setShowFullDescription(true);
@@ -25,7 +39,7 @@ const RestaurantDish = (dish) => {
   }, [dish.description]);
 
   return (
-    <div className="dish-container flex items-center justify-between bg-gray-50 p-5 border-b border-gray-400 ">
+    <div className="dish-container flex items-center justify-between bg-gray-50 p-5 border-b border-gray-400">
       <div className="dish-details flex-grow mr-4">
         <h3 className="dish-subheader text-lg font-bold">{dish.name}</h3>
         <h2 className="text-xl font-semibold">
@@ -48,7 +62,7 @@ const RestaurantDish = (dish) => {
           </p>
         </div>
       </div>
-      <div className="relative flex items-center flex-shrink-0 mb-3" >
+      <div className="relative flex items-center flex-shrink-0 mb-3">
         <div className="relative">
           {dish.imageId ? (
             <img

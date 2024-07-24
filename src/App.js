@@ -11,10 +11,11 @@ import store from "./store/store";
 import { selectLoading, listenForAuthChanges } from "./store/userSlice";
 import PrivateRoute from "./components/PrivateRoute";
 import Loader from "./components/common/Loader";
+import Cart from "./components/Cart";
 
 // Lazy loading components
 const About = lazy(() => import("./components/pages/About"));
-const Cart = lazy(() => import("./components/Cart"));
+// const Cart = lazy(() => import("./components/Cart"));
 const Contact = lazy(() => import("./components/pages/Contact"));
 const LogIn = lazy(() => import("./components/user/LogIn"));
 const Register = lazy(() => import("./components/user/Register"));
@@ -59,9 +60,7 @@ const appRouter = createBrowserRouter([
       {
         path: "/cart",
         element: (
-          <Suspense fallback={<Loader />}>
             <Cart />
-          </Suspense>
         ),
       },
       {

@@ -15,11 +15,7 @@ const Body = () => {
   const isTablet = useMediaQuery({ query: '(min-width: 768px) and (max-width: 1023px)' });
   const isDesktop = useMediaQuery({ query: '(min-width: 1024px)' });
 
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
-  };
-
-  const [
+  const {
     resultsFound,
     restaurantList,
     setRestaurantList,
@@ -30,8 +26,14 @@ const Body = () => {
     loading,
     setLoading,
     hasMore,
-    loadingForMoreRes
-  ] = useGetRestaurants();
+    loadingForMoreRes,
+    foodType33 
+  }= useGetRestaurants();
+
+  
+  // useEffect(()=>{
+    console.log("hahah", foodType33)
+  // },[foodType33])
   const observer = useRef();
 
   const lastRestaurant = useCallback((node) => {
@@ -47,10 +49,8 @@ const Body = () => {
 
   const filterRestaurant = () => {
     if (searchText.length === 0 && activeFilters.length === 0) {
-      setFilteredRestList(restaurantList)
-    }
-
-    if (restaurantList.length > 0) {
+      setFilteredRestList(restaurantList);
+    } else if (restaurantList.length > 0) {
       setLoading(true);
       const data = filterData(searchText, restaurantList, activeFilters);
       setFilteredRestList(data);
@@ -59,7 +59,6 @@ const Body = () => {
   };
 
   useEffect(() => {
-    //call when search key word is present or active filter is present 
     if (searchText.length > 0 || activeFilters.length > 0) {
       const timeoutId = setTimeout(() => {
         if (searchText?.length >= 0) {
@@ -84,9 +83,10 @@ const Body = () => {
     filterRestaurant();
   };
 
-  if (!restaurantList) return null;
+  // Ensure this debug statement reflects the expected structure and values
+  // console.log(foodTypes);
 
-  const shimmerCount = isMobile ? 8 : isTablet ? 12 : isDesktop ? 16 : 6 ;
+  const shimmerCount = isMobile ? 8 : isTablet ? 12 : isDesktop ? 16 : 6;
 
   return loading ? (
     <Shimmer count={shimmerCount} />
@@ -99,14 +99,12 @@ const Body = () => {
             type="text"
             placeholder="Search for restaurants and food"
             value={searchText}
-            onChange={handleSearchChange}
+            onChange={(e) => setSearchText(e.target.value)}
           />
           <button
             type="submit"
             className="items-center bg-orange-400 p-1 mx-4 rounded-md text-white hover:bg-orange-600 hover:shadow hover:shadow-green-500 transition ease-linear duration-200"
-            onClick={() => {
-              filterRestaurant();
-            }}
+            onClick={() => filterRestaurant()}
             disabled={isFiltering}
           >
             {isFiltering ? "Filtering..." : "Search"}

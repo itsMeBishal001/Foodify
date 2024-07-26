@@ -36,7 +36,7 @@ const Profile = () => {
   }
 
   if (userDataError) {
-    return <div className="flex items-center justify-center min-h-screen bg-gray-200">Error loading user data</div>;
+    return <div className="flex items-center justify-center min-h-screen bg-gray-200">Error loading user data: {userDataError}</div>;
   }
 
   if (!userData) {

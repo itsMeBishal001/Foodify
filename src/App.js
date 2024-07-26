@@ -8,9 +8,10 @@ import RestrudentMenu from "./components/restaurant/RestrudentMenu";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import { selectLoading, listenForAuthChanges } from "./store/userSlice";
+import { selectLoading, selectIsLoggedIn, listenForAuthChanges, selectUser } from "./store/userSlice";
 import PrivateRoute from "./components/PrivateRoute";
 import Loader from "./components/common/Loader";
+import { fetchUserCart } from "./store/cartSlice";
 
 // Lazy loading components
 const About = lazy(() => import("./components/pages/About"));
@@ -25,17 +26,25 @@ const OrderConfirmation = lazy(() => import('./components/OrderConfirmation'));
 const AppLayout = () => {
   const dispatch = useDispatch();
   const loading = useSelector(selectLoading);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+  const user = useSelector(selectUser);
 
   useEffect(() => {
     dispatch(listenForAuthChanges());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (isLoggedIn && user) {
+      dispatch(fetchUserCart(user?.uid));
+    }
+  }, [isLoggedIn, user, dispatch]);
 
   if (loading) {
     return <Loader />;
   }
 
   return (
-    <div className="applayout">
+    <div className="font-sans">
       <Heading />
       <Outlet />
       <Footer />

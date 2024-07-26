@@ -71,10 +71,10 @@ const CategoryCarousel = ({ categories, userName }) => {
       {userName && (
         <>
           <div className="welcome-section mb-4">
-            <h2 className="text-2xl font-bold mb-1 animate-fadeIn">
+            <h2 className="text-2xl font-display font-bold mb-1 animate-fadeIn text-primary">
               {greeting}, {userName}!
             </h2>
-            <p className="text-base mb-2 animate-fadeIn">What would you like to order today?</p>
+            <p className="text-base mb-2 animate-fadeIn text-gray-700">What would you like to order today?</p>
           </div>
           <Tooltip id="tooltip" />
         </>

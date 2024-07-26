@@ -4,9 +4,9 @@
 @tailwind utilities;
 
 body {
-  font-family: 'Roboto', sans-serif;
+  @apply font-sans; /* Apply Roboto for body text */
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Poppins', sans-serif;
+  @apply font-display; /* Apply Poppins for headings */
 }

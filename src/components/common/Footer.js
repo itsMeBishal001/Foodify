@@ -7,8 +7,8 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gray-900 text-white py-8 px-4 flex flex-col md:flex-row items-center justify-between">
-      <div className="flex flex-col md:flex-row items-center">
+    <footer className="bg-gray-900 text-white py-8 px-4 flex flex-col md:flex-row items-center justify-between font-sans">
+      <div className="flex flex-col md:flex-row items-center mb-4 md:mb-0">
         <div className="flex items-center mr-4">
           <FiMail className="mr-2" size={18} />
           <a href="mailto:dattabishal001@gmail.com" className="text-white hover:underline">
@@ -22,9 +22,9 @@ const Footer = () => {
           </span>
         </div>
       </div>
-      <div className="flex flex-col items-center mt-4 md:mt-0">
-        <h2 className="text-lg font-bold">Bishal Datta</h2>
-        <p className="text-sm">Software Developer based in India</p>
+      <div className="flex flex-col items-center mt-4 md:mt-0 text-center md:text-left">
+        <h2 className="text-lg font-bold font-display">Bishal Datta</h2>
+        <p className="text-sm font-sans">Software Developer based in India</p>
         <div className="flex items-center mt-2">
           <a href="https://github.com/itsmebishal001" target="_blank" rel="noopener noreferrer" className="text-white hover:text-gray-400 mr-4">
             <FiGithub size={20} />

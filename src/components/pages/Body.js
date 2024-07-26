@@ -9,6 +9,7 @@ import { useMediaQuery } from 'react-responsive';
 import CategoryCarousel from "../CategoryCarousel";
 import { selectUserData } from '../../store/userSlice';
 import { useSelector } from "react-redux";
+import SearchBar from "../SearchBar";
 
 const Body = () => {
   const [searchText, setSearchText] = useState("");
@@ -83,38 +84,26 @@ const Body = () => {
     filterRestaurant();
   };
 
-
   const shimmerCount = isMobile ? 8 : isTablet ? 12 : isDesktop ? 16 : 6;
 
   return loading ? (
     <Shimmer count={shimmerCount} />
   ) : (
-    <div className="flex items-center flex-col">
+    <div className="flex items-center flex-col font-sans">
       <div className="pt-20 w-3/4">
         <CategoryCarousel categories={foodType} userName={userData?.firstName} />
-        <div className="flex items-center justify-center py-4 m-1">
-          <input
-            className="border border-gray-300 rounded-md py-2 px-5 mr-2 focus:outline-none w-80"
-            type="text"
-            placeholder="Search for restaurants and food"
-            value={searchText}
-            onChange={(e) => setSearchText(e.target.value)}
-          />
-          <button
-            type="submit"
-            className="items-center bg-orange-400 p-1 mx-4 rounded-md text-white hover:bg-orange-600 hover:shadow hover:shadow-green-500 transition ease-linear duration-200"
-            onClick={() => filterRestaurant()}
-            disabled={isFiltering}
-          >
-            {isFiltering ? "Filtering..." : "Search"}
-          </button>
-        </div>
+        <SearchBar
+          searchText={searchText}
+          setSearchText={setSearchText}
+          filterRestaurant={filterRestaurant}
+          isFiltering={isFiltering}
+        />
         <FilterOptions onFilterClick={handleFilterClick} activeFilters={activeFilters} />
-        {isFiltering && <p>Filtering restaurants...</p>}
+        {isFiltering && <p className="text-gray-700">Filtering restaurants...</p>}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-4 p-4">
           {filteredRestList.length === 0 ? (
-            <h1 className="text-center">No Restaurants match your filter!</h1>
+            <h1 className="text-center text-xl font-display">No Restaurants match your filter!</h1>
           ) : (
             <>
               {filteredRestList.map((restaurant, index) => (

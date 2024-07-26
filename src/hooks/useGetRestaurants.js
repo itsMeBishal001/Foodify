@@ -5,7 +5,7 @@ import useFetchData from './useFetchData';
 const useGetRestaurants = () => {
   const { geolocation, error: geoError } = useGeolocation();
   const [offset, setOffset] = useState(0);
-  const { resultsFound, restaurantList, foodType, errMsg, loading, loadingForMoreRes, hasMore } = useFetchData(geolocation, offset);
+  const { resultsFound, restaurantList, foodType, errMsg, loading, loadingForMoreRes, hasMore ,setLoading} = useFetchData(geolocation, offset);
 
   const [filteredRestList, setFilteredRestList] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -26,6 +26,7 @@ const useGetRestaurants = () => {
     loadingForMoreRes,
     scrollPosition,
     foodType,
+    setLoading
   };
 };
 

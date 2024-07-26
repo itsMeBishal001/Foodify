@@ -85,7 +85,6 @@ export default cartSlice.reducer;
 
 // Thunk to sync cart with Firebase
 export const syncCartWithFirebase = (userId, cartItems) => async (dispatch) => {
-  console.log("userId", userId, "cartItems:", cartItems)
   await dispatch(saveUserCart({ userId, items: cartItems }));
 };
 

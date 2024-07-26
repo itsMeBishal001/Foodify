@@ -1,12 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { CDN_IMG_URL_RES } from "../../utils/config";
 import { addItem, syncCartWithFirebase } from "../../store/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../firebase";
-import { useNavigate } from 'react-router-dom';
-import { FaShoppingCart, FaCartPlus, FaArrowRight } from 'react-icons/fa';
+import { useNavigate } from "react-router-dom";
+import { FaShoppingCart, FaCartPlus, FaArrowRight } from "react-icons/fa";
 
-//  Image Component
+// Image Component
 const DishImage = ({ imageId, name }) => (
   imageId ? (
     <img
@@ -15,18 +15,18 @@ const DishImage = ({ imageId, name }) => (
       alt={name}
     />
   ) : (
-    <div className="dish-image-placeholder flex items-center justify-center h-32 w-32 rounded-xl bg-gray-200">
+    <div className="dish-image-placeholder flex items-center justify-center h-32 w-32 rounded-xl bg-gray-light">
       <span className="text-gray-600 font-bold text-center">{name}</span>
     </div>
   )
 );
 
-//  Button Component
+// Button Component
 const ActionButton = ({ existingItem, addFoodItem, goToCart }) => (
   existingItem ? (
     <div className="relative group">
       <button
-        className="bg-[#F7931B] text-white font-bold px-4 py-2 rounded mt-2 w-28 h-9 absolute -bottom-5 left-1/2 transform -translate-x-1/2 hover:bg-[#e58218] flex items-center justify-center"
+        className="bg-secondary text-white font-bold px-4 py-2 rounded mt-2 w-28 h-9 absolute -bottom-5 left-1/2 transform -translate-x-1/2 hover:bg-[#e58218] flex items-center justify-center"
         onClick={goToCart}
       >
         <FaShoppingCart className="mr-2" />
@@ -38,7 +38,7 @@ const ActionButton = ({ existingItem, addFoodItem, goToCart }) => (
     </div>
   ) : (
     <button
-      className="bg-[#27AE60] text-white font-bold px-4 py-2 rounded mt-2 w-28 h-9 absolute -bottom-5 left-1/2 transform -translate-x-1/2 hover:bg-[#239a54] flex items-center justify-center"
+      className="bg-primary text-white font-bold px-4 py-2 rounded mt-2 w-28 h-9 absolute -bottom-5 left-1/2 transform -translate-x-1/2 hover:bg-[#239a54] flex items-center justify-center"
       onClick={addFoodItem}
     >
       <FaCartPlus className="mr-2" /> Add
@@ -47,14 +47,14 @@ const ActionButton = ({ existingItem, addFoodItem, goToCart }) => (
 );
 
 // Main RestaurantDish Component
-const RestaurantDish = ( dish ) => {
+const RestaurantDish = (dish) => {
   const dispatch = useDispatch();
   const [showFullDescription, setShowFullDescription] = useState(false);
   const [isOverflowing, setIsOverflowing] = useState(false);
   const descriptionRef = useRef(null);
   const user = auth.currentUser; // Get the current user
   const cartItems = useSelector((state) => state.cart.items); // Get cart items from Redux store
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   const addFoodItem = (item) => {
     const existingItem = cartItems.find((e) => e.id === item.id);
@@ -75,7 +75,7 @@ const RestaurantDish = ( dish ) => {
   };
 
   const goToCart = () => {
-    navigate('/cart'); // Navigate to the cart page
+    navigate("/cart"); // Navigate to the cart page
   };
 
   const toggleDescription = () => {
@@ -92,21 +92,21 @@ const RestaurantDish = ( dish ) => {
   const existingItem = cartItems.find((e) => e.id === dish.id);
 
   return (
-    <div className="dish-container flex items-center justify-between bg-white p-5 border-b border-gray-400">
+    <div className="dish-container flex items-center justify-between bg-white p-5 border-b border-gray-300">
       <div className="dish-details flex-grow mr-4">
-        <h3 className="dish-subheader text-lg font-bold text-black">{dish.name}</h3>
-        <h2 className="text-xl font-semibold text-black">
+        <h3 className="dish-subheader text-lg font-bold text-black font-display">{dish.name}</h3>
+        <h2 className="text-xl font-semibold text-black font-display">
           ₹{dish.price ? dish.price / 100 : dish.defaultPrice / 100}
         </h2>
         <div className="dish-description-container relative">
           <p
             ref={descriptionRef}
-            className={`dish-description text-black ${showFullDescription ? '' : 'line-clamp-2'}`}
+            className={`dish-description text-black font-sans ${showFullDescription ? "" : "line-clamp-2"}`}
           >
             {dish.description}
             {!showFullDescription && isOverflowing && (
               <span
-                className="text-blue-600 cursor-pointer absolute bottom-0 right-0 bg-white px-1"
+                className="text-info cursor-pointer absolute bottom-0 right-0 bg-white px-1"
                 onClick={toggleDescription}
               >
                 ...more

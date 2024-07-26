@@ -17,10 +17,10 @@ const FilterOptions = ({ onFilterClick, activeFilters }) => {
         {filters.map((filter) => (
           <button
             key={filter.value}
-            className={`px-3 py-1 rounded-full ${activeFilters.includes(filter.value)
-              ? 'bg-blue-500 text-white'
+            className={`px-4 py-2 rounded-full text-base font-sans ${activeFilters.includes(filter.value)
+              ? 'bg-primary text-white'
               : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-              } focus:bg-gray-400`}
+              } focus:bg-gray-400 transition duration-300 ease-in-out`}
             onClick={() => onFilterClick(filter.value)}
           >
             {filter.name}

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMediaQuery } from 'react-responsive';
@@ -66,7 +66,7 @@ const Heading = () => {
   }, [handleOutsideClick]);
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-gray-100 font-sans">
       <div className="fixed top-0 left-0 right-0 bg-gray-100 flex items-center space-x-10 justify-between z-30">
         <div className="flex items-center">
           <Link to="/">

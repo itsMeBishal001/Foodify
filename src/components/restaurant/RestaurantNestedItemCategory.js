@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import RestaurantDish from "./RestaurantDish";
+import RestaurantDish from './RestaurantDish';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 
 const RestaurantCategory = ({ category }) => {
@@ -19,14 +19,14 @@ const RestaurantCategory = ({ category }) => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-4">{category?.title}</h1>
+      <h1 className="text-2xl font-bold mb-4 text-primary">{category?.title}</h1>
       {category?.categories?.map((groupedSubCategory, index) => (
         <div key={index} className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold mb-2">
+            <h2 className="text-xl font-bold mb-2 text-primary">
               {groupedSubCategory?.title} ({groupedSubCategory?.itemCards?.length})
             </h2>
-            <button onClick={() => toggleDishes(index)} className="text-blue-600 w-6">
+            <button onClick={() => toggleDishes(index)} className="text-secondary w-6">
               {showDishes[index] ? <FaChevronUp /> : <FaChevronDown />}
             </button>
           </div>

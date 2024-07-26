@@ -97,6 +97,7 @@ const useFetchData = (geolocation, offset) => {
     loading,
     loadingForMoreRes,
     hasMore,
+    setLoading
   };
 };
 

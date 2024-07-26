@@ -9,8 +9,8 @@ const Contact = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-[82.8vh]">
-      <h1 className="text-3xl font-bold mb-4">Contact Us</h1>
+    <div className="flex flex-col items-center justify-center h-[82.8vh] font-sans">
+      <h1 className="text-3xl font-bold mb-4 font-display">Contact Us</h1>
       <div className="flex items-center mb-4">
         <FiMail className="mr-2" size={24} />
         <a href="mailto:dattabishal001@gmail.com" className="text-blue-500">

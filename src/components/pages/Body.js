@@ -6,6 +6,9 @@ import { filterData } from "../../utils/helper";
 import useGetRestaurants from "../../hooks/useGetRestaurants";
 import FilterOptions from "../FilterOptions";
 import { useMediaQuery } from 'react-responsive';
+import CategoryCarousel from "../CategoryCarousel";
+import { selectUserData } from '../../store/userSlice';
+import { useSelector } from "react-redux";
 
 const Body = () => {
   const [searchText, setSearchText] = useState("");
@@ -14,6 +17,7 @@ const Body = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   const isTablet = useMediaQuery({ query: '(min-width: 768px) and (max-width: 1023px)' });
   const isDesktop = useMediaQuery({ query: '(min-width: 1024px)' });
+  const userData = useSelector(selectUserData);
 
   const {
     resultsFound,
@@ -27,13 +31,9 @@ const Body = () => {
     setLoading,
     hasMore,
     loadingForMoreRes,
-    foodType33 
-  }= useGetRestaurants();
+    foodType
+  } = useGetRestaurants();
 
-  
-  // useEffect(()=>{
-    console.log("hahah", foodType33)
-  // },[foodType33])
   const observer = useRef();
 
   const lastRestaurant = useCallback((node) => {
@@ -83,8 +83,6 @@ const Body = () => {
     filterRestaurant();
   };
 
-  // Ensure this debug statement reflects the expected structure and values
-  // console.log(foodTypes);
 
   const shimmerCount = isMobile ? 8 : isTablet ? 12 : isDesktop ? 16 : 6;
 
@@ -93,6 +91,7 @@ const Body = () => {
   ) : (
     <div className="flex items-center flex-col">
       <div className="pt-20 w-3/4">
+        <CategoryCarousel categories={foodType} userName={userData?.firstName} />
         <div className="flex items-center justify-center py-4 m-1">
           <input
             className="border border-gray-300 rounded-md py-2 px-5 mr-2 focus:outline-none w-80"

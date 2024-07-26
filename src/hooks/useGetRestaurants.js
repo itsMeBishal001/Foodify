@@ -1,4 +1,3 @@
-// src/hooks/useGetRestaurants.js
 import { useState, useEffect } from 'react';
 import useGeolocation from './useGeolocation';
 import useFetchData from './useFetchData';
@@ -6,7 +5,7 @@ import useFetchData from './useFetchData';
 const useGetRestaurants = () => {
   const { geolocation, error: geoError } = useGeolocation();
   const [offset, setOffset] = useState(0);
-  const { resultsFound, restaurantList, foodType33, errMsg, loading, loadingForMoreRes, hasMore } = useFetchData(geolocation, offset);
+  const { resultsFound, restaurantList, foodType, errMsg, loading, loadingForMoreRes, hasMore } = useFetchData(geolocation, offset);
 
   const [filteredRestList, setFilteredRestList] = useState([]);
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -26,7 +25,7 @@ const useGetRestaurants = () => {
     hasMore,
     loadingForMoreRes,
     scrollPosition,
-    foodType33,
+    foodType,
   };
 };
 

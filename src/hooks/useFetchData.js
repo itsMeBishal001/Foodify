@@ -1,4 +1,3 @@
-// src/hooks/useFetchData.js
 import { useState, useEffect } from 'react';
 import _ from 'lodash';
 
@@ -8,7 +7,7 @@ const REST_API_OFFSET_URL = `${API_BASE_URL}/api/restaurants?/list/v5/offset`;
 
 const useFetchData = (geolocation, offset) => {
   const [restaurantList, setRestaurantList] = useState([]);
-  const [foodType33, setFoodType33] = useState([]);
+  const [foodType, setFoodType] = useState([]);
   const [resultsFound, setResultsFound] = useState(0);
   const [loading, setLoading] = useState(true);
   const [loadingForMoreRes, setLoadingForMoreRes] = useState(false);
@@ -41,7 +40,7 @@ const useFetchData = (geolocation, offset) => {
         }
         setResultsFound(json.data.cards[2].data?.data?.totalRestaurants);
         setRestaurantList(restaurants[0]);
-        setFoodType33(foodType);
+        setFoodType(foodType);
         setErrMsg("");
       }
     } catch (e) {
@@ -93,7 +92,7 @@ const useFetchData = (geolocation, offset) => {
   return {
     resultsFound,
     restaurantList,
-    foodType33,
+    foodType,
     errMsg,
     loading,
     loadingForMoreRes,

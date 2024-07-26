@@ -44,7 +44,7 @@ const AppLayout = () => {
   }
 
   return (
-    <div className="applayout">
+    <div className="font-sans">
       <Heading />
       <Outlet />
       <Footer />

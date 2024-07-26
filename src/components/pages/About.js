@@ -1,11 +1,7 @@
 import React from "react";
 import { FiBookOpen } from "react-icons/fi";
-import useGetRestaurants from "../../hooks/useGetRestaurants";
 
 const About = () => {
-  const [foodType,filteredRestList]=useGetRestaurants();
-  console.log("gg",foodType)
-  // console.log("foodTypes33",foodTypes33)
   return (
     <div className="h-[82.8vh] flex flex-col justify-center items-center pt-20">
       <div className="text-center">
